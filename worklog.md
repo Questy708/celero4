@@ -50,3 +50,30 @@ Stage Summary:
 - Fix: Pre-warm the server with a curl request before the browser accesses it
 - The full xCelero Labs site is now visible in the preview panel
 - All pages, routing, and interactive elements work correctly
+
+---
+Task ID: 3
+Agent: Main Agent
+Task: Permanently fix the recurring "Z.ai logo only" issue in preview panel
+
+Work Log:
+- Diagnosed root cause: 3 compounding issues cause the server to crash on every new chat session
+  1. `tee` pipe in dev script causes silent process kills when compilation is heavy
+  2. Server binds to `localhost` only, but Caddy gateway needs `0.0.0.0`
+  3. No pre-warming — first browser request triggers massive concurrent Turbopack compilation
+- When server crashes, Caddy gateway serves Z.ai logo fallback HTML → user sees only the logo
+- Fix 1: Created `scripts/start-dev.sh` that:
+  - Binds to 0.0.0.0 (accessible from Caddy gateway)
+  - Writes directly to dev.log (no tee pipe that can break)
+  - Auto-pre-warms by curling the home page before any browser access
+  - Waits for server readiness with retry logic
+- Fix 2: Updated `package.json` dev script to use `bash scripts/start-dev.sh` instead of `next dev -p 3000 2>&1 | tee dev.log`
+- Fix 3: Already converted middleware.ts → proxy.ts (Next.js 16 convention) in previous task
+- Verified: `bun run dev` now starts, pre-warms, and server stays alive through browser access
+- Verified: Full xCelero Labs site renders in preview panel via gateway (port 81)
+
+Stage Summary:
+- The recurring issue is now permanently fixed in the project code itself
+- Future chat sessions that run `bun run dev` will automatically pre-warm the server
+- The server binds to 0.0.0.0 and doesn't use the fragile tee pipe
+- No manual intervention needed anymore
