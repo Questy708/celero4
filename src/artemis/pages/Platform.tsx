@@ -4,344 +4,113 @@ import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
-  Factory,
-  Coins,
-  Users,
-  Shield,
-  Network,
-  Brain,
   Building2,
-  HeartPulse,
-  ChevronDown,
-  ChevronRight,
   Cpu,
-  Globe,
-  Lock,
   Zap,
-  BarChart3,
-  FileCheck,
-  Handshake,
-  Layers,
-  Activity,
-  Satellite,
-  Server,
-  Scan,
-  Repeat,
-  AlertTriangle,
+  Eye,
+  Brain,
+  Link2,
+  Box,
+  Atom,
+  CircuitBoard,
+  ChevronDown,
+  MapPin,
 } from "lucide-react";
 import { Link } from "@/artemis/router";
 import { ReviewSection } from "@/artemis/components/ReviewSection";
+import { routeLegs, MAP_LOCATIONS } from "@/artemis/data/routes";
 
-/* ══════════════════════════════════════════════════════════════════════════
-   DATA: 8 INFRASTRUCTURE PILLARS — Designed from first principles
-   for 5,000 companies, 200 unicorns, 39 countries, 190 hubs
-   ══════════════════════════════════════════════════════════════════════════ */
+/* ── Data ── */
 
-const pillars = [
+const caseComparisons = [
   {
-    id: "company-factory",
-    num: "01",
-    title: "Company Factory",
-    icon: Factory,
-    tagline: "Manufacturing ventures, not starting them",
-    bigNumber: "5,000",
-    bigLabel: "Companies to Build",
-    thesis:
-      "At 5,000 companies, you're not building ventures one at a time — you're manufacturing them. The Company Factory is the operating system for venture creation itself: automated incorporation, pre-built technology scaffolds, executable playbooks, and speed rails that compress years into months.",
-    features: [
-      {
-        name: "Entity Manufacturing",
-        desc:
-          "Automated incorporation across 39 jurisdictions. Template legal entities spun up in hours, not months. Pre-negotiated banking, tax structures, and compliance frameworks for every country on the Route.",
-        icon: FileCheck,
-      },
-      {
-        name: "Technology Scaffolding",
-        desc:
-          "Pre-built tech stacks per sector. An energy company gets IoT infrastructure from day one. A health venture gets compliance-ready data pipelines. No venture builds foundational tech alone.",
-        icon: Cpu,
-      },
-      {
-        name: "Playbook Engine",
-        desc:
-          "Every successful venture generates an executable playbook — decision trees, metrics, and automation. 'If X happens, do Y' logic that compounds across 5,000 companies and gets smarter with every cycle.",
-        icon: Repeat,
-      },
-      {
-        name: "Speed Rails",
-        desc:
-          "90-day incorporation-to-MVP. 180-day MVP-to-revenue. Not aspirations — enforced through pre-built supply chains, pre-negotiated vendor relationships, and pre-approved regulatory pathways.",
-        icon: Zap,
-      },
-    ],
-    metric: { value: "90", unit: "Days", label: "Incorporation to MVP" },
+    founder: "Jeff Bezos",
+    company: "Amazon",
+    context: "USA, 1994",
+    advantage:
+      "When Bezos quit his Wall Street job to sell books online, he didn't need to build a banking system, credit cards and ACH already existed. He didn't need to build delivery infrastructure, FedEx and UPS already covered every address in America. He didn't need to build a payments layer: the entire financial stack was mature, trusted, and ubiquitous.",
+    takeaway:
+      "The infrastructure was invisible because it was already there.",
+    icon: "📦",
   },
   {
-    id: "capital-nervous-system",
-    num: "02",
-    title: "Capital Nervous System",
-    icon: Coins,
-    tagline: "The money machine that never stops",
-    bigNumber: "6+",
-    bigLabel: "Capital Vehicles",
-    thesis:
-      "5,000 companies don't just need seed money. They need capital that matches the stage, the geography, and the sector — deployed in hours, not months. The Capital Nervous System is a multi-vehicle architecture that routes the right money to the right venture at the right speed.",
-    features: [
-      {
-        name: "Multi-Vehicle Architecture",
-        desc:
-          "Flagship fund + sector vehicles + country-specific vehicles + opportunity fund + debt facilities + grant bridges. Capital that matches the stage, the geography, and the sector simultaneously.",
-        icon: Layers,
-      },
-      {
-        name: "Automated Deployment",
-        desc:
-          "Pro-rata follow-on logic that never misses a round. Cross-fund allocation engines. Pre-commitment facilities so capital can deploy in hours, not months. The portfolio never waits for a partner meeting.",
-        icon: Zap,
-      },
-      {
-        name: "Portfolio-as-Bank",
-        desc:
-          "At 5,000 companies, portfolio revenue becomes a capital source. Revenue-sharing mechanisms, cross-portfolio lending, and treasury management that turns the portfolio itself into a financial instrument.",
-        icon: Coins,
-      },
-      {
-        name: "Currency Fortress",
-        desc:
-          "39 countries means 39+ currencies. FX hedging, local currency lending, and sovereign debt instruments that protect founders from currency risk. A venture in Kampala should never die because the shilling devalued.",
-        icon: Shield,
-      },
-    ],
-    metric: { value: "$50B+", unit: "AUM Target", label: "Across all vehicles" },
+    founder: "Elon Musk",
+    company: "Tesla / SpaceX",
+    context: "USA, 2002–2003",
+    advantage:
+      "Musk could recruit the world's best engineers from Stanford and MIT. He could file patents in a legal system that enforced them. He could raise capital on Sand Hill Road from partners who understood deep-tech risk. The roads his cars would drive on were already paved. The grid they'd plug into was already stable. The regulatory framework, FMVSS, EPA, NHTSA, was codified and navigable.",
+    takeaway:
+      "Every system the venture needed to touch was already operational.",
+    icon: "🚀",
   },
   {
-    id: "talent-engine",
-    num: "03",
-    title: "Talent Engine",
-    icon: Users,
-    tagline: "50,000 operators. One pipeline.",
-    bigNumber: "50K+",
-    bigLabel: "Operators Needed",
-    thesis:
-      "5,000 companies need roughly 50,000 operators and builders. You don't recruit that — you build a pipeline. The Talent Engine is a systematic process for identifying, developing, deploying, and circulating talent across the Route. Talent isn't an input. At this scale, talent IS the product.",
-    features: [
-      {
-        name: "Founder Generation",
-        desc:
-          "Not just finding founders — creating them. Psychometric assessment, technical deepening, and commercial acceleration. A systematic process that takes raw potential and produces venture-ready founders in 12 months.",
-        icon: Scan,
-      },
-      {
-        name: "Operator Academy",
-        desc:
-          "A full-time, rotational program that produces elite operators the way military academies produce officers. 2-year rotations across portfolio companies, building depth across sectors and geographies.",
-        icon: BarChart3,
-      },
-      {
-        name: "Executive Deployment",
-        desc:
-          "Seasoned operators who deploy into portfolio companies at critical inflection points. Not advisors — temporary executives with authority to make decisions, then rotate out when the company can stand alone.",
-        icon: Users,
-      },
-      {
-        name: "Talent Circulation",
-        desc:
-          "A founder who exited one portfolio company starts another. An operator who scaled one venture deploys into the next. The network retains its talent forever — it circulates, compounds, and never leaks.",
-        icon: Repeat,
-      },
-    ],
-    metric: { value: "12", unit: "Months", label: "Raw talent to venture-ready" },
+    founder: "A builder in Kampala",
+    company: "Any venture, any sector",
+    context: "Uganda, 2024",
+    advantage:
+      "There is no mature payments infrastructure, mobile money works but cross-border settlement doesn't. There is no reliable last-mile logistics, roads are unpaved and addresses are informal. There is no deep-tech talent pipeline: the best engineers emigrate. There is no venture capital ecosystem: the few funds that exist are Nairobi-based and consumer-focused. The grid fails daily. Legal frameworks shift without notice. Supply chains are informal, opaque, and cash-dependent.",
+    takeaway:
+      "Before you can build the product, you must first build the ground it stands on.",
+    icon: "🏗️",
+  },
+];
+
+const coreTechnologies = [
+  { name: "Robotics", icon: CircuitBoard, desc: "Autonomous systems for manufacturing, logistics, and hazardous environments." },
+  { name: "Connected Systems", icon: Link2, desc: "IoT, mesh networks, and real-time sensor infrastructure for distributed intelligence." },
+  { name: "Artificial Intelligence", icon: Brain, desc: "Edge AI, multilingual LLMs, and decision platforms for independent computation." },
+  { name: "Material Science", icon: Box, desc: "Mycelium composites, bio-plastics, and novel semiconductors for supply-chain independence." },
+  { name: "Blockchain", icon: Cpu, desc: "Decentralized identity, traceability ledgers, and trustless settlement rails." },
+  { name: "Additive Manufacturing", icon: Box, desc: "3D printing, CNC, and modular micro-factories for distributed production." },
+  { name: "Quantum Computing", icon: Atom, desc: "Quantum sensing and unbreakable encryption for independent data architectures." },
+  { name: "Computer Vision", icon: Eye, desc: "Real-time diagnostics, satellite analytics, and autonomous navigation." },
+];
+
+const m1Tiers = [
+  {
+    tier: "M1 Core",
+    size: "~1M sq ft",
+    floors: "5–6",
+    desc: "Flagship metroburb: the full Bell Labs model. Central atrium, mixed-use promenade, rooftop green space.",
+    cost: "$200–350M",
+    population: "3,000–5,000 ProtoCitizens",
   },
   {
-    id: "regulatory-arsenal",
-    num: "04",
-    title: "Regulatory Arsenal",
-    icon: Shield,
-    tagline: "Regulation is the #1 killer. We neutralize it.",
-    bigNumber: "39",
-    bigLabel: "Jurisdictions Covered",
-    thesis:
-      "In emerging markets, regulation kills more ventures than market forces. The Regulatory Arsenal is a full-spectrum legal warfare system: intelligence, sandbox access, template libraries, and compliance automation that turns regulation from a death sentence into a competitive moat.",
-    features: [
-      {
-        name: "Intelligence Network",
-        desc:
-          "Real-time monitoring of regulatory changes across 39 countries. Automated alerts when a new regulation affects portfolio companies. Pre-emptive lobbying before regulations are finalized, not reactive scrambling after.",
-        icon: Scan,
-      },
-      {
-        name: "Sandbox Infrastructure",
-        desc:
-          "Pre-negotiated regulatory sandboxes in every country. Fast-track licensing for energy, telecom, health, and defense. Legal frameworks that let portfolio companies test before they're compliant.",
-        icon: Lock,
-      },
-      {
-        name: "License Library",
-        desc:
-          "Template regulatory applications for every sector in every country. When company #4,998 needs a telecom license in Tanzania, they don't start from scratch — they start from a template approved 47 times before.",
-        icon: FileCheck,
-      },
-      {
-        name: "Compliance Automation",
-        desc:
-          "Ongoing compliance monitoring, automated filing, and real-time risk assessment across the entire portfolio. One compliance engine serving 5,000 companies through automation, not headcount.",
-        icon: Server,
-      },
-    ],
-    metric: { value: "47x", unit: "Faster", label: "License approval with templates" },
+    tier: "M1 Node",
+    size: "~250K sq ft",
+    floors: "4–5",
+    desc: "Regional hub, scaled for secondary cities. Core labs, co-working, and pilot zone.",
+    cost: "$50–90M",
+    population: "800–1,500 ProtoCitizens",
   },
   {
-    id: "distribution-network",
-    num: "05",
-    title: "Distribution Network",
-    icon: Network,
-    tagline: "Distribution is the scarcest resource. We built it.",
-    bigNumber: "5,000",
-    bigLabel: "Internal Customers",
-    thesis:
-      "Distribution, not capital, is the scarcest resource in emerging markets. The Distribution Network turns 190 hubs and 5,000 companies into a built-in market. Government contracts pre-negotiated. Enterprise partnerships as anchor tenants. Cross-portfolio commerce as default. Expansion rails that make the next country turnkey.",
-    features: [
-      {
-        name: "B2G Pipeline",
-        desc:
-          "Pre-negotiated government contracts in every country. Not one-off deals — standing agreements that portfolio companies access from day one. A government procurement pipeline that turns public sector demand into portfolio revenue.",
-        icon: Handshake,
-      },
-      {
-        name: "B2B Anchor Tenants",
-        desc:
-          "Enterprise partnerships that guarantee first customers. Telecom companies buying from portfolio energy ventures. Banks using portfolio fintech infrastructure. Every hub brings its own enterprise network.",
-        icon: Building2,
-      },
-      {
-        name: "Cross-Portfolio Commerce",
-        desc:
-          "Companies on the Route buy from each other first. An internal marketplace with 5,000 potential vendors and customers. Network effects that compound with every new company added to the network.",
-        icon: Repeat,
-      },
-      {
-        name: "Expansion Rails",
-        desc:
-          "Once a company is on the Route, expanding to the next country is turnkey. The regulatory path is cleared, the local hub provides space, the talent pipeline provides operators, and the B2G pipeline provides customers.",
-        icon: Globe,
-      },
-    ],
-    metric: { value: "Day 1", unit: "Revenue", label: "First customer on Day One" },
+    tier: "M1 Outpost",
+    size: "~42K sq ft",
+    floors: "2–3",
+    desc: "XEmbassy-class drop-in studio: the distributed micro-campus for frontier locations.",
+    cost: "$8–15M",
+    population: "150–300 ProtoCitizens",
   },
-  {
-    id: "intelligence-grid",
-    num: "06",
-    title: "Intelligence Grid",
-    icon: Brain,
-    tagline: "5,000 companies generate more signal than any intelligence agency",
-    bigNumber: "∞",
-    bigLabel: "Compounding Intelligence",
-    thesis:
-      "5,000 companies across 39 countries generate more data than most intelligence agencies process. The Intelligence Grid captures, analyzes, and redistributes that signal — market intelligence, failure patterns, founder performance, and predictive models that make every subsequent company smarter than the last.",
-    features: [
-      {
-        name: "Market Intelligence Engine",
-        desc:
-          "Real-time feeds from 39 countries — regulatory changes, commodity shifts, political risk, and competitive movements. Processed, analyzed, and distributed to every portfolio company that needs it, before they know they need it.",
-        icon: Satellite,
-      },
-      {
-        name: "Cross-Portfolio Learning",
-        desc:
-          "Every company's data trains the next company's models. Failure patterns, success patterns, market timing, and pricing strategies — all captured and codified. Company #5,000 is the smartest company ever built because 4,999 came before it.",
-        icon: Brain,
-      },
-      {
-        name: "Founder Psychometrics",
-        desc:
-          "Pre- and post-building founder assessment and support. Not hiring tests — performance analytics that track how founders evolve, what support they need, and when to deploy executive assistance. The system knows the founder before the founder knows themselves.",
-        icon: Activity,
-      },
-      {
-        name: "Predictive Infrastructure",
-        desc:
-          "Models that predict which companies will fail before they do. Early warning systems for market shifts. Automated intervention triggers. The grid doesn't just observe — it anticipates and acts.",
-        icon: BarChart3,
-      },
-    ],
-    metric: { value: "4,999", unit: "Teachers", label: "Every company learns from the ones before it" },
-  },
-  {
-    id: "physical-digital-nervous-system",
-    num: "07",
-    title: "Physical-Digital Nervous System",
-    icon: Server,
-    tagline: "190 hubs. One organism.",
-    bigNumber: "190",
-    bigLabel: "Network Nodes",
-    thesis:
-      "190 hubs aren't offices — they're nodes in a living network. The Physical-Digital Nervous System is the infrastructure that makes 190 locations operate as one organism: standardized operating systems, shared lab infrastructure, secure communications, and a data backbone that no government can subpoena and no competitor can access.",
-    features: [
-      {
-        name: "Hub Operating System",
-        desc:
-          "Standardized build-out, connectivity, security, and community management. Every hub runs the same software, has the same lab equipment, and operates under the same protocols. A founder walks into any hub on the Route and it works instantly.",
-        icon: Server,
-      },
-      {
-        name: "Lab Infrastructure",
-        desc:
-          "Sector-specific labs that no single company could afford alone. Bio labs, hardware workshops, drone test ranges, satellite uplinks, and semiconductor fabrication equipment. Shared across the portfolio, available on demand.",
-        icon: Cpu,
-      },
-      {
-        name: "Secure Communications",
-        desc:
-          "End-to-end encrypted collaboration across the entire network. In countries with surveillance infrastructure, this is survival equipment. Sovereign-grade security for sovereign-grade ventures.",
-        icon: Lock,
-      },
-      {
-        name: "Data Backbone",
-        desc:
-          "A private cloud for portfolio analytics, market intelligence, and cross-portfolio learning. Infrastructure that no government can subpoena and no competitor can access. The network's collective memory, permanently available.",
-        icon: Globe,
-      },
-    ],
-    metric: { value: "0", unit: "Friction", label: "Walk into any hub, start immediately" },
-  },
-  {
-    id: "resilience-infrastructure",
-    num: "08",
-    title: "Resilience Infrastructure",
-    icon: HeartPulse,
-    tagline: "What survives, thrives. What thrives, compounds.",
-    bigNumber: "100%",
-    bigLabel: "Survival by Design",
-    thesis:
-      "At this scale across emerging markets, things WILL go wrong. Political instability, currency crashes, regulatory raids, founder burnout. The Resilience Infrastructure doesn't just respond to crises — it's designed to get stronger under stress. Every failure improves the model. The system learns from its own destruction.",
-    features: [
-      {
-        name: "Crisis Response",
-        desc:
-          "Rapid deployment teams for political instability, regulatory raids, founder fraud, and operational crises. Pre-planned evacuation routes, backup data centers, and emergency capital reserves. The fire department for the entire Route.",
-        icon: AlertTriangle,
-      },
-      {
-        name: "Portfolio Hedging",
-        desc:
-          "Geographic and sectoral diversification that protects the entire portfolio from any single country's collapse. Currency hedging, political risk insurance, and sovereign guarantee mechanisms. No single point of failure.",
-        icon: Shield,
-      },
-      {
-        name: "Continuity Systems",
-        desc:
-          "When a founder fails, the company doesn't die. Automatic executive deployment, knowledge transfer protocols, and institutional memory systems that survive individual departures. The venture outlives any single person.",
-        icon: Repeat,
-      },
-      {
-        name: "Anti-Fragility Engine",
-        desc:
-          "Infrastructure that gets stronger under stress. Every crisis generates playbooks. Every failure improves the model. Every near-death experience makes the next company harder to kill. The system doesn't just survive — it compounds.",
-        icon: HeartPulse,
-      },
-    ],
-    metric: { value: "4,999", unit: "Lessons", label: "From every failure, a future strength" },
-  },
+];
+
+const m1DesignInputs = [
+  { label: "Size Range", value: "~1 million sq ft (customizable into M1 Core / Node / Outpost tiers)" },
+  { label: "Shape", value: "Rectangular with central atrium (square or donut-shaped)" },
+  { label: "Levels", value: "5–6 floors max (ground floor as mixed-use promenade)" },
+  { label: "Exterior", value: "Mirror glass façade with stone/concrete accents" },
+  { label: "Interior", value: "Central atrium with vertical garden, mixed-use ground floor, offices above, rooftop green space" },
+  { label: "Inspirations", value: "Historical Bell Labs, Eero Saarinen modernism, urban/suburban fusion" },
+  { label: "Climate", value: "Global use, scalable to different climates with flex materials" },
+];
+
+const xembassyZones = [
+  { title: "Prototyping Lab", pct: "25%", desc: "CNC machines, 3D printers, clean benches, robotics." },
+  { title: "Wet Lab", pct: "10%", desc: "PCR machines, biosafety cabinets, fermentation." },
+  { title: "Pilot Zone", pct: "15%", desc: "Small-scale manufacturing, modular test rigs." },
+  { title: "Open Workspace", pct: "15%", desc: "Radical proximity for ProtoCitizens." },
+  { title: "Event Commons", pct: "10%", desc: "Lecture hall, demo days, community convening." },
+  { title: "Residential", pct: "15%", desc: "Short-stay pods for visiting founders & researchers." },
+  { title: "Operations", pct: "10%", desc: "Servers, secure storage, facilities management." },
 ];
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -351,12 +120,11 @@ export function Platform() {
   return (
     <div className="bg-white text-[#111111]">
       <HeroSection />
-      <ScaleVizSection />
-      <PillarsOverview />
-      {pillars.map((pillar, i) => (
-        <PillarSection key={pillar.id} pillar={pillar} index={i} />
-      ))}
-      <FlywheelSection />
+      <CaseForInfrastructure />
+      <XEmbassySection />
+      <M1CoreSection />
+      <CoreTechnologiesSection />
+      <RouteHubsSection />
       <ReviewSection />
     </div>
   );
@@ -370,48 +138,42 @@ function HeroSection() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref}>
-      <div className="w-full max-w-[1400px] mx-auto bg-[#111111] text-white px-6 md:px-12 lg:px-20 py-20 md:py-32 rounded-sm">
+    <section
+      ref={ref}
+    >
+      <div className="w-full max-w-[1400px] mx-auto bg-[#111111] text-white px-6 md:px-12 lg:px-20 py-16 md:py-24 rounded-sm">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <span className="text-[10px] font-mono font-bold tracking-[0.4em] uppercase text-[#FF4D00] mb-6 block">
-            The Stack Behind the Route
+            xCelero Infrastructure
           </span>
           <h1 className="text-[36px] sm:text-[48px] md:text-[64px] lg:text-[80px] font-display font-medium tracking-[-0.03em] leading-[0.9] mb-6">
-            Not offices.
+            Before you build
             <br />
-            Operating systems
+            the product, you build
             <br />
-            <span className="text-[#FF4D00]">for civilization.</span>
+            <span className="text-[#FF4D00]">the ground.</span>
           </h1>
           <p className="text-[16px] md:text-[18px] leading-[1.7] text-white/50 font-medium max-w-2xl">
-            5,000 companies. 200 unicorns. 39 countries. 190 hubs. What does it actually take to build at that scale? Not more capital. Not more talent. Not more will. It takes infrastructure — the kind that doesn&apos;t exist yet. So we&apos;re building it.
+            Infrastructure is the bedrock. Not offices — operating systems for civilization. M1 Cores, XEmbassies, and 190+ projected hubs on the Route, designed to provide every layer a venture needs to move from prototype to production.
           </p>
         </motion.div>
 
-        {/* Scale metrics */}
+        {/* Full-width image */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 border-t border-white/10 pt-10"
+          className="mt-12 md:mt-16 w-full h-[30vh] md:h-[50vh] overflow-hidden"
         >
-          {[
-            { value: "5,000", label: "Companies" },
-            { value: "200", label: "Unicorns" },
-            { value: "39", label: "Countries" },
-            { value: "190", label: "Hubs" },
-          ].map((m, i) => (
-            <div key={i}>
-              <div className="text-[40px] sm:text-[56px] md:text-[72px] font-display font-medium tracking-tighter leading-none text-[#FF4D00]">
-                {m.value}
-              </div>
-              <div className="text-[11px] font-mono text-white/40 uppercase tracking-widest mt-2">{m.label}</div>
-            </div>
-          ))}
+          <img
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80"
+            alt="M1 Core Infrastructure"
+            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+          />
         </motion.div>
       </div>
     </section>
@@ -419,15 +181,20 @@ function HeroSection() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   SCALE VISUALIZATION — Why infrastructure matters
+   CASE FOR INFRASTRUCTURE, Side-by-side comparisons
    ══════════════════════════════════════════════════════════════════════════ */
-function ScaleVizSection() {
+function CaseForInfrastructure() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const [activeCase, setActiveCase] = useState(0);
 
   return (
-    <section ref={ref} className="py-16 md:py-24 px-6 md:px-12 lg:px-20 border-b border-[#111111]/10">
+    <section
+      ref={ref}
+      className="py-16 md:py-24 px-6 md:px-12 lg:px-20 border-b border-[#111111]/10"
+    >
       <div className="w-full max-w-[1400px] mx-auto">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -435,59 +202,150 @@ function ScaleVizSection() {
           className="max-w-3xl mb-16 md:mb-24"
         >
           <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00] mb-6 block">
-            First Principles
+            The Case for Infrastructure
           </span>
           <h2 className="text-[32px] md:text-[48px] lg:text-[60px] font-display font-medium tracking-tight leading-[1.05] mb-6">
-            The scale demands <span className="text-[#111111]/40">a new category.</span>
+            Infrastructure is the <span className="text-[#111111]/40">invisible prerequisite</span> of everything.
           </h2>
           <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
-            This isn&apos;t a venture fund. It isn&apos;t an accelerator. It isn&apos;t a studio. At 5,000 companies across 39 countries, xCelero is a civilization-building platform — and civilization-building platforms require infrastructure that doesn&apos;t exist yet.
+            In the West, infrastructure is invisible. It already exists. In the Global South, it&apos;s the first thing you have to build.
           </p>
         </motion.div>
 
-        {/* Three insight blocks */}
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-          {[
-            {
-              num: "01",
-              title: "The Compound Problem",
-              desc: "Each venture in an emerging market must build what the last venture already built: legal entities, banking relationships, regulatory approvals, supply chains, distribution channels. Without shared infrastructure, every venture starts from zero. At 5,000 companies, that's 5,000 independent rebuilds of the same foundation.",
-              accent: "5,000× the same work",
-            },
-            {
-              num: "02",
-              title: "The Infrastructure Gap",
-              desc: "In the West, infrastructure is invisible because it already exists. FedEx delivers. ACH settles. The SEC regulates (predictably). In the markets xCelero serves, none of that is guaranteed. Before you build the product, you must build the ground it stands on. At scale, that ground must be shared.",
-              accent: "Build the ground first",
-            },
-            {
-              num: "03",
-              title: "The Network Imperative",
-              desc: "5,000 companies across 190 hubs produce network effects that no standalone venture can match. Every company's data makes the next company smarter. Every regulatory win creates a template. Every distribution deal opens a channel. The infrastructure doesn't just support — it compounds.",
-              accent: "Intelligence compounds",
-            },
-          ].map((block, i) => (
-            <motion.div
+        {/* Comparison cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+        >
+          {caseComparisons.map((item, i) => (
+            <div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.15 + i * 0.1, ease: "easeOut" }}
-              className="border border-[#111111]/10 p-6 md:p-8 hover:border-[#FF4D00] transition-all duration-300 group"
+              onClick={() => setActiveCase(i)}
+              className={`cursor-pointer border p-6 md:p-8 transition-all duration-300 ${
+                activeCase === i
+                  ? "border-[#FF4D00] bg-[#FF4D00]/5"
+                  : "border-[#111111]/10 bg-white hover:border-[#111111]/25"
+              }`}
             >
-              <div className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00] mb-4">
-                {block.num}
+              <div className="text-[36px] mb-4">{item.icon}</div>
+              <div className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#111111]/30 mb-2">
+                {item.context}
               </div>
-              <h3 className="text-[22px] md:text-[26px] font-display font-medium tracking-tight mb-4">
-                {block.title}
+              <h3 className="text-[22px] md:text-[26px] font-display font-medium tracking-tight mb-1">
+                {item.founder}
               </h3>
+              <div className="text-[#FF4D00] text-[13px] font-bold mb-4">{item.company}</div>
               <p className="text-[14px] md:text-[15px] leading-[1.7] text-[#111111]/60 font-medium mb-6">
-                {block.desc}
+                {item.advantage}
               </p>
               <div className="border-t border-[#111111]/10 pt-4">
-                <p className="text-[14px] font-bold text-[#FF4D00]">{block.accent}</p>
+                <p className={`text-[14px] font-bold leading-[1.6] ${
+                  activeCase === i ? "text-[#FF4D00]" : "text-[#111111]/80"
+                }`}>
+                  {item.takeaway}
+                </p>
               </div>
-            </motion.div>
+            </div>
           ))}
+        </motion.div>
+
+        {/* Bottom callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          className="mt-12 md:mt-16 bg-[#111111] text-white p-8 md:p-12 rounded-sm overflow-hidden"
+        >
+          <div className="max-w-3xl">
+            <p className="text-[18px] md:text-[22px] font-display font-medium leading-[1.5] mb-4">
+              This is why xCelero exists.
+            </p>
+            <p className="text-[15px] md:text-[17px] text-white/60 font-medium leading-[1.7]">
+              We don&apos;t just invest in ventures — we are building the infrastructure those ventures need to exist. The M1 Cores, the XEmbassies, the 190+ projected hubs on the Route — these aren&apos;t real estate plays. They&apos;re operating systems for the next civilization.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   XEMBASSY, 42,000 sq ft micro-campus
+   ══════════════════════════════════════════════════════════════════════════ */
+function XEmbassySection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section
+      ref={ref}
+      className="py-16 md:py-24 px-6 md:px-12 lg:px-20 border-b border-[#111111]/10 bg-[#FAFAFA]"
+    >
+      <div className="w-full max-w-[1400px] mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-3xl mb-16 md:mb-24"
+        >
+          <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00] mb-6 block">
+            The XEmbassy
+          </span>
+          <h2 className="text-[32px] md:text-[48px] lg:text-[60px] font-display font-medium tracking-tight leading-[1.05] mb-6">
+            Not an office. <span className="text-[#111111]/40">A distributed micro-campus.</span>
+          </h2>
+          <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
+            At the heart of xHansa 3.0 lies the XEmbassy: a 42,000 sq ft physical node designed for the global internet of innovation. Prototyping labs, wet labs, pilot zones, and radical proximity for ProtoCitizens.
+          </p>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+          {/* Left: Zone breakdown */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+            className="lg:col-span-7"
+          >
+            <div className="space-y-0">
+              {xembassyZones.map((zone, i) => (
+                <div key={i} className="flex items-start gap-6 border-b border-[#111111]/8 py-5 group">
+                  <div className="flex-shrink-0 w-16">
+                    <span className="text-[#FF4D00] font-mono text-[13px] font-bold">{zone.pct}</span>
+                  </div>
+                  <div className="flex-grow">
+                    <h4 className="font-bold text-[15px] tracking-tight mb-1">{zone.title}</h4>
+                    <p className="text-[13px] text-[#111111]/50 font-medium leading-[1.5]">{zone.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right: Big number + image */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            className="lg:col-span-5 flex flex-col gap-8"
+          >
+            <div className="bg-[#111111] text-[#FAFAFA] p-10 md:p-12 flex flex-col items-center justify-center text-center">
+              <div className="text-[60px] sm:text-[100px] md:text-[140px] font-display font-medium leading-none tracking-tighter">42K</div>
+              <div className="text-[11px] font-mono text-[#FAFAFA]/50 uppercase tracking-widest mt-2">Square Feet</div>
+              <div className="text-[10px] font-mono text-[#FAFAFA]/30 uppercase tracking-widest mt-4">Per XEmbassy Node</div>
+            </div>
+            <div className="aspect-[4/3] overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
+                alt="XEmbassy Prototyping Lab"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              />
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -495,15 +353,20 @@ function ScaleVizSection() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   PILLARS OVERVIEW — 8 pillars at a glance
+   M1 CORE MODEL, Basecamp blueprint
    ══════════════════════════════════════════════════════════════════════════ */
-function PillarsOverview() {
+function M1CoreSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const [activeTier, setActiveTier] = useState(0);
 
   return (
-    <section ref={ref} className="py-16 md:py-24 px-6 md:px-12 lg:px-20 border-b border-[#111111]/10 bg-[#FAFAFA]">
+    <section
+      ref={ref}
+      className="py-16 md:py-24 px-6 md:px-12 lg:px-20 border-b border-[#111111]/10"
+    >
       <div className="w-full max-w-[1400px] mx-auto">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -511,43 +374,188 @@ function PillarsOverview() {
           className="max-w-3xl mb-16 md:mb-24"
         >
           <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00] mb-6 block">
-            8 Pillars
+            M1 Core Model
           </span>
           <h2 className="text-[32px] md:text-[48px] lg:text-[60px] font-display font-medium tracking-tight leading-[1.05] mb-6">
-            The stack behind <span className="text-[#111111]/40">the Route.</span>
+            The basecamp <span className="text-[#111111]/40">for civilization-building.</span>
           </h2>
           <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
-            Eight pillars. Each one a system that doesn&apos;t exist at this scale anywhere in the world. Together, they form the operating system for the next 5,000 companies.
+            Inspired by the laboratories that won 9 Nobel Prizes, where scientists ate in the same cafeteria as engineers, and ideas crossed disciplines over coffee. The M1 Core will not be an office park. It will be a machine for invention.
           </p>
         </motion.div>
 
-        {/* Pillar grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {pillars.map((pillar, i) => {
-            const Icon = pillar.icon;
-            return (
-              <motion.a
-                key={pillar.id}
-                href={`#${pillar.id}`}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.06, ease: "easeOut" }}
-                className="group border border-[#111111]/10 bg-white p-6 hover:border-[#FF4D00] transition-all duration-300 cursor-pointer"
+        {/* Hero image */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+          className="w-full h-[30vh] md:h-[45vh] overflow-hidden mb-16 md:mb-24"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80"
+            alt="M1 Core Interior"
+            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+          />
+        </motion.div>
+
+        {/* Design Inputs */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="mb-16 md:mb-24"
+        >
+          <h3 className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-[#111111]/30 mb-8">
+            Design Inputs
+          </h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-8">
+            {m1DesignInputs.map((input, i) => (
+              <div key={i} className="border-t border-[#111111]/10 pt-4">
+                <div className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] mb-2">
+                  {input.label}
+                </div>
+                <p className="text-[14px] text-[#111111]/70 font-medium leading-[1.6]">
+                  {input.value}
+                </p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* M1 Tiers */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+        >
+          <h3 className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-[#111111]/30 mb-8">
+            Three Tiers
+          </h3>
+
+          {/* Tier selector */}
+          <div className="flex gap-2 mb-8">
+            {m1Tiers.map((tier, i) => (
+              <button
+                key={i}
+                suppressHydrationWarning
+                onClick={() => setActiveTier(i)}
+                className={`px-4 py-2.5 text-[11px] font-mono font-bold tracking-[0.15em] uppercase border transition-all min-h-[44px] ${
+                  activeTier === i
+                    ? "bg-[#111111] text-white border-[#111111]"
+                    : "bg-white text-[#111111]/40 border-[#111111]/10 hover:border-[#111111]/30"
+                }`}
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 border border-[#111111]/10 flex items-center justify-center group-hover:border-[#FF4D00] group-hover:bg-[#FF4D00]/5 transition-all">
-                    <Icon className="w-5 h-5 text-[#FF4D00]" strokeWidth={1.5} />
-                  </div>
-                  <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">
-                    {pillar.num}
+                {tier.tier}
+              </button>
+            ))}
+          </div>
+
+          {/* Active tier detail */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTier}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="grid lg:grid-cols-12 gap-8 lg:gap-12"
+            >
+              <div className="lg:col-span-8 border border-[#111111]/10 p-8 md:p-10">
+                <div className="flex items-baseline gap-4 mb-6">
+                  <span className="text-[48px] md:text-[64px] font-display font-medium tracking-tighter leading-none">
+                    {m1Tiers[activeTier].size}
+                  </span>
+                  <span className="text-[13px] font-mono text-[#111111]/30">
+                    {m1Tiers[activeTier].floors} floors
                   </span>
                 </div>
-                <h3 className="text-[18px] font-display font-medium tracking-tight mb-2">{pillar.title}</h3>
-                <p className="text-[12px] text-[#111111]/40 font-medium leading-[1.5]">{pillar.tagline}</p>
-                <div className="mt-4 flex items-center gap-1 text-[10px] font-mono font-bold tracking-wider uppercase text-[#FF4D00] opacity-0 group-hover:opacity-100 transition-opacity">
-                  Explore <ChevronRight className="w-3 h-3" />
+                <p className="text-[16px] md:text-[18px] text-[#111111]/60 font-medium leading-[1.7] mb-8">
+                  {m1Tiers[activeTier].desc}
+                </p>
+                <div className="grid sm:grid-cols-2 gap-8">
+                  <div className="border-t border-[#111111]/10 pt-4">
+                    <div className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] mb-2">Est. Cost</div>
+                    <div className="text-[24px] font-display font-medium tracking-tight">{m1Tiers[activeTier].cost}</div>
+                  </div>
+                  <div className="border-t border-[#111111]/10 pt-4">
+                    <div className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] mb-2">Capacity</div>
+                    <div className="text-[24px] font-display font-medium tracking-tight">{m1Tiers[activeTier].population}</div>
+                  </div>
                 </div>
-              </motion.a>
+              </div>
+
+              <div className="lg:col-span-4 flex flex-col gap-4">
+                <div className="aspect-[3/4] overflow-hidden">
+                  <img
+                    src={
+                      activeTier === 0
+                        ? "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+                        : activeTier === 1
+                        ? "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
+                        : "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=800&q=80"
+                    }
+                    alt={`${m1Tiers[activeTier].tier} facility`}
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   8 CORE TECHNOLOGIES, Grid with icons
+   ══════════════════════════════════════════════════════════════════════════ */
+function CoreTechnologiesSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section
+      ref={ref}
+      className="py-16 md:py-24 px-6 md:px-12 lg:px-20 border-b border-[#111111]/10 bg-[#FAFAFA]"
+    >
+      <div className="w-full max-w-[1400px] mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-3xl mb-16 md:mb-24"
+        >
+          <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00] mb-6 block">
+            Core Technologies
+          </span>
+          <h2 className="text-[32px] md:text-[48px] lg:text-[60px] font-display font-medium tracking-tight leading-[1.05] mb-6">
+            8 domains of <span className="text-[#111111]/40">independent innovation.</span>
+          </h2>
+          <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
+            The technologies that will underpin every M1 Core and XEmbassy. These are the areas where we plan to support innovation and problem-solving within our community.
+          </p>
+        </motion.div>
+
+        {/* Technology grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {coreTechnologies.map((tech, i) => {
+            const Icon = tech.icon;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: "easeOut" }}
+                className="group border border-[#111111]/10 bg-white p-6 md:p-8 hover:border-[#FF4D00] transition-all duration-300"
+              >
+                <div className="w-12 h-12 border border-[#111111]/10 flex items-center justify-center mb-6 group-hover:border-[#FF4D00] group-hover:bg-[#FF4D00]/5 transition-all">
+                  <Icon className="w-5 h-5 text-[#FF4D00]" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-[18px] font-display font-medium tracking-tight mb-3">{tech.name}</h3>
+                <p className="text-[13px] text-[#111111]/50 font-medium leading-[1.6]">{tech.desc}</p>
+              </motion.div>
             );
           })}
         </div>
@@ -557,247 +565,138 @@ function PillarsOverview() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   INDIVIDUAL PILLAR SECTION — Full detail for each pillar
+   ROUTE HUBS, Union of cities from the Route
    ══════════════════════════════════════════════════════════════════════════ */
-function PillarSection({ pillar, index }: { pillar: typeof pillars[number]; index: number }) {
+function RouteHubsSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const [expandedFeature, setExpandedFeature] = useState<number | null>(null);
-  const isEven = index % 2 === 0;
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const [activeLeg, setActiveLeg] = useState<string | null>(null);
 
-  const Icon = pillar.icon;
+  // Group map locations by leg
+  const hubsByLeg = routeLegs.map((leg) => ({
+    leg,
+    cities: MAP_LOCATIONS.filter((loc) => loc.legId === leg.id),
+  }));
+
+  const visibleHubs = activeLeg
+    ? hubsByLeg.filter((h) => h.leg.id === activeLeg)
+    : hubsByLeg;
 
   return (
     <section
       ref={ref}
-      id={pillar.id}
-      className={`py-16 md:py-24 px-6 md:px-12 lg:px-20 border-b border-[#111111]/10 ${
-        isEven ? "bg-white" : "bg-[#FAFAFA]"
-      }`}
+      className="py-16 md:py-24 px-6 md:px-12 lg:px-20 border-b border-[#111111]/10"
     >
       <div className="w-full max-w-[1400px] mx-auto">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
-          {/* Left: Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="lg:col-span-5"
-          >
-            <div className="lg:sticky lg:top-32">
-              {/* Pillar number + icon */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 border-2 border-[#FF4D00] flex items-center justify-center bg-[#FF4D00]/5">
-                  <Icon className="w-6 h-6 text-[#FF4D00]" strokeWidth={1.5} />
-                </div>
-                <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">
-                  Pillar {pillar.num}
-                </span>
-              </div>
-
-              {/* Title */}
-              <h2 className="text-[32px] md:text-[44px] lg:text-[52px] font-display font-medium tracking-tight leading-[1.05] mb-4">
-                {pillar.title}
-              </h2>
-
-              {/* Tagline */}
-              <p className="text-[15px] md:text-[17px] text-[#FF4D00] font-bold mb-6">{pillar.tagline}</p>
-
-              {/* Thesis */}
-              <p className="text-[15px] md:text-[17px] text-[#111111]/60 font-medium leading-[1.7] mb-8">
-                {pillar.thesis}
-              </p>
-
-              {/* Big metric */}
-              <div className="bg-[#111111] text-white p-8 md:p-10">
-                <div className="text-[60px] sm:text-[80px] md:text-[100px] font-display font-medium tracking-tighter leading-none text-[#FF4D00]">
-                  {pillar.metric.value}
-                </div>
-                <div className="text-[13px] font-mono text-white/50 uppercase tracking-widest mt-1">
-                  {pillar.metric.unit}
-                </div>
-                <div className="text-[12px] text-white/30 font-medium mt-3">{pillar.metric.label}</div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right: Features */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
-            className="lg:col-span-7"
-          >
-            <div className="space-y-4">
-              {pillar.features.map((feature, fi) => {
-                const FeatureIcon = feature.icon;
-                const isExpanded = expandedFeature === fi;
-                return (
-                  <div
-                    key={fi}
-                    className={`border transition-all duration-300 ${
-                      isExpanded
-                        ? "border-[#FF4D00] bg-[#FF4D00]/5"
-                        : "border-[#111111]/10 bg-white hover:border-[#111111]/25"
-                    }`}
-                  >
-                    <button
-                      suppressHydrationWarning
-                      onClick={() => setExpandedFeature(isExpanded ? null : fi)}
-                      className="w-full flex items-center gap-4 p-5 md:p-6 text-left cursor-pointer min-h-[44px]"
-                    >
-                      <div
-                        className={`w-10 h-10 border flex items-center justify-center shrink-0 transition-all ${
-                          isExpanded
-                            ? "border-[#FF4D00] bg-[#FF4D00]/10"
-                            : "border-[#111111]/10 bg-white"
-                        }`}
-                      >
-                        <FeatureIcon
-                          className={`w-5 h-5 transition-colors ${
-                            isExpanded ? "text-[#FF4D00]" : "text-[#111111]/40"
-                          }`}
-                          strokeWidth={1.5}
-                        />
-                      </div>
-                      <div className="flex-grow">
-                        <h4 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">
-                          {feature.name}
-                        </h4>
-                      </div>
-                      <ChevronDown
-                        className={`w-5 h-5 text-[#111111]/30 transition-transform shrink-0 ${
-                          isExpanded ? "rotate-180 text-[#FF4D00]" : ""
-                        }`}
-                      />
-                    </button>
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-5 md:px-6 pb-5 md:pb-6 pl-[76px] md:pl-[84px]">
-                            <p className="text-[14px] md:text-[15px] text-[#111111]/60 font-medium leading-[1.7]">
-                              {feature.desc}
-                            </p>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Pillar CTA */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-              className="mt-8 border-t border-[#111111]/10 pt-6"
-            >
-              <div className="flex items-center justify-between">
-                <div className="text-[12px] font-mono text-[#111111]/30 uppercase tracking-widest">
-                  {pillar.features.length} subsystems
-                </div>
-                {index < pillars.length - 1 && (
-                  <a
-                    href={`#${pillars[index + 1].id}`}
-                    className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[#FF4D00] hover:text-[#111111] transition-colors group"
-                  >
-                    Next: {pillars[index + 1].title}
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
-   FLYWHEEL — How the 8 pillars compound
-   ══════════════════════════════════════════════════════════════════════════ */
-function FlywheelSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="py-16 md:py-24 px-6 md:px-12 lg:px-20">
-      <div className="w-full max-w-[1400px] mx-auto">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="bg-[#111111] text-white p-8 md:p-16 lg:p-20 rounded-sm"
+          className="max-w-3xl mb-12 md:mb-16"
         >
-          <span className="text-[10px] font-mono font-bold tracking-[0.4em] uppercase text-[#FF4D00] mb-6 block">
-            The Compounding Effect
+          <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00] mb-6 block">
+            Hubs on the Route
           </span>
-          <h2 className="text-[32px] md:text-[48px] lg:text-[64px] font-display font-medium tracking-tight leading-[1.05] mb-8 max-w-4xl">
-            Each pillar feeds the next.
-            <br />
-            <span className="text-white/40">The system compounds.</span>
+          <h2 className="text-[32px] md:text-[48px] lg:text-[60px] font-display font-medium tracking-tight leading-[1.05] mb-6">
+            A union of <span className="text-[#111111]/40">cities.</span>
           </h2>
-          <p className="text-[16px] md:text-[18px] text-white/50 font-medium leading-[1.7] max-w-2xl mb-12">
-            The Company Factory creates ventures. The Capital Nervous System funds them. The Talent Engine staffs them. The Regulatory Arsenal protects them. The Distribution Network sells them. The Intelligence Grid learns from them. The Physical-Digital Nervous System connects them. And the Resilience Infrastructure ensures they survive. Each pillar makes every other pillar stronger.
+          <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
+            190+ projected hub locations across 6 legs and 63 countries. Each hub is designed as a node in the global internet of innovation — a physical place where ventures, capital, and talent can converge.
           </p>
+        </motion.div>
 
-          {/* Visual flywheel - horizontal flow */}
-          <div className="overflow-x-auto scrollbar-thin pb-4">
-            <div className="flex items-center gap-3 min-w-max">
-              {pillars.map((pillar, i) => {
-                const PIcon = pillar.icon;
-                return (
-                  <div key={pillar.id} className="flex items-center gap-3">
-                    <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-3 rounded-sm hover:bg-white/10 hover:border-[#FF4D00]/30 transition-all duration-300">
-                      <PIcon className="w-4 h-4 text-[#FF4D00]" strokeWidth={1.5} />
-                      <span className="text-[12px] font-display font-medium text-white/80 whitespace-nowrap">
-                        {pillar.title}
-                      </span>
-                    </div>
-                    {i < pillars.length - 1 && (
-                      <ArrowRight className="w-4 h-4 text-white/20 shrink-0" />
-                    )}
-                  </div>
-                );
-              })}
-              {/* Loop back arrow */}
-              <div className="flex items-center gap-2 ml-2">
-                <svg className="w-5 h-5 text-[#FF4D00]/60" viewBox="0 0 24 16" fill="none">
-                  <path d="M0 8H16M16 8L12 4M16 8L12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00]/60 whitespace-nowrap">
-                  loop
+        {/* Leg filter buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          className="flex flex-wrap gap-2 mb-12 md:mb-16"
+        >
+          <button
+            suppressHydrationWarning
+            onClick={() => setActiveLeg(null)}
+            className={`px-3 py-1.5 text-[11px] font-mono font-bold tracking-widest uppercase border transition-colors min-h-[44px] ${
+              activeLeg === null
+                ? "bg-[#111111] text-white border-[#111111]"
+                : "bg-white text-[#111111]/50 border-[#111111]/15 hover:border-[#111111]/30"
+            }`}
+          >
+            All Legs
+          </button>
+          {routeLegs.map((leg) => (
+            <button
+              key={leg.id}
+              suppressHydrationWarning
+              onClick={() => setActiveLeg(activeLeg === leg.id ? null : leg.id)}
+              className={`px-3 py-1.5 text-[11px] font-mono font-bold tracking-widest uppercase border transition-colors min-h-[44px] ${
+                activeLeg === leg.id
+                  ? "text-white border-transparent"
+                  : "bg-white text-[#111111]/50 border-[#111111]/15 hover:border-[#111111]/30"
+              }`}
+              style={activeLeg === leg.id ? { backgroundColor: leg.color, borderColor: leg.color } : {}}
+            >
+              {leg.legNumber}. {leg.name.split(" ")[0]}
+            </button>
+          ))}
+        </motion.div>
+
+        {/* Hub groups by leg */}
+        <div className="space-y-12">
+          {visibleHubs.map(({ leg, cities }) => (
+            <motion.div
+              key={leg.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              {/* Leg header */}
+              <div className="flex items-center gap-4 mb-6 border-b border-[#111111]/10 pb-4">
+                <span
+                  className="w-3 h-3 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: leg.color }}
+                />
+                <h3 className="text-[20px] md:text-[24px] font-display font-medium tracking-tight">
+                  Leg {leg.legNumber}: {leg.name}
+                </h3>
+                <span className="text-[11px] font-mono text-[#111111]/30 tracking-widest uppercase ml-auto">
+                  {leg.hubCount} hubs · {leg.countries.length} countries
                 </span>
               </div>
-            </div>
-          </div>
 
-          {/* Bottom callout */}
-          <div className="mt-12 pt-8 border-t border-white/10">
-            <div className="grid md:grid-cols-3 gap-8">
-              <div>
-                <div className="text-[36px] md:text-[48px] font-display font-medium tracking-tighter text-[#FF4D00]">8</div>
-                <div className="text-[12px] text-white/40 font-medium">Pillars, each reinforcing the others</div>
+              {/* City cards */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                {cities.map((city) => (
+                  <div
+                    key={city.id}
+                    className="group border border-[#111111]/10 p-5 hover:border-[#FF4D00] transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <MapPin className="w-3.5 h-3.5 text-[#FF4D00]" />
+                      <h4 className="text-[15px] font-display font-medium tracking-tight">{city.name}</h4>
+                    </div>
+                    <p className="text-[12px] text-[#111111]/40 font-medium leading-[1.5]">{city.description}</p>
+                  </div>
+                ))}
               </div>
-              <div>
-                <div className="text-[36px] md:text-[48px] font-display font-medium tracking-tighter text-[#FF4D00]">32</div>
-                <div className="text-[12px] text-white/40 font-medium">Subsystems across the infrastructure stack</div>
-              </div>
-              <div>
-                <div className="text-[36px] md:text-[48px] font-display font-medium tracking-tighter text-[#FF4D00]">∞</div>
-                <div className="text-[12px] text-white/40 font-medium">Compounding — every cycle makes the next stronger</div>
-              </div>
-            </div>
-          </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          className="text-center mt-16 md:mt-24"
+        >
+          <Link
+            to="/routes"
+            className="group inline-flex items-center gap-3 px-10 py-4 bg-[#111111] text-white text-[12px] font-bold tracking-[0.2em] uppercase hover:bg-[#FF4D00] transition-colors"
+          >
+            Explore the Full Route
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </motion.div>
       </div>
     </section>
