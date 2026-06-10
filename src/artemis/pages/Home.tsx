@@ -45,9 +45,9 @@ const heroImages = [
 ];
 
 const stats = [
-  { value: 500, prefix: "", suffix: "+", label: "Market-defining companies on the Route", icon: Rocket },
-  { value: 28, prefix: "$", suffix: "B", label: "Projected portfolio value at scale", icon: TrendingUp },
-  { value: 264, prefix: "", suffix: "", label: "Days faster to revenue with the Route", icon: Zap },
+  { value: 5000, prefix: "", suffix: "+", label: "Market-defining companies on the Route", icon: Rocket },
+  { value: 1, prefix: "$", suffix: "T+", label: "Projected portfolio value at scale", icon: TrendingUp },
+  { value: 200, prefix: "", suffix: "+", label: "Unicorns projected", icon: Zap },
   { value: 190, prefix: "", suffix: "", label: "Hub locations across 39 countries", icon: Globe2 },
 ];
 
