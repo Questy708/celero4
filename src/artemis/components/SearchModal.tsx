@@ -18,7 +18,6 @@ const staticPages = [
   { id: "ventures", title: "Our Ventures", path: "/ventures", type: "Page", desc: "We back builders tackling civilization-level challenges." },
   { id: "careers", title: "Careers", path: "/careers", type: "Page", desc: "Join the ventures shaping Africa's infrastructure. Open roles across portfolio companies." },
   { id: "join", title: "Join xCelero Labs", path: "/join", type: "Page", desc: "Apply to join the xCelero network as a founder, investor, partner, or talent." },
-  { id: "signature", title: "Email Signature", path: "/signature", type: "Tool", desc: "Generate a professional, xCelero-branded email signature in seconds." },
 ];
 
 export function SearchModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {

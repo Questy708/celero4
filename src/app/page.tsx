@@ -23,7 +23,6 @@ import { TownSquare } from "@/artemis/pages/TownSquare";
 import { About } from "@/artemis/pages/About";
 import { InvestorDashboard } from "@/artemis/pages/InvestorDashboard";
 import { AdminDashboard } from "@/artemis/pages/AdminDashboard";
-import { EmailSignature } from "@/artemis/pages/EmailSignature";
 
 function Router() {
   const { path } = useRouter();
@@ -51,8 +50,6 @@ function Router() {
     if (path === "/townsquare") return <TownSquare />;
     if (path === "/about") return <About />;
     if (path === "/admin") return <AdminDashboard />;
-    if (path === "/signature") return <EmailSignature />;
-
     // 404 fallback
     return (
       <div className="min-h-[80vh] flex items-center justify-center bg-white text-[#111111]">
