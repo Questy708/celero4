@@ -9,7 +9,7 @@ import { SearchModal } from "./SearchModal";
 /* ── Page transition variants based on path ── */
 function getTransitionForPath(path: string) {
   // Editorial pages: fade-only, no y movement
-  const editorialPaths = ["/about", "/manifesto", "/approach"];
+  const editorialPaths = ["/about", "/manifesto", "/approach", "/signature"];
   // Content-heavy pages: slide-up
   const contentPaths = ["/ventures", "/programs", "/routes", "/capital", "/platform"];
   // Data pages: subtle crossfade
@@ -583,6 +583,7 @@ function Footer() {
               <Link to="/about" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">About</Link>
               <Link to="/ventures" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Companies</Link>
               <Link to="/careers" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Careers</Link>
+              <Link to="/signature" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Signature</Link>
               <Link to="/approach" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">How We Work</Link>
               <Link to="/insights" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">News</Link>
             </div>
