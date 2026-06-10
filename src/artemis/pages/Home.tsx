@@ -45,10 +45,10 @@ const heroImages = [
 ];
 
 const stats = [
-  { value: 14.5, prefix: "$", suffix: "B+", label: "Projected portfolio valuation at scale", icon: TrendingUp },
+  { value: 500, prefix: "", suffix: "+", label: "Market-defining companies on the Route", icon: Rocket },
+  { value: 28, prefix: "$", suffix: "B", label: "Projected portfolio value at scale", icon: TrendingUp },
   { value: 264, prefix: "", suffix: "", label: "Days faster to revenue with the Route", icon: Zap },
-  { value: 4, prefix: "$", suffix: "B", label: "Capital mobilization target", icon: Coins },
-  { value: 190, prefix: "", suffix: "", label: "Projected hub locations on the Route", icon: Globe2 },
+  { value: 190, prefix: "", suffix: "", label: "Hub locations across 39 countries", icon: Globe2 },
 ];
 
 const pillars = [
@@ -759,8 +759,11 @@ function NumbersSection() {
           transition={{ duration: 0.6 }}
           className="mb-16 md:mb-24"
         >
-          <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-[#FF4D00]">
+          <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-[#FF4D00] block mb-4">
             By the numbers
+          </span>
+          <span className="text-[28px] sm:text-[36px] md:text-[48px] font-display font-medium tracking-[-0.02em] text-[#111111]/80 leading-[1.1]">
+            10-Year Outlook
           </span>
         </motion.div>
 
