@@ -432,35 +432,6 @@ function HeroSection() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   CARD GRID — Static grid with staggered reveal, no sliding
-   ══════════════════════════════════════════════════════════════════════════ */
-function CardGrid<T>({
-  items,
-  renderItem,
-}: {
-  items: T[];
-  renderItem: (item: T, index: number) => React.ReactNode;
-}) {
-  return (
-    <div className="px-6 md:px-12 lg:px-20">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {items.map((item, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {renderItem(item, i)}
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
    02. CASE FOR INFRASTRUCTURE — Editorial manifesto
    ══════════════════════════════════════════════════════════════════════════ */
 function CaseSection() {
@@ -511,31 +482,28 @@ function CaseSection() {
               </p>
             </div>
             <div className="px-6 md:px-12 lg:px-20">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {infrastructureExists.map((item, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
-                    transition={{ delay: i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
-                    className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex h-[220px] md:h-[240px]"
+                    transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
+                    className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex h-[200px] md:h-[220px]"
                   >
-                    {/* Image strip on left */}
-                    <div className="relative w-[140px] md:w-[170px] shrink-0">
+                    <div className="relative w-[110px] md:w-[130px] shrink-0">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/10" />
                     </div>
-                    {/* Content on right */}
-                    <div className="flex-1 p-4 md:p-5 flex flex-col min-w-0">
-                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                        <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
-                        <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
+                    <div className="flex-1 p-3 md:p-4 flex flex-col min-w-0">
+                      <div className="flex flex-wrap items-baseline gap-1.5 mb-0.5">
+                        <h3 className="text-[14px] md:text-[16px] font-display font-medium tracking-tight">{item.name}</h3>
+                        <span className="text-[7px] font-mono font-bold tracking-[0.1em] uppercase text-[#111]/20">{item.context}</span>
                       </div>
-                      <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-2">{item.company}</div>
-                      <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-3">{item.advantage}</p>
-                      <div className="border-t border-[#111]/5 pt-2 mt-auto">
-                        <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5] line-clamp-2">{item.takeaway}</p>
+                      <div className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-1.5">{item.company}</div>
+                      <p className="text-[11px] text-[#111]/40 font-medium leading-[1.5] mb-2 line-clamp-3">{item.advantage}</p>
+                      <div className="border-t border-[#111]/5 pt-1.5 mt-auto">
+                        <p className="text-[11px] font-bold text-[#FF4D00] leading-[1.4] line-clamp-2">{item.takeaway}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -559,27 +527,35 @@ function CaseSection() {
                 From <span className="text-[#111]/50 font-bold">The Prosperity Paradox</span> — these innovators didn&apos;t find an existing market and optimize it. They created markets from nothing — building the supply chain, the demand, and the infrastructure all at once, making prosperity possible where none existed before.
               </p>
             </div>
-            <CardGrid
-              items={marketCreatingInnovations}
-              renderItem={(item) => (
-                <div className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors flex flex-col h-full">
-                  <div className="relative h-[140px] shrink-0">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
-                  </div>
-                  <div className="flex-1 p-4 md:p-5">
-                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                      <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
-                      <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
+            <div className="px-6 md:px-12 lg:px-20">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {marketCreatingInnovations.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
+                    className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors flex h-[200px] md:h-[220px]"
+                  >
+                    <div className="relative w-[110px] md:w-[130px] shrink-0">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
                     </div>
-                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/70 mb-2">{item.company}</div>
-                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-4">{item.advantage}</p>
-                    <div className="border-t border-[#FF4D00]/10 pt-2 mt-auto">
-                      <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
+                    <div className="flex-1 p-3 md:p-4 flex flex-col min-w-0">
+                      <div className="flex flex-wrap items-baseline gap-1.5 mb-0.5">
+                        <h3 className="text-[14px] md:text-[16px] font-display font-medium tracking-tight">{item.name}</h3>
+                        <span className="text-[7px] font-mono font-bold tracking-[0.1em] uppercase text-[#111]/20">{item.context}</span>
+                      </div>
+                      <div className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/70 mb-1.5">{item.company}</div>
+                      <p className="text-[11px] text-[#111]/40 font-medium leading-[1.5] mb-2 line-clamp-3">{item.advantage}</p>
+                      <div className="border-t border-[#FF4D00]/10 pt-1.5 mt-auto">
+                        <p className="text-[11px] font-bold text-[#FF4D00] leading-[1.4] line-clamp-2">{item.takeaway}</p>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )}
-            />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </motion.div>
 
           {/* Group 3: Where infrastructure must be built first */}
@@ -597,27 +573,35 @@ function CaseSection() {
                 These ventures had the funding, the talent, and the technology — but the ground beneath them didn&apos;t exist. Each missing piece of infrastructure became a separate company to build, and no single venture could build them all. The product was ready. The world was not.
               </p>
             </div>
-            <CardGrid
-              items={infrastructureMustBeBuilt}
-              renderItem={(item) => (
-                <div className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors flex flex-col h-full">
-                  <div className="relative h-[140px] shrink-0">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
-                  </div>
-                  <div className="flex-1 p-4 md:p-5">
-                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                      <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
-                      <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#991B1B]/40">{item.context}</span>
+            <div className="px-6 md:px-12 lg:px-20">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {infrastructureMustBeBuilt.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
+                    className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors flex h-[200px] md:h-[220px]"
+                  >
+                    <div className="relative w-[110px] md:w-[130px] shrink-0">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
                     </div>
-                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]/50 mb-2">{item.company}</div>
-                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-4">{item.advantage}</p>
-                    <div className="border-t border-[#991B1B]/10 pt-2 mt-auto">
-                      <p className="text-[12px] font-bold text-[#991B1B] leading-[1.5]">{item.takeaway}</p>
+                    <div className="flex-1 p-3 md:p-4 flex flex-col min-w-0">
+                      <div className="flex flex-wrap items-baseline gap-1.5 mb-0.5">
+                        <h3 className="text-[14px] md:text-[16px] font-display font-medium tracking-tight">{item.name}</h3>
+                        <span className="text-[7px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]/40">{item.context}</span>
+                      </div>
+                      <div className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]/50 mb-1.5">{item.company}</div>
+                      <p className="text-[11px] text-[#111]/40 font-medium leading-[1.5] mb-2 line-clamp-3">{item.advantage}</p>
+                      <div className="border-t border-[#991B1B]/10 pt-1.5 mt-auto">
+                        <p className="text-[11px] font-bold text-[#991B1B] leading-[1.4] line-clamp-2">{item.takeaway}</p>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )}
-            />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
 
