@@ -521,17 +521,20 @@ function CaseSection() {
 
         {/* Three marquee groups */}
         <div className="pb-16 md:pb-20 space-y-12">
-          {/* Group 1: Where infrastructure already exists — horizontal image+text cards */}
+          {/* Group 1: Where infrastructure already exists */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
             <div className="px-6 md:px-12 lg:px-20 mb-4">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-2">
                 <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#111]/15">Where infrastructure already exists</span>
                 <div className="flex-1 h-[1px] bg-[#111]/5" />
               </div>
+              <p className="text-[13px] text-[#111]/30 font-medium leading-[1.6] max-w-2xl">
+                The world&apos;s most successful ventures were built on ground that was already paved — financial systems, legal frameworks, supply chains, and talent pipelines all existed before the first line of code was written or the first product assembled.
+              </p>
             </div>
             <InfiniteMarquee
               items={infrastructureExists}
@@ -540,34 +543,18 @@ function CaseSection() {
               renderItem={(item) => (
                 <div className="w-[480px] border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white">
                   <div className="flex gap-0">
-                    {/* Image */}
                     <div className="w-[140px] lg:w-[180px] shrink-0">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover min-h-[220px]"
-                      />
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover min-h-[220px]" />
                     </div>
-                    {/* Content */}
                     <div className="flex-1 p-5 md:p-6">
                       <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                        <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight">
-                          {item.name}
-                        </h3>
-                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">
-                          {item.context}
-                        </span>
+                        <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight">{item.name}</h3>
+                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
                       </div>
-                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-3">
-                        {item.company}
-                      </div>
-                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4 line-clamp-3">
-                        {item.advantage}
-                      </p>
+                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-3">{item.company}</div>
+                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4 line-clamp-3">{item.advantage}</p>
                       <div className="border-t border-[#111]/5 pt-3">
-                        <p className="text-[13px] font-bold text-[#FF4D00] leading-[1.5]">
-                          {item.takeaway}
-                        </p>
+                        <p className="text-[13px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
                       </div>
                     </div>
                   </div>
@@ -576,7 +563,7 @@ function CaseSection() {
             />
           </motion.div>
 
-          {/* Group 2: Market-Creating Innovations — orange-tinted cards with image headers */}
+          {/* Group 2: Market-Creating Innovations */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -587,47 +574,30 @@ function CaseSection() {
                 <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">Market-Creating Innovations</span>
                 <div className="flex-1 h-[1px] bg-[#FF4D00]/10" />
               </div>
-              <p className="text-[11px] text-[#111]/30 font-medium italic">
-                From <span className="text-[#111]/50 not-italic font-bold">The Prosperity Paradox</span> — they didn&apos;t find a market. They created one.
+              <p className="text-[13px] text-[#111]/30 font-medium leading-[1.6] max-w-2xl">
+                From <span className="text-[#111]/50 font-bold">The Prosperity Paradox</span> — these innovators didn&apos;t find an existing market and optimize it. They created markets from nothing — building the supply chain, the demand, and the infrastructure all at once, making prosperity possible where none existed before.
               </p>
             </div>
             <InfiniteMarquee
               items={marketCreatingInnovations}
-              cardWidth={380}
+              cardWidth={480}
               speed={30}
               renderItem={(item) => (
-                <div className="w-[380px] border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors group">
-                  {/* Image header */}
-                  <div className="relative h-[160px] md:h-[180px] overflow-hidden">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-                    <div className="absolute bottom-3 left-4 right-4">
-                      <h3 className="text-[18px] font-display font-medium tracking-tight text-[#111]">
-                        {item.name}
-                      </h3>
+                <div className="w-[480px] border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors">
+                  <div className="flex gap-0">
+                    <div className="w-[140px] lg:w-[180px] shrink-0">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover min-h-[220px]" />
                     </div>
-                  </div>
-                  {/* Content */}
-                  <div className="p-5 md:p-6">
-                    <div className="flex items-baseline gap-2 mb-1">
-                      <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]">
-                        {item.company}
-                      </span>
-                      <span className="text-[9px] font-mono tracking-[0.08em] text-[#111]/20">
-                        {item.context}
-                      </span>
-                    </div>
-                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-3">
-                      {item.advantage}
-                    </p>
-                    <div className="border-t border-[#FF4D00]/10 pt-3">
-                      <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5]">
-                        {item.takeaway}
-                      </p>
+                    <div className="flex-1 p-5 md:p-6">
+                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                        <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight">{item.name}</h3>
+                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
+                      </div>
+                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/70 mb-3">{item.company}</div>
+                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4 line-clamp-3">{item.advantage}</p>
+                      <div className="border-t border-[#FF4D00]/10 pt-3">
+                        <p className="text-[13px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -635,55 +605,41 @@ function CaseSection() {
             />
           </motion.div>
 
-          {/* Group 3: Where infrastructure must be built first — red-tinted cards */}
+          {/* Group 3: Where infrastructure must be built first */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.6, duration: 0.6 }}
           >
             <div className="px-6 md:px-12 lg:px-20 mb-4">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-2">
                 <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#991B1B]">Where infrastructure must be built first</span>
                 <div className="flex-1 h-[1px] bg-[#991B1B]/10" />
               </div>
+              <p className="text-[13px] text-[#111]/30 font-medium leading-[1.6] max-w-2xl">
+                These ventures had the funding, the talent, and the technology — but the ground beneath them didn&apos;t exist. Each missing piece of infrastructure became a separate company to build, and no single venture could build them all. The product was ready. The world was not.
+              </p>
             </div>
             <InfiniteMarquee
               items={infrastructureMustBeBuilt}
-              cardWidth={380}
+              cardWidth={480}
               speed={30}
               renderItem={(item) => (
-                <div className="w-[380px] border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors group">
-                  {/* Image header */}
-                  <div className="relative h-[140px] md:h-[160px] overflow-hidden">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-                    <div className="absolute bottom-3 left-4 right-4">
-                      <h3 className="text-[18px] font-display font-medium tracking-tight text-[#111]">
-                        {item.name}
-                      </h3>
+                <div className="w-[480px] border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors">
+                  <div className="flex gap-0">
+                    <div className="w-[140px] lg:w-[180px] shrink-0">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover min-h-[220px]" />
                     </div>
-                  </div>
-                  {/* Content */}
-                  <div className="p-5 md:p-6">
-                    <div className="flex items-baseline gap-2 mb-1">
-                      <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]">
-                        {item.company}
-                      </span>
-                      <span className="text-[9px] font-mono tracking-[0.08em] text-[#991B1B]/40">
-                        {item.context}
-                      </span>
-                    </div>
-                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-3">
-                      {item.advantage}
-                    </p>
-                    <div className="border-t border-[#991B1B]/10 pt-3">
-                      <p className="text-[12px] font-bold text-[#991B1B] leading-[1.5]">
-                        {item.takeaway}
-                      </p>
+                    <div className="flex-1 p-5 md:p-6">
+                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                        <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight">{item.name}</h3>
+                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#991B1B]/40">{item.context}</span>
+                      </div>
+                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]/50 mb-3">{item.company}</div>
+                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4 line-clamp-3">{item.advantage}</p>
+                      <div className="border-t border-[#991B1B]/10 pt-3">
+                        <p className="text-[13px] font-bold text-[#991B1B] leading-[1.5]">{item.takeaway}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
