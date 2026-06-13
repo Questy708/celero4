@@ -160,32 +160,28 @@ Stage Summary:
 - Lint clean, no dev server errors
 ---
 Task ID: 3
-Agent: full-stack-developer
-Task: Add Market Creating Innovations cluster + auto-sliding marquees to CaseSection
+Agent: full-stack-developer + main
+Task: Add Market Creating Innovations cluster + auto-sliding marquees to CaseSection, then restore original card sizes
 
 Work Log:
 - Replaced the old `caseComparisons` array (5 items) with three new data arrays:
   - `infrastructureExists` (10 Western innovators: Bezos, Musk, Jobs, Gates, Zuckerberg, Page, Altman, Hastings, Chesky, Dorsey)
   - `marketCreatingInnovations` (5 Prosperity Paradox examples: Mo Ibrahim, Strive Masiyiwa, Aliko Dangote, Nick Hughes, Tolaram Group)
   - `infrastructureMustBeBuilt` (6 failure case studies: 54gene, Sendy, Dash, Gro Intelligence, Wave, Wakanow)
-- Added `InfiniteMarquee` generic component before CaseSection that:
-  - Duplicates items for seamless infinite loop
-  - Uses CSS `@keyframes marquee-scroll` animation (right-to-left)
-  - Pauses on hover via `group-hover:[animation-play-state:paused]`
-  - Has gradient fade edges on left and right
-  - Calculates duration based on item count and configurable speed
-- Rewrote `CaseSection` to use three marquee strips stacked vertically:
-  - Group 1: "Where infrastructure already exists" — 10 white cards with circular avatars
-  - Group 2: "Market-Creating Innovations" — 5 orange-tinted cards with Prosperity Paradox subtitle
-  - Group 3: "Where infrastructure must be built first" — 6 red-tinted (#991B1B) failure cards
-- Preserved pull quote and bottom callout sections exactly as they were
-- Added `<style>` tag with `dangerouslySetInnerHTML` for marquee keyframes inside CaseSection
-- All lint checks pass, page compiles and serves with HTTP 200
+- Added `advantage` field to all data arrays with full descriptive text
+- Added `InfiniteMarquee` generic component with configurable cardWidth and speed
+- Initial implementation used compact 300px cards with 48px circular avatars — too small
+- **Restored original card sizes** to match the previous design:
+  - Group 1 (infrastructure exists): 480px wide horizontal cards with image strip (140-180px) on left + full content on right (advantage paragraph + takeaway callout)
+  - Group 2 (market-creating): 380px orange-tinted cards with image header (160-180px) + full content below (advantage paragraph + takeaway)
+  - Group 3 (must be built): 380px red-tinted cards with image header (140-160px) + full content below (advantage paragraph + takeaway)
+- All three groups auto-slide right-to-left, pause on hover, with gradient fade edges
+- Lint clean, no errors, all 10 sections verified
 
 Stage Summary:
 - CaseSection now features three auto-sliding marquee strips with 21 total case study cards
+- Cards restored to original large format with full advantage text + takeaway callouts
 - New "Market-Creating Innovations" group adds Prosperity Paradox framing
 - Infrastructure exists group expanded from 2 to 10 innovators
 - Infrastructure must be built group expanded from 3 to 6 failure examples
-- All three groups use consistent compact horizontal card design (300px wide, 48px circular avatar)
-- Color differentiation: white (exists), orange-tinted (market-creating), red-tinted (must build)
+- Color differentiation: white (exists), orange-tinted (market-creating), red-tinted (#991B1B, must build)

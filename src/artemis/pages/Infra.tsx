@@ -169,33 +169,33 @@ const coreTechnologies = [
 ];
 
 const infrastructureExists = [
-  { name: "Jeff Bezos", company: "Amazon", context: "USA, 1994", image: "https://sfile.chatglm.cn/images-ppt/7b685c8e5fa4.png", takeaway: "The infrastructure was invisible because it was already there." },
-  { name: "Elon Musk", company: "Tesla / SpaceX", context: "USA, 2002", image: "https://sfile.chatglm.cn/images-ppt/49edeabd4822.png", takeaway: "Every system the venture needed was already operational." },
-  { name: "Steve Jobs", company: "Apple", context: "USA, 1976", image: "https://sfile.chatglm.cn/images-ppt/3a6b08ad5ff7.jpg", takeaway: "A mature supply chain, IP law, and consumer credit made the personal computer inevitable — someone just had to will it into existence." },
-  { name: "Bill Gates", company: "Microsoft", context: "USA, 1975", image: "https://sfile.chatglm.cn/images-ppt/f494473a39af.jpg", takeaway: "The IBM-compatible ecosystem, software copyright law, and corporate IT budgets already existed — Gates simply sold software into a ready market." },
-  { name: "Mark Zuckerberg", company: "Meta", context: "USA, 2004", image: "https://sfile.chatglm.cn/images-ppt/abca3bebd6e8.jpg", takeaway: "Broadband internet, university networks, and digital advertising infrastructure were already in place — Facebook just rode the wave." },
-  { name: "Larry Page", company: "Google", context: "USA, 1998", image: "https://sfile.chatglm.cn/images-ppt/021296defa4c.jpg", takeaway: "The web was already indexed, the internet backbone built, venture capital mature — Google organized a world that was already connected." },
-  { name: "Sam Altman", company: "OpenAI", context: "USA, 2015", image: "https://sfile.chatglm.cn/images-ppt/96a0c975ae3b.jpg", takeaway: "Decades of GPU development, cloud compute, and research infrastructure — AI didn't emerge from nothing. It stood on the shoulders of an entire ecosystem." },
-  { name: "Reed Hastings", company: "Netflix", context: "USA, 1997", image: "https://sfile.chatglm.cn/images-ppt/9206de4bef48.png", takeaway: "The USPS delivered DVDs. Then broadband streamed video. Netflix pivoted between two fully-built infrastructures." },
-  { name: "Brian Chesky", company: "Airbnb", context: "USA, 2008", image: "https://sfile.chatglm.cn/images-ppt/c098af53c694.jpg", takeaway: "Online payments, trust infrastructure (reviews), and the social web made strangers hosting strangers possible — none of it had to be built." },
-  { name: "Jack Dorsey", company: "Block / Twitter", context: "USA, 2006", image: "https://sfile.chatglm.cn/images-ppt/6ea98e985491.jpg", takeaway: "SMS gateways, smartphone adoption, and app store distribution — the pipes were already laid." },
+  { name: "Jeff Bezos", company: "Amazon", context: "USA, 1994", image: "https://sfile.chatglm.cn/images-ppt/7b685c8e5fa4.png", advantage: "He didn't need to build a banking system — credit cards and ACH already existed. He didn't need to build delivery infrastructure — FedEx and UPS already covered every address. The entire financial stack was mature, trusted, and ubiquitous.", takeaway: "The infrastructure was invisible because it was already there." },
+  { name: "Elon Musk", company: "Tesla / SpaceX", context: "USA, 2002", image: "https://sfile.chatglm.cn/images-ppt/49edeabd4822.png", advantage: "He could recruit from Stanford and MIT. File patents in a legal system that enforced them. Raise capital on Sand Hill Road. The roads were already paved. The grid was already stable. The regulatory framework was codified and navigable.", takeaway: "Every system the venture needed was already operational." },
+  { name: "Steve Jobs", company: "Apple", context: "USA, 1976", image: "https://sfile.chatglm.cn/images-ppt/3a6b08ad5ff7.jpg", advantage: "A mature semiconductor supply chain (Fairchild, Intel) provided the chips. Consumer credit systems enabled purchases. IP law protected inventions. Retail distribution networks already reached every household.", takeaway: "A mature supply chain, IP law, and consumer credit made the personal computer inevitable — someone just had to will it into existence." },
+  { name: "Bill Gates", company: "Microsoft", context: "USA, 1975", image: "https://sfile.chatglm.cn/images-ppt/f494473a39af.jpg", advantage: "The IBM-compatible ecosystem created a standard hardware platform. Software copyright law was established. Corporate IT budgets were growing exponentially. The distribution channel (computer stores) already existed.", takeaway: "The IBM-compatible ecosystem, software copyright law, and corporate IT budgets already existed — Gates simply sold software into a ready market." },
+  { name: "Mark Zuckerberg", company: "Meta", context: "USA, 2004", image: "https://sfile.chatglm.cn/images-ppt/abca3bebd6e8.jpg", advantage: "Broadband internet had reached critical mass on university campuses. Digital advertising infrastructure (Google AdWords) was already mature. The social web was emerging with ready-made protocols and standards.", takeaway: "Broadband internet, university networks, and digital advertising infrastructure were already in place — Facebook just rode the wave." },
+  { name: "Larry Page", company: "Google", context: "USA, 1998", image: "https://sfile.chatglm.cn/images-ppt/021296defa4c.jpg", advantage: "The web was already indexed and growing exponentially. The internet backbone was built with taxpayer investment. Venture capital on Sand Hill Road was mature. The online advertising model was being proven by others.", takeaway: "The web was already indexed, the internet backbone built, venture capital mature — Google organized a world that was already connected." },
+  { name: "Sam Altman", company: "OpenAI", context: "USA, 2015", image: "https://sfile.chatglm.cn/images-ppt/96a0c975ae3b.jpg", advantage: "Decades of GPU development by NVIDIA provided the compute. Cloud infrastructure (AWS, Azure) made scaling trivial. Research universities produced the talent. The arXiv preprint server enabled open knowledge sharing.", takeaway: "Decades of GPU development, cloud compute, and research infrastructure — AI didn't emerge from nothing. It stood on the shoulders of an entire ecosystem." },
+  { name: "Reed Hastings", company: "Netflix", context: "USA, 1997", image: "https://sfile.chatglm.cn/images-ppt/9206de4bef48.png", advantage: "The USPS delivered DVDs reliably to every address. Then broadband internet reached 60%+ of US homes. Streaming protocols (HLS, DASH) were standardized. Studio licensing frameworks already existed for content distribution.", takeaway: "The USPS delivered DVDs. Then broadband streamed video. Netflix pivoted between two fully-built infrastructures." },
+  { name: "Brian Chesky", company: "Airbnb", context: "USA, 2008", image: "https://sfile.chatglm.cn/images-ppt/c098af53c694.jpg", advantage: "Online payments (Stripe, PayPal) handled transactions. The social web provided trust infrastructure through reviews and profiles. Smartphone adoption enabled location-based services. The sharing economy narrative was already mainstream.", takeaway: "Online payments, trust infrastructure (reviews), and the social web made strangers hosting strangers possible — none of it had to be built." },
+  { name: "Jack Dorsey", company: "Block / Twitter", context: "USA, 2006", image: "https://sfile.chatglm.cn/images-ppt/6ea98e985491.jpg", advantage: "SMS gateways connected every phone. Smartphone adoption was accelerating. App Store distribution reached millions. Social media habits were already forming. The mobile internet was a ready platform.", takeaway: "SMS gateways, smartphone adoption, and app store distribution — the pipes were already laid." },
 ];
 
 const marketCreatingInnovations = [
-  { name: "Mo Ibrahim", company: "Celtel", context: "Africa, 1998", image: "https://sfile.chatglm.cn/images-ppt/726dbaf7425b.jpg", takeaway: "Left BT to build a pan-African mobile network from scratch. Didn't ride infrastructure — he created the market that made infrastructure necessary.", type: "market-creating" as const },
-  { name: "Strive Masiyiwa", company: "Econet Wireless", context: "Zimbabwe, 1998", image: "https://sfile.chatglm.cn/images-ppt/0a9393119b4d.jpg", takeaway: "Fought a 5-year legal battle against his own government to launch mobile telephony. The market didn't exist — he forced it into existence.", type: "market-creating" as const },
-  { name: "Aliko Dangote", company: "Dangote Group", context: "Nigeria, 1981", image: "https://sfile.chatglm.cn/images-ppt/7e0360f41c75.jpg", takeaway: "Built manufacturing where none existed. Cement, flour, sugar — not by optimizing existing supply chains, but by creating the supply chain itself.", type: "market-creating" as const },
-  { name: "Nick Hughes", company: "M-Pesa / Vodafone", context: "Kenya, 2007", image: "https://sfile.chatglm.cn/images-ppt/1f95f65515b3.jpg", takeaway: "Didn't wait for banking infrastructure. Created financial infrastructure on top of mobile — a market that didn't exist became a $50B+ ecosystem.", type: "market-creating" as const },
-  { name: "Tolaram Group", company: "Indomie Noodles", context: "Nigeria, 1988", image: "https://sfile.chatglm.cn/images-ppt/f9b1ba3a6d9e.jpg", takeaway: "No instant noodle market existed in Nigeria. They didn't find a market — they created one, then built the supply chain, distribution, and demand from zero.", type: "market-creating" as const },
+  { name: "Mo Ibrahim", company: "Celtel", context: "Africa, 1998", image: "https://sfile.chatglm.cn/images-ppt/726dbaf7425b.jpg", advantage: "Left his executive role at BT to build a pan-African mobile network from nothing. No telecom towers existed. No regulatory frameworks for mobile licensing. No fiber backbone. He built Celtel across 14 countries — creating the market that made the infrastructure necessary.", takeaway: "Didn't ride infrastructure — he created the market that made infrastructure necessary." },
+  { name: "Strive Masiyiwa", company: "Econet Wireless", context: "Zimbabwe, 1998", image: "https://sfile.chatglm.cn/images-ppt/0a9393119b4d.jpg", advantage: "Fought a 5-year legal battle against his own government to win the right to launch mobile telephony. There was no mobile market — not because demand didn't exist, but because the state monopoly refused to let it. He forced the market into existence through the courts.", takeaway: "The market didn't exist — he forced it into existence." },
+  { name: "Aliko Dangote", company: "Dangote Group", context: "Nigeria, 1981", image: "https://sfile.chatglm.cn/images-ppt/7e0360f41c75.jpg", advantage: "Built manufacturing where none existed — cement plants when Nigeria imported all its cement, flour mills when there were no local milling operations, sugar refineries when the entire supply chain was foreign. Not optimizing existing supply chains, but creating them from scratch.", takeaway: "Not by optimizing existing supply chains, but by creating the supply chain itself." },
+  { name: "Nick Hughes", company: "M-Pesa / Vodafone", context: "Kenya, 2007", image: "https://sfile.chatglm.cn/images-ppt/1f95f65515b3.jpg", advantage: "Didn't wait for banking infrastructure. Most Kenyans had no bank account, no branch within 50km, no credit history. He created financial infrastructure on top of mobile phones — a market that didn't exist became a $50B+ ecosystem serving millions.", takeaway: "Didn't wait for banking infrastructure. Created it on top of mobile — a $50B+ ecosystem from nothing." },
+  { name: "Tolaram Group", company: "Indomie Noodles", context: "Nigeria, 1988", image: "https://sfile.chatglm.cn/images-ppt/f9b1ba3a6d9e.jpg", advantage: "No instant noodle market existed in Nigeria. No wheat supply chain. No flavor formulation for local palates. No distribution network beyond city centers. They created the market, then built the supply chain, manufacturing, distribution, and demand from absolute zero.", takeaway: "They didn't find a market — they created one, then built everything from zero." },
 ];
 
 const infrastructureMustBeBuilt = [
-  { name: "54gene", company: "Biotech / Genomics", context: "Nigeria, 2019 — Shut down 2024", image: "https://sfile.chatglm.cn/images-ppt/75c2b00edce1.jpg", takeaway: "$45M in funding couldn't overcome the infrastructure deficit. The science was sound. The ground beneath it wasn't." },
-  { name: "Sendy", company: "Logistics / Delivery", context: "Kenya, 2014 — Shut down 2023", image: "https://sfile.chatglm.cn/images-ppt/1ba21c0ff0e1.jpg", takeaway: "In the West, Uber builds on Google Maps and paved roads. In Africa, you build the map, the road, and the ride." },
-  { name: "Dash", company: "Fintech / Payments", context: "Ghana, 2019 — Shut down 2023", image: "https://sfile.chatglm.cn/images-ppt/510589276692.jpg", takeaway: "$86M and they still couldn't build what Visa takes for granted. Infrastructure isn't optional — it's the prerequisite." },
-  { name: "Gro Intelligence", company: "Agritech / Data", context: "Kenya / USA, 2014 — Laid off 80% 2023", image: "https://sfile.chatglm.cn/images-ppt/ed9b4d8c6d25.jpg", takeaway: "Built world-class climate analytics but couldn't get African agricultural data because digitized soil records, weather stations, and market prices didn't exist." },
-  { name: "Wave", company: "Fintech / Mobile Money", context: "Senegal, 2018 — Mass layoffs 2023", image: "https://sfile.chatglm.cn/images-ppt/787133591cce.jpg", takeaway: "Raised $200M, the largest in Africa. But regulatory fragmentation across 8 countries meant building 8 separate compliance stacks instead of one." },
-  { name: "Wakanow", company: "Travel Tech", context: "Nigeria, 2008 — Restructured 2020", image: "https://sfile.chatglm.cn/images-ppt/510589276692.jpg", takeaway: "Tried to build an online travel agency without reliable payment gateways, digital ID systems, or airline API integrations. Each missing piece became a separate company to build." },
+  { name: "54gene", company: "Biotech / Genomics", context: "Nigeria, 2019 — Shut down 2024", image: "https://sfile.chatglm.cn/images-ppt/75c2b00edce1.jpg", advantage: "Raised $45M to build Africa's first large-scale biobank. But cold-chain infrastructure was unreliable. Lab equipment had to be imported at 3x cost. No local reagent supply chain. Talent emigrated. The grid failed daily. Each of these was a separate infrastructure problem no single venture could solve.", takeaway: "$45M in funding couldn't overcome the infrastructure deficit. The science was sound. The ground beneath it wasn't." },
+  { name: "Sendy", company: "Logistics / Delivery", context: "Kenya, 2014 — Shut down 2023", image: "https://sfile.chatglm.cn/images-ppt/1ba21c0ff0e1.jpg", advantage: "Raised $20M to build an on-demand delivery platform. But last-mile roads were unpaved. Address systems were informal — 'turn left at the blue kiosk.' No standardized logistics infrastructure existed. They had to build the roads, the addressing system, and the delivery app — all at once.", takeaway: "In the West, Uber builds on Google Maps and paved roads. In Africa, you build the map, the road, and the ride." },
+  { name: "Dash", company: "Fintech / Payments", context: "Ghana, 2019 — Shut down 2023", image: "https://sfile.chatglm.cn/images-ppt/510589276692.jpg", advantage: "Raised $86M to connect mobile money wallets across Africa. But banking rails didn't interoperate. Regulatory frameworks varied by country and shifted without notice. No shared KYC infrastructure. Each market required rebuilding the financial plumbing from scratch.", takeaway: "$86M and they still couldn't build what Visa takes for granted. Infrastructure isn't optional — it's the prerequisite." },
+  { name: "Gro Intelligence", company: "Agritech / Data", context: "Kenya / USA, 2014 — Laid off 80% 2023", image: "https://sfile.chatglm.cn/images-ppt/ed9b4d8c6d25.jpg", advantage: "Built world-class climate and agricultural analytics used by the World Bank and UN. But couldn't get African agricultural data because digitized soil records didn't exist, weather stations were sparse, and market prices were verbal — not digital. The data infrastructure gap made the product incomplete.", takeaway: "World-class analytics, but the data infrastructure didn't exist to feed it." },
+  { name: "Wave", company: "Fintech / Mobile Money", context: "Senegal, 2018 — Mass layoffs 2023", image: "https://sfile.chatglm.cn/images-ppt/787133591cce.jpg", advantage: "Raised $200M — the largest Series A in African history. But regulatory fragmentation across 8 countries meant building 8 separate compliance stacks instead of one. No shared KYC, no unified licensing, no cross-border settlement rails.", takeaway: "$200M raised and 8 separate compliance stacks built — because the regulatory infrastructure doesn't unify." },
+  { name: "Wakanow", company: "Travel Tech", context: "Nigeria, 2008 — Restructured 2020", image: "https://sfile.chatglm.cn/images-ppt/510589276692.jpg", advantage: "Tried to build an online travel agency without reliable payment gateways, digital ID systems, or airline API integrations. Each missing infrastructure piece became a separate company they had to build — payments, identity verification, and content aggregation — all before selling a single ticket.", takeaway: "Each missing infrastructure piece became a separate company to build." },
 ];
 
 const methodInnovators = [
@@ -437,19 +437,21 @@ function HeroSection() {
 function InfiniteMarquee<T>({
   items,
   renderItem,
+  cardWidth = 480,
   speed = 40,
 }: {
   items: T[];
   renderItem: (item: T, index: number) => React.ReactNode;
+  cardWidth?: number;
   speed?: number;
 }) {
-  const duration = (items.length * 320) / speed;
+  const duration = (items.length * (cardWidth + 16)) / speed;
 
   return (
     <div className="group relative overflow-hidden">
       {/* Fade edges */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-white to-transparent" />
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-white to-transparent" />
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-white to-transparent" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-white to-transparent" />
 
       {/* Scrolling track */}
       <div
@@ -519,7 +521,7 @@ function CaseSection() {
 
         {/* Three marquee groups */}
         <div className="pb-16 md:pb-20 space-y-12">
-          {/* Group 1: Where infrastructure already exists */}
+          {/* Group 1: Where infrastructure already exists — horizontal image+text cards */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -533,22 +535,40 @@ function CaseSection() {
             </div>
             <InfiniteMarquee
               items={infrastructureExists}
+              cardWidth={480}
               speed={35}
               renderItem={(item) => (
-                <div className="w-[300px] border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white">
-                  <div className="flex items-start gap-3 p-4">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-12 h-12 rounded-full object-cover shrink-0"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline gap-2 mb-0.5">
-                        <span className="text-[14px] font-display font-medium tracking-tight truncate">{item.name}</span>
-                        <span className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase text-[#111]/20 shrink-0">{item.context}</span>
+                <div className="w-[480px] border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white">
+                  <div className="flex gap-0">
+                    {/* Image */}
+                    <div className="w-[140px] lg:w-[180px] shrink-0">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover min-h-[220px]"
+                      />
+                    </div>
+                    {/* Content */}
+                    <div className="flex-1 p-5 md:p-6">
+                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                        <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight">
+                          {item.name}
+                        </h3>
+                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">
+                          {item.context}
+                        </span>
                       </div>
-                      <span className="text-[9px] font-mono font-bold tracking-[0.08em] uppercase text-[#FF4D00]/50 block mb-2">{item.company}</span>
-                      <p className="text-[11px] text-[#111]/45 font-medium leading-[1.5] line-clamp-2">{item.takeaway}</p>
+                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-3">
+                        {item.company}
+                      </div>
+                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4 line-clamp-3">
+                        {item.advantage}
+                      </p>
+                      <div className="border-t border-[#111]/5 pt-3">
+                        <p className="text-[13px] font-bold text-[#FF4D00] leading-[1.5]">
+                          {item.takeaway}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -556,7 +576,7 @@ function CaseSection() {
             />
           </motion.div>
 
-          {/* Group 2: Market-Creating Innovations */}
+          {/* Group 2: Market-Creating Innovations — orange-tinted cards with image headers */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -573,22 +593,41 @@ function CaseSection() {
             </div>
             <InfiniteMarquee
               items={marketCreatingInnovations}
+              cardWidth={380}
               speed={30}
               renderItem={(item) => (
-                <div className="w-[300px] border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors">
-                  <div className="flex items-start gap-3 p-4">
+                <div className="w-[380px] border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors group">
+                  {/* Image header */}
+                  <div className="relative h-[160px] md:h-[180px] overflow-hidden">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-12 h-12 rounded-full object-cover shrink-0 ring-1 ring-[#FF4D00]/10"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline gap-2 mb-0.5">
-                        <span className="text-[14px] font-display font-medium tracking-tight truncate">{item.name}</span>
-                        <span className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase text-[#111]/20 shrink-0">{item.context}</span>
-                      </div>
-                      <span className="text-[9px] font-mono font-bold tracking-[0.08em] uppercase text-[#FF4D00]/70 block mb-2">{item.company}</span>
-                      <p className="text-[11px] text-[#111]/45 font-medium leading-[1.5] line-clamp-2">{item.takeaway}</p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+                    <div className="absolute bottom-3 left-4 right-4">
+                      <h3 className="text-[18px] font-display font-medium tracking-tight text-[#111]">
+                        {item.name}
+                      </h3>
+                    </div>
+                  </div>
+                  {/* Content */}
+                  <div className="p-5 md:p-6">
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]">
+                        {item.company}
+                      </span>
+                      <span className="text-[9px] font-mono tracking-[0.08em] text-[#111]/20">
+                        {item.context}
+                      </span>
+                    </div>
+                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-3">
+                      {item.advantage}
+                    </p>
+                    <div className="border-t border-[#FF4D00]/10 pt-3">
+                      <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5]">
+                        {item.takeaway}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -596,7 +635,7 @@ function CaseSection() {
             />
           </motion.div>
 
-          {/* Group 3: Where infrastructure must be built first */}
+          {/* Group 3: Where infrastructure must be built first — red-tinted cards */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -610,22 +649,41 @@ function CaseSection() {
             </div>
             <InfiniteMarquee
               items={infrastructureMustBeBuilt}
+              cardWidth={380}
               speed={30}
               renderItem={(item) => (
-                <div className="w-[300px] border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors">
-                  <div className="flex items-start gap-3 p-4">
+                <div className="w-[380px] border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors group">
+                  {/* Image header */}
+                  <div className="relative h-[140px] md:h-[160px] overflow-hidden">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-12 h-12 rounded-full object-cover shrink-0 ring-1 ring-[#991B1B]/10"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline gap-2 mb-0.5">
-                        <span className="text-[14px] font-display font-medium tracking-tight truncate">{item.name}</span>
-                        <span className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]/40 shrink-0">{item.context}</span>
-                      </div>
-                      <span className="text-[9px] font-mono font-bold tracking-[0.08em] uppercase text-[#991B1B]/50 block mb-2">{item.company}</span>
-                      <p className="text-[11px] text-[#111]/45 font-medium leading-[1.5] line-clamp-2">{item.takeaway}</p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+                    <div className="absolute bottom-3 left-4 right-4">
+                      <h3 className="text-[18px] font-display font-medium tracking-tight text-[#111]">
+                        {item.name}
+                      </h3>
+                    </div>
+                  </div>
+                  {/* Content */}
+                  <div className="p-5 md:p-6">
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]">
+                        {item.company}
+                      </span>
+                      <span className="text-[9px] font-mono tracking-[0.08em] text-[#991B1B]/40">
+                        {item.context}
+                      </span>
+                    </div>
+                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-3">
+                      {item.advantage}
+                    </p>
+                    <div className="border-t border-[#991B1B]/10 pt-3">
+                      <p className="text-[12px] font-bold text-[#991B1B] leading-[1.5]">
+                        {item.takeaway}
+                      </p>
                     </div>
                   </div>
                 </div>
