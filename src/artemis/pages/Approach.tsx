@@ -20,7 +20,7 @@ const pillars = [
     title: "Infrastructure",
     icon: Building2,
     desc: "A distributed constellation of 190 XHansa Hubs spanning every African nation and 19 global cities. M1 Cores, XEmbassies, and living labs for real-world testing: the physical and digital operating system for civilization-building.",
-    link: "/platform",
+    link: "/infrastructure",
   },
   {
     num: "02",

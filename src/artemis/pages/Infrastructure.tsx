@@ -283,9 +283,9 @@ function StickySideNav({ activeIndex }: { activeIndex: number }) {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   INFRA PAGE
+   INFRASTRUCTURE PAGE
    ══════════════════════════════════════════════════════════════════════════ */
-export function Infra() {
+export function Infrastructure() {
   const [activeSection, setActiveSection] = useState(0);
 
   useEffect(() => {
@@ -351,7 +351,7 @@ function HeroSection() {
           </div>
 
           {/* Content */}
-          <div className="relative w-full px-6 md:px-12 lg:px-20 py-32 md:py-40">
+          <div className="relative w-full px-6 md:px-12 lg:px-20 py-20 md:py-32 lg:py-40">
             <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-end">
               {/* Left: Main title */}
               <div className="lg:col-span-8">
@@ -490,9 +490,9 @@ function CaseSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
-                    className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex h-[200px] md:h-[220px]"
+                    className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex flex-col sm:flex-row min-h-[200px] sm:h-[200px] md:h-[220px]"
                   >
-                    <div className="relative w-[110px] md:w-[130px] shrink-0">
+                    <div className="relative w-full sm:w-[110px] md:sm:w-[130px] shrink-0 h-[160px] sm:h-full">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
                     </div>
                     <div className="flex-1 p-3 md:p-4 flex flex-col min-w-0">
@@ -536,9 +536,9 @@ function CaseSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
-                    className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors flex h-[200px] md:h-[220px]"
+                    className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors flex flex-col sm:flex-row min-h-[200px] sm:h-[200px] md:h-[220px]"
                   >
-                    <div className="relative w-[110px] md:w-[130px] shrink-0">
+                    <div className="relative w-full sm:w-[110px] md:sm:w-[130px] shrink-0 h-[160px] sm:h-full">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
                     </div>
                     <div className="flex-1 p-3 md:p-4 flex flex-col min-w-0">
@@ -582,9 +582,9 @@ function CaseSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
-                    className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors flex h-[200px] md:h-[220px]"
+                    className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors flex flex-col sm:flex-row min-h-[200px] sm:h-[200px] md:h-[220px]"
                   >
-                    <div className="relative w-[110px] md:w-[130px] shrink-0">
+                    <div className="relative w-full sm:w-[110px] md:sm:w-[130px] shrink-0 h-[160px] sm:h-full">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
                     </div>
                     <div className="flex-1 p-3 md:p-4 flex flex-col min-w-0">
@@ -765,7 +765,7 @@ function OutpostModelSection() {
           {/* The Machine — 6 horizontal segments that form one strip */}
           <div className="relative">
             {/* Continuous machine bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-0">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-0">
               {clusterData.map((c, i) => {
                 const Icon = c.icon;
                 const isActive = activeCluster === c.id;
@@ -1210,7 +1210,7 @@ function CoreTechSection() {
           </motion.div>
 
           {/* Tech grid — 4 columns, uniform cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
             {coreTechnologies.map((tech, i) => {
               const Icon = tech.icon;
               return (
@@ -1521,7 +1521,7 @@ function HubsSection() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.2 }}
-            className="flex gap-10 mb-10 pb-8 border-b border-[#111]/5"
+            className="flex flex-wrap gap-6 md:gap-10 mb-10 pb-8 border-b border-[#111]/5"
           >
             {[
               { value: "190+", label: "Hubs" },
@@ -1577,15 +1577,17 @@ function HubsSection() {
           <div className="space-y-8 max-h-[500px] overflow-y-auto pr-2">
             {visibleHubs.map(({ leg, cities }) => (
               <div key={leg.id}>
-                <div className="flex items-center gap-3 mb-4 pb-2 border-b border-[#111]/5">
-                  <span
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: leg.color }}
-                  />
-                  <h3 className="text-[15px] font-display font-medium tracking-tight">
-                    Leg {leg.legNumber}: {leg.name}
-                  </h3>
-                  <span className="text-[9px] font-mono text-[#111]/20 tracking-widest uppercase ml-auto">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-4 pb-2 border-b border-[#111]/5">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: leg.color }}
+                    />
+                    <h3 className="text-[15px] font-display font-medium tracking-tight">
+                      Leg {leg.legNumber}: {leg.name}
+                    </h3>
+                  </div>
+                  <span className="text-[9px] font-mono text-[#111]/20 tracking-widest uppercase sm:ml-auto">
                     {leg.hubCount} hubs · {leg.countries.length} countries
                   </span>
                 </div>
@@ -1708,7 +1710,7 @@ function CivilizationSection() {
               <p className="text-[15px] text-[#111]/55 font-medium leading-[1.7] mb-6">
                 xCelero reinvents the production method.
               </p>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {[
                   { label: "Build Line", desc: "Hardware prototypes per unit time no standalone workshop can match." },
                   { label: "Discovery Line", desc: "Validated findings per unit time no isolated lab can match." },

@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const staticPages = [
   { id: "manifesto", title: "The Manifesto", path: "/manifesto", type: "Page", desc: "Systematic maximalists building the architecture for the next wave." },
   { id: "approach", title: "Approach", path: "/approach", type: "Page", desc: "We back founders who go unreasonably deep to get their beginnings right." },
-  { id: "platform", title: "Infrastructure & Fields", path: "/platform", type: "Page", desc: "The physical nodes in the global internet of innovation." },
+  { id: "infrastructure", title: "Infrastructure", path: "/infrastructure", type: "Page", desc: "Production-method architecture — the shared infrastructure layer for 5,000 ventures." },
   { id: "routes", title: "The Routes", path: "/routes", type: "Page", desc: "A covenant to restore flow globally across 19 cities." },
   { id: "programs", title: "Programs", path: "/programs", type: "Page", desc: "High-intensity pathways for civilizational architects and founders." },
   { id: "insights", title: "Insights", path: "/insights", type: "Page", desc: "News, dispatches, and perspectives from the frontier of civilizational technology." },

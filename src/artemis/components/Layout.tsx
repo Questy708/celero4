@@ -11,7 +11,7 @@ function getTransitionForPath(path: string) {
   // Editorial pages: fade-only, no y movement
   const editorialPaths = ["/about", "/manifesto", "/approach"];
   // Content-heavy pages: slide-up
-  const contentPaths = ["/ventures", "/programs", "/routes", "/capital", "/platform", "/infra"];
+  const contentPaths = ["/ventures", "/programs", "/routes", "/capital", "/infrastructure"];
   // Data pages: subtle crossfade
   const dataPaths = ["/community", "/insights", "/careers", "/team", "/case-studies", "/admin"];
 
@@ -177,8 +177,7 @@ function Nav() {
     {
       label: "Platform",
       links: [
-        { name: "Infrastructure", path: "/platform" },
-        { name: "Infra", path: "/infra" },
+        { name: "Infrastructure", path: "/infrastructure" },
         { name: "Routes", path: "/routes" },
         { name: "Ventures", path: "/ventures" },
       ],
@@ -207,8 +206,7 @@ function Nav() {
     {
       label: "The Platform",
       links: [
-        { name: "Infrastructure", path: "/platform" },
-        { name: "Infra", path: "/infra" },
+        { name: "Infrastructure", path: "/infrastructure" },
         { name: "Routes", path: "/routes" },
         { name: "Ventures", path: "/ventures" },
       ],

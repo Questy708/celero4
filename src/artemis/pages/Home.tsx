@@ -76,7 +76,7 @@ const pillars = [
         position: "center 25%",
       },
     ],
-    link: "/platform",
+    link: "/infrastructure",
   },
   {
     id: "ventures",
@@ -532,7 +532,7 @@ function BentoGrid() {
       statLabel: "Hubs · 39 Countries",
       description: "Physical spaces, legal frameworks, and shared systems that let ventures deploy faster and compound across borders.",
       icon: Building2,
-      link: "/platform",
+      link: "/infrastructure",
     },
     {
       title: "Ventures",

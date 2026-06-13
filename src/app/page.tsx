@@ -5,7 +5,7 @@ import { Layout } from "@/artemis/components/Layout";
 import { Home } from "@/artemis/pages/Home";
 import { Manifesto } from "@/artemis/pages/Manifesto";
 import { Approach } from "@/artemis/pages/Approach";
-import { Platform } from "@/artemis/pages/Platform";
+
 import { Programs } from "@/artemis/pages/Programs";
 import { ProgramDetail } from "@/artemis/pages/ProgramDetail";
 import { Ventures } from "@/artemis/pages/Ventures";
@@ -23,7 +23,7 @@ import { TownSquare } from "@/artemis/pages/TownSquare";
 import { About } from "@/artemis/pages/About";
 import { InvestorDashboard } from "@/artemis/pages/InvestorDashboard";
 import { AdminDashboard } from "@/artemis/pages/AdminDashboard";
-import { Infra } from "@/artemis/pages/Infra";
+import { Infrastructure } from "@/artemis/pages/Infrastructure";
 
 function Router() {
   const { path } = useRouter();
@@ -33,7 +33,7 @@ function Router() {
     if (path === "/" || path === "") return <Home />;
     if (path === "/manifesto") return <Manifesto />;
     if (path === "/approach") return <Approach />;
-    if (path === "/platform") return <Platform />;
+
     if (path === "/programs") return <Programs />;
     if (path.startsWith("/programs/")) return <ProgramDetail />;
     if (path === "/ventures") return <Ventures />;
@@ -50,7 +50,7 @@ function Router() {
     if (path === "/community") return <Community />;
     if (path === "/townsquare") return <TownSquare />;
     if (path === "/about") return <About />;
-    if (path === "/infra") return <Infra />;
+    if (path === "/infrastructure") return <Infrastructure />;
     if (path === "/admin") return <AdminDashboard />;
     // 404 fallback
     return (
