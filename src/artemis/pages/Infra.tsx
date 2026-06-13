@@ -432,79 +432,30 @@ function HeroSection() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   CARD CAROUSEL — Shows 3 cards per slide, auto-advances with pause
+   CARD GRID — Static grid with staggered reveal, no sliding
    ══════════════════════════════════════════════════════════════════════════ */
-function CardCarousel<T>({
+function CardGrid<T>({
   items,
   renderItem,
-  interval = 5000,
-  perSlide = 3,
 }: {
   items: T[];
   renderItem: (item: T, index: number) => React.ReactNode;
-  interval?: number;
-  perSlide?: number;
 }) {
-  const [slide, setSlide] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const totalSlides = Math.ceil(items.length / perSlide);
-
-  useEffect(() => {
-    if (paused) return;
-    const timer = setInterval(() => {
-      setSlide((s) => (s + 1) % totalSlides);
-    }, interval);
-    return () => clearInterval(timer);
-  }, [totalSlides, interval, paused]);
-
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {/* Viewport */}
-      <div className="overflow-hidden px-6 md:px-12 lg:px-20">
-        <div
-          className="flex transition-transform duration-[600ms] ease-[0.22,1,0.36,1]"
-          style={{ transform: `translateX(-${slide * 100}%)` }}
-        >
-          {/* Chunk items into groups, each group = one slide */}
-          {Array.from({ length: totalSlides }).map((_, si) => (
-            <div key={si} className="w-full shrink-0 grid grid-cols-3 gap-4">
-              {items.slice(si * perSlide, si * perSlide + perSlide).map((item, i) => (
-                <div key={i} className="min-w-0">
-                  {renderItem(item, si * perSlide + i)}
-                </div>
-              ))}
-              {/* Fill empty slots on last slide */}
-              {si === totalSlides - 1 && items.length % perSlide !== 0 &&
-                Array.from({ length: perSlide - (items.length % perSlide) }).map((_, j) => (
-                  <div key={`spacer-${j}`} className="min-w-0" />
-                ))
-              }
-            </div>
-          ))}
-        </div>
+    <div className="px-6 md:px-12 lg:px-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {items.map((item, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {renderItem(item, i)}
+          </motion.div>
+        ))}
       </div>
-
-      {/* Dot indicators */}
-      {totalSlides > 1 && (
-        <div className="flex items-center justify-center gap-2 mt-5">
-          {Array.from({ length: totalSlides }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setSlide(i)}
-              className={`rounded-full transition-all duration-300 ${
-                i === slide
-                  ? "w-6 h-[6px] bg-[#FF4D00]"
-                  : "w-[6px] h-[6px] bg-[#111]/10 hover:bg-[#111]/20"
-              }`}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
@@ -559,9 +510,8 @@ function CaseSection() {
                 The world&apos;s most successful ventures were built on ground that was already paved — financial systems, legal frameworks, supply chains, and talent pipelines all existed before the first line of code was written or the first product assembled.
               </p>
             </div>
-            <CardCarousel
+            <CardGrid
               items={infrastructureExists}
-              interval={6000}
               renderItem={(item) => (
                 <div className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex flex-col h-full">
                   <div className="relative h-[140px] shrink-0">
@@ -598,9 +548,8 @@ function CaseSection() {
                 From <span className="text-[#111]/50 font-bold">The Prosperity Paradox</span> — these innovators didn&apos;t find an existing market and optimize it. They created markets from nothing — building the supply chain, the demand, and the infrastructure all at once, making prosperity possible where none existed before.
               </p>
             </div>
-            <CardCarousel
+            <CardGrid
               items={marketCreatingInnovations}
-              interval={6000}
               renderItem={(item) => (
                 <div className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors flex flex-col h-full">
                   <div className="relative h-[140px] shrink-0">
@@ -637,9 +586,8 @@ function CaseSection() {
                 These ventures had the funding, the talent, and the technology — but the ground beneath them didn&apos;t exist. Each missing piece of infrastructure became a separate company to build, and no single venture could build them all. The product was ready. The world was not.
               </p>
             </div>
-            <CardCarousel
+            <CardGrid
               items={infrastructureMustBeBuilt}
-              interval={6000}
               renderItem={(item) => (
                 <div className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors flex flex-col h-full">
                   <div className="relative h-[140px] shrink-0">
@@ -810,338 +758,163 @@ function OutpostModelSection() {
           </motion.div>
         </div>
 
-        {/* Interactive Cluster Visualization — Machine Schematic */}
+        {/* Six Clusters — Horizontal Machine Strip */}
         <div className="px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
           <div className="flex items-center gap-4 mb-8">
             <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase text-[#111]/15">
               Six clusters. One machine.
             </span>
             <div className="flex-1 h-[1px] bg-[#111]/5" />
-            <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">
-              Click to explore
-            </span>
           </div>
 
-          <div className="grid lg:grid-cols-12 gap-6">
-            {/* Machine Schematic Diagram */}
-            <div className="lg:col-span-7">
-              <div className="relative bg-[#0A0A0A] rounded-sm overflow-hidden min-h-[440px] md:min-h-[520px]">
-                {/* Blueprint grid overlay */}
-                <div className="absolute inset-0 opacity-[0.06]" style={{
-                  backgroundImage: `linear-gradient(rgba(255,77,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,77,0,0.5) 1px, transparent 1px)`,
-                  backgroundSize: '30px 30px'
-                }} />
-                
-                {/* Radial glow from center */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full" style={{
-                  background: 'radial-gradient(circle, rgba(255,77,0,0.08) 0%, rgba(255,77,0,0.02) 40%, transparent 70%)'
-                }} />
-
-                {/* SVG Connection Traces — animated circuit lines */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                  {/* Connection lines radiating from center (Commons) to each cluster */}
-                  {/* Center is at 50,50 — Commons position */}
-                  
-                  {/* Commons → Hive (top) */}
-                  <line x1="50" y1="42" x2="50" y2="16" stroke="rgba(255,77,0,0.25)" strokeWidth="0.3">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="3s" repeatCount="indefinite" />
-                  </line>
-                  <line x1="50" y1="42" x2="50" y2="16" stroke="rgba(255,77,0,0.6)" strokeWidth="0.15" strokeDasharray="2 4">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="3s" repeatCount="indefinite" />
-                  </line>
-                  
-                  {/* Commons → Foundry (left) */}
-                  <line x1="44" y1="50" x2="20" y2="50" stroke="rgba(255,77,0,0.25)" strokeWidth="0.3">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="3.5s" repeatCount="indefinite" />
-                  </line>
-                  <line x1="44" y1="50" x2="20" y2="50" stroke="rgba(255,77,0,0.6)" strokeWidth="0.15" strokeDasharray="2 4">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="3.5s" repeatCount="indefinite" />
-                  </line>
-                  
-                  {/* Commons → Lab (right) */}
-                  <line x1="56" y1="50" x2="80" y2="50" stroke="rgba(255,77,0,0.25)" strokeWidth="0.3">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="2.8s" repeatCount="indefinite" />
-                  </line>
-                  <line x1="56" y1="50" x2="80" y2="50" stroke="rgba(255,77,0,0.6)" strokeWidth="0.15" strokeDasharray="2 4">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="2.8s" repeatCount="indefinite" />
-                  </line>
-                  
-                  {/* Commons → Living (bottom-left) */}
-                  <line x1="46" y1="58" x2="28" y2="82" stroke="rgba(255,77,0,0.25)" strokeWidth="0.3">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="3.2s" repeatCount="indefinite" />
-                  </line>
-                  <line x1="46" y1="58" x2="28" y2="82" stroke="rgba(255,77,0,0.6)" strokeWidth="0.15" strokeDasharray="2 4">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="3.2s" repeatCount="indefinite" />
-                  </line>
-                  
-                  {/* Commons → Extension (bottom-right) */}
-                  <line x1="54" y1="58" x2="72" y2="82" stroke="rgba(255,77,0,0.25)" strokeWidth="0.3">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="2.6s" repeatCount="indefinite" />
-                  </line>
-                  <line x1="54" y1="58" x2="72" y2="82" stroke="rgba(255,77,0,0.6)" strokeWidth="0.15" strokeDasharray="2 4">
-                    <animate attributeName="stroke-dashoffset" from="20" to="0" dur="2.6s" repeatCount="indefinite" />
-                  </line>
-
-                  {/* Cross-connections (lighter, secondary traces) */}
-                  <line x1="50" y1="20" x2="22" y2="48" stroke="rgba(255,77,0,0.08)" strokeWidth="0.15" strokeDasharray="1 3" />
-                  <line x1="50" y1="20" x2="78" y2="48" stroke="rgba(255,77,0,0.08)" strokeWidth="0.15" strokeDasharray="1 3" />
-                  <line x1="22" y1="52" x2="30" y2="80" stroke="rgba(255,77,0,0.08)" strokeWidth="0.15" strokeDasharray="1 3" />
-                  <line x1="78" y1="52" x2="70" y2="80" stroke="rgba(255,77,0,0.08)" strokeWidth="0.15" strokeDasharray="1 3" />
-                  <line x1="30" y1="85" x2="70" y2="85" stroke="rgba(255,77,0,0.08)" strokeWidth="0.15" strokeDasharray="1 3" />
-                </svg>
-
-                {/* Cluster Nodes */}
-                <div className="absolute inset-0">
-                  {/* Center node — The Commons (convergence hub) */}
+          {/* The Machine — 6 horizontal segments that form one strip */}
+          <div className="relative">
+            {/* Continuous machine bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-0">
+              {clusterData.map((c, i) => {
+                const Icon = c.icon;
+                const isActive = activeCluster === c.id;
+                return (
                   <motion.button
+                    key={c.id}
                     suppressHydrationWarning
-                    onClick={() => setActiveCluster(activeCluster === "commons" ? null : "commons")}
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: 0.3, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
-                  >
-                    <div className={`relative w-[100px] md:w-[120px] h-[100px] md:h-[120px] rounded-full border-2 transition-all duration-500 flex flex-col items-center justify-center ${
-                      activeCluster === "commons"
-                        ? "border-[#FF4D00] bg-[#FF4D00]/20 shadow-[0_0_30px_rgba(255,77,0,0.3)]"
-                        : "border-[#FF4D00]/40 bg-[#0A0A0A] hover:border-[#FF4D00]/70 hover:shadow-[0_0_20px_rgba(255,77,0,0.15)]"
-                    }`}>
-                      {/* Pulse ring */}
-                      <div className={`absolute inset-[-8px] rounded-full border border-[#FF4D00]/20 transition-all duration-500 ${
-                        activeCluster === "commons" ? "opacity-100 scale-110" : "opacity-0 scale-90"
-                      }`} />
-                      <Users className={`w-5 h-5 md:w-6 md:h-6 mb-1 transition-colors duration-300 ${
-                        activeCluster === "commons" ? "text-[#FF4D00]" : "text-[#FF4D00]/60"
-                      }`} strokeWidth={1.5} />
-                      <span className="text-[9px] md:text-[10px] font-display font-medium text-white/90 tracking-tight">Commons</span>
-                      <span className="text-[7px] font-mono tracking-[0.1em] uppercase text-[#FF4D00]/50">04 · Hub</span>
-                    </div>
-                  </motion.button>
-
-                  {/* Hive — Top */}
-                  <motion.button
-                    suppressHydrationWarning
-                    onClick={() => setActiveCluster(activeCluster === "hive" ? null : "hive")}
+                    onClick={() => setActiveCluster(isActive ? null : c.id)}
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.5, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute top-[8%] left-1/2 -translate-x-1/2 z-10"
+                    transition={{ delay: 0.1 + i * 0.07, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className={`relative group text-left overflow-hidden transition-all duration-500 ${
+                      isActive
+                        ? "bg-[#111] text-white ring-2 ring-[#FF4D00] ring-inset z-10"
+                        : "bg-[#111] text-white hover:bg-[#1a1a1a]"
+                    }`}
                   >
-                    <div className={`flex items-center gap-3 px-4 py-3 rounded-sm border transition-all duration-500 ${
-                      activeCluster === "hive"
-                        ? "border-[#FF4D00] bg-[#FF4D00]/10 shadow-[0_0_20px_rgba(255,77,0,0.2)]"
-                        : "border-white/10 bg-[#111]/80 hover:border-[#FF4D00]/40"
-                    }`}>
-                      <Monitor className={`w-4 h-4 transition-colors duration-300 ${
-                        activeCluster === "hive" ? "text-[#FF4D00]" : "text-white/30"
-                      }`} strokeWidth={1.5} />
-                      <div className="text-left">
-                        <div className="text-[11px] font-display font-medium text-white/90 tracking-tight">The Hive</div>
-                        <div className="text-[7px] font-mono tracking-[0.1em] uppercase text-white/25">01 · Software</div>
+                    {/* Top accent line — always orange, brighter when active */}
+                    <div className={`h-[3px] transition-all duration-500 ${
+                      isActive ? "bg-[#FF4D00]" : "bg-[#FF4D00]/30 group-hover:bg-[#FF4D00]/60"
+                    }`} />
+                    
+                    <div className="p-4 md:p-5 lg:p-4 xl:p-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className={`w-8 h-8 rounded-sm flex items-center justify-center transition-all duration-500 ${
+                          isActive ? "bg-[#FF4D00]" : "bg-white/5 group-hover:bg-white/10"
+                        }`}>
+                          <Icon className={`w-4 h-4 transition-colors duration-300 ${
+                            isActive ? "text-white" : "text-[#FF4D00]/50 group-hover:text-[#FF4D00]"
+                          }`} strokeWidth={1.5} />
+                        </div>
+                        <span className={`text-[8px] font-mono font-bold tracking-[0.15em] transition-colors duration-300 ${
+                          isActive ? "text-[#FF4D00]" : "text-white/15 group-hover:text-white/30"
+                        }`}>
+                          {c.num}
+                        </span>
                       </div>
+                      <h4 className="text-[14px] md:text-[15px] font-display font-medium tracking-tight mb-1 leading-tight">
+                        {c.name}
+                      </h4>
+                      <p className={`text-[9px] font-mono tracking-[0.05em] leading-[1.4] transition-colors duration-300 ${
+                        isActive ? "text-white/40" : "text-white/20 group-hover:text-white/35"
+                      }`}>
+                        {c.sub}
+                      </p>
                     </div>
-                  </motion.button>
 
-                  {/* Foundry — Left */}
-                  <motion.button
-                    suppressHydrationWarning
-                    onClick={() => setActiveCluster(activeCluster === "foundry" ? null : "foundry")}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute top-[42%] left-[4%] md:left-[6%] z-10"
-                  >
-                    <div className={`flex items-center gap-3 px-4 py-3 rounded-sm border transition-all duration-500 ${
-                      activeCluster === "foundry"
-                        ? "border-[#FF4D00] bg-[#FF4D00]/10 shadow-[0_0_20px_rgba(255,77,0,0.2)]"
-                        : "border-white/10 bg-[#111]/80 hover:border-[#FF4D00]/40"
-                    }`}>
-                      <Wrench className={`w-4 h-4 transition-colors duration-300 ${
-                        activeCluster === "foundry" ? "text-[#FF4D00]" : "text-white/30"
-                      }`} strokeWidth={1.5} />
-                      <div className="text-left">
-                        <div className="text-[11px] font-display font-medium text-white/90 tracking-tight">The Foundry</div>
-                        <div className="text-[7px] font-mono tracking-[0.1em] uppercase text-white/25">02 · Hardware</div>
+                    {/* Active indicator arrow */}
+                    {isActive && (
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full z-20">
+                        <div className="w-3 h-3 bg-[#FF4D00] rotate-45 -translate-y-1.5" />
                       </div>
-                    </div>
+                    )}
                   </motion.button>
-
-                  {/* Lab — Right */}
-                  <motion.button
-                    suppressHydrationWarning
-                    onClick={() => setActiveCluster(activeCluster === "lab" ? null : "lab")}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.7, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute top-[42%] right-[4%] md:right-[6%] z-10"
-                  >
-                    <div className={`flex items-center gap-3 px-4 py-3 rounded-sm border transition-all duration-500 ${
-                      activeCluster === "lab"
-                        ? "border-[#FF4D00] bg-[#FF4D00]/10 shadow-[0_0_20px_rgba(255,77,0,0.2)]"
-                        : "border-white/10 bg-[#111]/80 hover:border-[#FF4D00]/40"
-                    }`}>
-                      <FlaskConical className={`w-4 h-4 transition-colors duration-300 ${
-                        activeCluster === "lab" ? "text-[#FF4D00]" : "text-white/30"
-                      }`} strokeWidth={1.5} />
-                      <div className="text-left">
-                        <div className="text-[11px] font-display font-medium text-white/90 tracking-tight">The Lab</div>
-                        <div className="text-[7px] font-mono tracking-[0.1em] uppercase text-white/25">03 · Science</div>
-                      </div>
-                    </div>
-                  </motion.button>
-
-                  {/* Living — Bottom Left */}
-                  <motion.button
-                    suppressHydrationWarning
-                    onClick={() => setActiveCluster(activeCluster === "living" ? null : "living")}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.8, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute bottom-[8%] left-[14%] md:left-[18%] z-10"
-                  >
-                    <div className={`flex items-center gap-3 px-4 py-3 rounded-sm border transition-all duration-500 ${
-                      activeCluster === "living"
-                        ? "border-[#FF4D00] bg-[#FF4D00]/10 shadow-[0_0_20px_rgba(255,77,0,0.2)]"
-                        : "border-white/10 bg-[#111]/80 hover:border-[#FF4D00]/40"
-                    }`}>
-                      <Bed className={`w-4 h-4 transition-colors duration-300 ${
-                        activeCluster === "living" ? "text-[#FF4D00]" : "text-white/30"
-                      }`} strokeWidth={1.5} />
-                      <div className="text-left">
-                        <div className="text-[11px] font-display font-medium text-white/90 tracking-tight">The Living</div>
-                        <div className="text-[7px] font-mono tracking-[0.1em] uppercase text-white/25">05 · Recovery</div>
-                      </div>
-                    </div>
-                  </motion.button>
-
-                  {/* Extension — Bottom Right */}
-                  <motion.button
-                    suppressHydrationWarning
-                    onClick={() => setActiveCluster(activeCluster === "extension" ? null : "extension")}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.9, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute bottom-[8%] right-[14%] md:right-[18%] z-10"
-                  >
-                    <div className={`flex items-center gap-3 px-4 py-3 rounded-sm border transition-all duration-500 ${
-                      activeCluster === "extension"
-                        ? "border-[#FF4D00] bg-[#FF4D00]/10 shadow-[0_0_20px_rgba(255,77,0,0.2)]"
-                        : "border-white/10 bg-[#111]/80 hover:border-[#FF4D00]/40"
-                    }`}>
-                      <TreePine className={`w-4 h-4 transition-colors duration-300 ${
-                        activeCluster === "extension" ? "text-[#FF4D00]" : "text-white/30"
-                      }`} strokeWidth={1.5} />
-                      <div className="text-left">
-                        <div className="text-[11px] font-display font-medium text-white/90 tracking-tight">The Extension</div>
-                        <div className="text-[7px] font-mono tracking-[0.1em] uppercase text-white/25">06 · Outdoor</div>
-                      </div>
-                    </div>
-                  </motion.button>
-                </div>
-
-                {/* Corner labels */}
-                <div className="absolute top-3 left-4 text-[7px] font-mono tracking-[0.2em] uppercase text-[#FF4D00]/20">
-                  System Schematic
-                </div>
-                <div className="absolute bottom-3 right-4 text-[7px] font-mono tracking-[0.2em] uppercase text-white/10">
-                  xCelero Outpost v1.0
-                </div>
-              </div>
+                );
+              })}
             </div>
 
-            {/* Cluster detail panel */}
-            <div className="lg:col-span-5">
-              <AnimatePresence mode="wait">
-                {activeCluster ? (
-                  <motion.div
-                    key={activeCluster}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="bg-[#0A0A0A] rounded-sm p-6 md:p-8 min-h-[440px] md:min-h-[520px] flex flex-col border border-white/5"
-                  >
-                    {(() => {
-                      const cluster = clusterData.find(c => c.id === activeCluster);
-                      if (!cluster) return null;
-                      const Icon = cluster.icon;
-                      return (
-                        <>
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 bg-[#FF4D00] rounded-sm flex items-center justify-center">
-                              <Icon className="w-5 h-5 text-white" strokeWidth={1.5} />
-                            </div>
-                            <div>
-                              <h3 className="text-[22px] font-display font-medium tracking-tight text-white">
-                                {cluster.name}
-                              </h3>
-                              <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]">
-                                Cluster {cluster.num} · {cluster.sub}
-                              </span>
-                            </div>
-                          </div>
-                          
-                          <div className="relative h-[140px] rounded-sm overflow-hidden mb-6">
-                            <img
-                              src={cluster.image}
-                              alt={cluster.name}
-                              className="w-full h-full object-cover"
-                              style={{ objectPosition: 'center 30%' }}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent" />
-                          </div>
-
-                          <div className="flex-1">
-                            <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00]/40 mb-3">
-                              Why this configuration
-                            </div>
-                            <p className="text-[14px] text-white/50 font-medium leading-[1.7]">
-                              {cluster.why}
-                            </p>
-                          </div>
-
-                          <button
-                            onClick={() => setActiveCluster(null)}
-                            className="mt-6 text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] hover:text-white transition-colors"
-                          >
-                            ← Back to schematic
-                          </button>
-                        </>
-                      );
-                    })()}
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="bg-[#0A0A0A] rounded-sm p-6 md:p-8 min-h-[440px] md:min-h-[520px] flex flex-col items-center justify-center text-center border border-white/5"
-                  >
-                    {/* Animated machine icon */}
-                    <div className="relative mb-8">
-                      <div className="w-20 h-20 border border-[#FF4D00]/20 rounded-full flex items-center justify-center">
-                        <Cpu className="w-8 h-8 text-[#FF4D00]/30" strokeWidth={1} />
-                      </div>
-                      <div className="absolute inset-[-12px] border border-[#FF4D00]/10 rounded-full animate-pulse" />
-                    </div>
-                    <p className="text-[14px] text-white/30 font-medium leading-[1.6] max-w-xs">
-                      Click any cluster on the schematic to explore its spatial logic and configuration.
-                    </p>
-                    <p className="text-[12px] text-white/15 font-medium mt-4">
-                      Each zone is optimized for its type of production.
-                    </p>
-                    <div className="mt-8 flex items-center gap-6 text-[8px] font-mono tracking-[0.15em] uppercase text-white/10">
-                      <span>6 clusters</span>
-                      <span className="w-1 h-1 rounded-full bg-[#FF4D00]/30" />
-                      <span>1 machine</span>
-                      <span className="w-1 h-1 rounded-full bg-[#FF4D00]/30" />
-                      <span>infinite compounds</span>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            {/* Animated flow line beneath the strip */}
+            <div className="h-[2px] bg-[#111] mt-0 relative overflow-hidden">
+              <div 
+                className="absolute inset-y-0 left-0 bg-[#FF4D00]/40"
+                style={{
+                  width: '30%',
+                  animation: 'flowRight 4s linear infinite',
+                }}
+              />
             </div>
           </div>
+
+          {/* Detail panel below the strip */}
+          <AnimatePresence mode="wait">
+            {activeCluster ? (
+              <motion.div
+                key={activeCluster}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-6 bg-[#FAFAFA] border border-[#111]/5 rounded-sm overflow-hidden"
+              >
+                {(() => {
+                  const cluster = clusterData.find(c => c.id === activeCluster);
+                  if (!cluster) return null;
+                  const Icon = cluster.icon;
+                  return (
+                    <div className="grid md:grid-cols-12 gap-0">
+                      {/* Left: image */}
+                      <div className="md:col-span-4 relative">
+                        <div className="relative h-[200px] md:h-full md:min-h-[280px] overflow-hidden">
+                          <img
+                            src={cluster.image}
+                            alt={cluster.name}
+                            className="w-full h-full object-cover"
+                            style={{ objectPosition: 'center 30%' }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#FAFAFA]/20 md:bg-gradient-to-r md:from-transparent md:to-[#FAFAFA]" />
+                        </div>
+                      </div>
+                      {/* Right: content */}
+                      <div className="md:col-span-8 p-6 md:p-8">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-9 h-9 bg-[#FF4D00] rounded-sm flex items-center justify-center">
+                            <Icon className="w-4 h-4 text-white" strokeWidth={1.5} />
+                          </div>
+                          <div>
+                            <h3 className="text-[20px] md:text-[24px] font-display font-medium tracking-tight text-[#111]">
+                              {cluster.name}
+                            </h3>
+                            <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]">
+                              Cluster {cluster.num} · {cluster.sub}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111]/15 mb-2">
+                          Why this configuration
+                        </div>
+                        <p className="text-[14px] md:text-[15px] text-[#111]/50 font-medium leading-[1.7] mb-6">
+                          {cluster.why}
+                        </p>
+                        <button
+                          onClick={() => setActiveCluster(null)}
+                          className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] hover:text-[#111] transition-colors"
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="mt-6 text-center py-8"
+              >
+                <p className="text-[13px] text-[#111]/20 font-medium">
+                  Select a cluster above to explore its configuration.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </section>

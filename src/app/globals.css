@@ -234,3 +234,9 @@
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-color-hover, rgba(17, 17, 17, 0.5));
 }
+
+/* Machine flow animation */
+@keyframes flowRight {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
