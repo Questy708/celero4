@@ -432,48 +432,75 @@ function HeroSection() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   INFINITE MARQUEE — Auto-sliding horizontal strip
+   CARD CAROUSEL — Shows 2 cards, auto-advances with pause
    ══════════════════════════════════════════════════════════════════════════ */
-function InfiniteMarquee<T>({
+function CardCarousel<T>({
   items,
   renderItem,
-  cardWidth = 480,
-  speed = 40,
+  interval = 5000,
 }: {
   items: T[];
   renderItem: (item: T, index: number) => React.ReactNode;
-  cardWidth?: number;
-  speed?: number;
+  interval?: number;
 }) {
-  const duration = (items.length * (cardWidth + 16)) / speed;
+  const [slide, setSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const totalSlides = Math.ceil(items.length / 2);
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = setInterval(() => {
+      setSlide((s) => (s + 1) % totalSlides);
+    }, interval);
+    return () => clearInterval(timer);
+  }, [totalSlides, interval, paused]);
 
   return (
-    <div className="group relative overflow-hidden">
-      {/* Fade edges */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-white to-transparent" />
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-white to-transparent" />
-
-      {/* Scrolling track */}
-      <div
-        className="flex gap-4 group-hover:[animation-play-state:paused]"
-        style={{
-          animation: `marquee-scroll ${duration}s linear infinite`,
-          width: "max-content",
-        }}
-      >
-        {/* Original items */}
-        {items.map((item, i) => (
-          <div key={i} className="shrink-0">
-            {renderItem(item, i)}
-          </div>
-        ))}
-        {/* Duplicated items for seamless loop */}
-        {items.map((item, i) => (
-          <div key={`dup-${i}`} className="shrink-0">
-            {renderItem(item, i)}
-          </div>
-        ))}
+    <div
+      className="relative"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Viewport */}
+      <div className="overflow-hidden px-6 md:px-12 lg:px-20">
+        <div
+          className="flex transition-transform duration-700 ease-[0.22,1,0.36,1]"
+          style={{ transform: `translateX(-${slide * 100}%)` }}
+        >
+          {/* Chunk items into pairs, each pair = one slide */}
+          {Array.from({ length: totalSlides }).map((_, si) => (
+            <div key={si} className="w-full shrink-0 flex gap-4">
+              {items.slice(si * 2, si * 2 + 2).map((item, i) => (
+                <div key={i} className="flex-1 min-w-0">
+                  {renderItem(item, si * 2 + i)}
+                </div>
+              ))}
+              {/* If odd number on last slide, add empty spacer */}
+              {si === totalSlides - 1 && items.length % 2 !== 0 && (
+                <div className="flex-1 min-w-0" />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
+
+      {/* Dot indicators */}
+      {totalSlides > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-5">
+          {Array.from({ length: totalSlides }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setSlide(i)}
+              className={`rounded-full transition-all duration-300 ${
+                i === slide
+                  ? "w-6 h-[6px] bg-[#FF4D00]"
+                  : "w-[6px] h-[6px] bg-[#111]/10 hover:bg-[#111]/20"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -486,14 +513,6 @@ function CaseSection() {
 
   return (
     <section id="infra-case" ref={ref} className="py-3 md:py-4">
-      {/* Marquee keyframes */}
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes marquee-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      ` }} />
-
       <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
         {/* Pull quote */}
         <div className="px-6 md:px-12 lg:px-20 pt-20 md:pt-32 pb-12 md:pb-16">
@@ -519,7 +538,7 @@ function CaseSection() {
           </motion.div>
         </div>
 
-        {/* Three marquee groups */}
+        {/* Three carousel groups */}
         <div className="pb-16 md:pb-20 space-y-12">
           {/* Group 1: Where infrastructure already exists */}
           <motion.div
@@ -536,14 +555,13 @@ function CaseSection() {
                 The world&apos;s most successful ventures were built on ground that was already paved — financial systems, legal frameworks, supply chains, and talent pipelines all existed before the first line of code was written or the first product assembled.
               </p>
             </div>
-            <InfiniteMarquee
+            <CardCarousel
               items={infrastructureExists}
-              cardWidth={480}
-              speed={35}
+              interval={6000}
               renderItem={(item) => (
-                <div className="w-[480px] border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white">
+                <div className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white">
                   <div className="flex gap-0">
-                    <div className="w-[140px] lg:w-[180px] shrink-0">
+                    <div className="w-[120px] md:w-[160px] lg:w-[180px] shrink-0">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover min-h-[220px]" />
                     </div>
                     <div className="flex-1 p-5 md:p-6">
@@ -552,7 +570,7 @@ function CaseSection() {
                         <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
                       </div>
                       <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-3">{item.company}</div>
-                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4 line-clamp-3">{item.advantage}</p>
+                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4">{item.advantage}</p>
                       <div className="border-t border-[#111]/5 pt-3">
                         <p className="text-[13px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
                       </div>
@@ -578,14 +596,13 @@ function CaseSection() {
                 From <span className="text-[#111]/50 font-bold">The Prosperity Paradox</span> — these innovators didn&apos;t find an existing market and optimize it. They created markets from nothing — building the supply chain, the demand, and the infrastructure all at once, making prosperity possible where none existed before.
               </p>
             </div>
-            <InfiniteMarquee
+            <CardCarousel
               items={marketCreatingInnovations}
-              cardWidth={480}
-              speed={30}
+              interval={6000}
               renderItem={(item) => (
-                <div className="w-[480px] border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors">
+                <div className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors">
                   <div className="flex gap-0">
-                    <div className="w-[140px] lg:w-[180px] shrink-0">
+                    <div className="w-[120px] md:w-[160px] lg:w-[180px] shrink-0">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover min-h-[220px]" />
                     </div>
                     <div className="flex-1 p-5 md:p-6">
@@ -594,7 +611,7 @@ function CaseSection() {
                         <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
                       </div>
                       <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/70 mb-3">{item.company}</div>
-                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4 line-clamp-3">{item.advantage}</p>
+                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4">{item.advantage}</p>
                       <div className="border-t border-[#FF4D00]/10 pt-3">
                         <p className="text-[13px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
                       </div>
@@ -620,14 +637,13 @@ function CaseSection() {
                 These ventures had the funding, the talent, and the technology — but the ground beneath them didn&apos;t exist. Each missing piece of infrastructure became a separate company to build, and no single venture could build them all. The product was ready. The world was not.
               </p>
             </div>
-            <InfiniteMarquee
+            <CardCarousel
               items={infrastructureMustBeBuilt}
-              cardWidth={480}
-              speed={30}
+              interval={6000}
               renderItem={(item) => (
-                <div className="w-[480px] border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors">
+                <div className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors">
                   <div className="flex gap-0">
-                    <div className="w-[140px] lg:w-[180px] shrink-0">
+                    <div className="w-[120px] md:w-[160px] lg:w-[180px] shrink-0">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover min-h-[220px]" />
                     </div>
                     <div className="flex-1 p-5 md:p-6">
@@ -636,7 +652,7 @@ function CaseSection() {
                         <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#991B1B]/40">{item.context}</span>
                       </div>
                       <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]/50 mb-3">{item.company}</div>
-                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4 line-clamp-3">{item.advantage}</p>
+                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4">{item.advantage}</p>
                       <div className="border-t border-[#991B1B]/10 pt-3">
                         <p className="text-[13px] font-bold text-[#991B1B] leading-[1.5]">{item.takeaway}</p>
                       </div>
