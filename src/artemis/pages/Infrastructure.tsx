@@ -492,7 +492,7 @@ function CaseSection() {
                     transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
                     className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex flex-col sm:flex-row min-h-[200px] sm:h-[200px] md:h-[220px]"
                   >
-                    <div className="relative w-full sm:w-[110px] md:sm:w-[130px] shrink-0 h-[160px] sm:h-full">
+                    <div className="relative w-full sm:w-[110px] md:w-[130px] shrink-0 h-[160px] sm:h-full">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
                     </div>
                     <div className="flex-1 p-3 md:p-4 flex flex-col min-w-0">
@@ -538,7 +538,7 @@ function CaseSection() {
                     transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
                     className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors flex flex-col sm:flex-row min-h-[200px] sm:h-[200px] md:h-[220px]"
                   >
-                    <div className="relative w-full sm:w-[110px] md:sm:w-[130px] shrink-0 h-[160px] sm:h-full">
+                    <div className="relative w-full sm:w-[110px] md:w-[130px] shrink-0 h-[160px] sm:h-full">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
                     </div>
                     <div className="flex-1 p-3 md:p-4 flex flex-col min-w-0">
@@ -584,7 +584,7 @@ function CaseSection() {
                     transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
                     className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors flex flex-col sm:flex-row min-h-[200px] sm:h-[200px] md:h-[220px]"
                   >
-                    <div className="relative w-full sm:w-[110px] md:sm:w-[130px] shrink-0 h-[160px] sm:h-full">
+                    <div className="relative w-full sm:w-[110px] md:w-[130px] shrink-0 h-[160px] sm:h-full">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
                     </div>
                     <div className="flex-1 p-3 md:p-4 flex flex-col min-w-0">
