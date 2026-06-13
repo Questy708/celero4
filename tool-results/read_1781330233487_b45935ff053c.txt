@@ -1,0 +1,502 @@
+   600→   600→              Not better tools. Not more capital. A reinvented method of production.
+   601→   601→              The method is what separates 80x output from 10% improvement.
+   602→   602→              And xCelero is a platform — not a single product.
+   603→   603→            </p>
+   604→   604→          </motion.div>
+   605→   605→        </div>
+   606→   606→
+   607→   607→        {/* Method innovators — timeline cards */}
+   608→   608→        <div className="px-6 md:px-12 lg:px-20 pb-16 md:pb-20">
+   609→   609→          {/* Timeline connecting line */}
+   610→   610→          <div className="relative mb-8">
+   611→   611→            <div className="hidden md:block absolute top-6 left-0 right-0 h-[1px] bg-[#111]/5" />
+   612→   612→          </div>
+   613→   613→          
+   614→   614→          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
+   615→   615→            {methodInnovators.map((p, i) => (
+   616→   616→              <motion.div
+   617→   617→                key={p.subject}
+   618→   618→                {...stagger(i)}
+   619→   619→                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+   620→   620→                className={`relative border rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-all duration-300 ${
+   621→   621→                  p.type === "platform"
+   622→   622→                    ? "border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] md:col-span-1 lg:col-span-2"
+   623→   623→                    : "border-[#111]/5 bg-white"
+   624→   624→                }`}
+   625→   625→              >
+   626→   626→                {/* Image header */}
+   627→   627→                <div className="relative h-[100px] md:h-[80px] lg:h-[100px] overflow-hidden">
+   628→   628→                  <img
+   629→   629→                    src={p.image}
+   630→   630→                    alt={p.subject}
+   631→   631→                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+   632→   632→                  />
+   633→   633→                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+   634→   634→                  {/* Year badge */}
+   635→   635→                  <div className="absolute top-2 left-2">
+   636→   636→                    <span className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase bg-white/90 backdrop-blur-sm px-2 py-0.5 text-[#111]">
+   637→   637→                      {p.year}
+   638→   638→                    </span>
+   639→   639→                  </div>
+   640→   640→                  {/* Platform badge */}
+   641→   641→                  {p.type === "platform" && (
+   642→   642→                    <div className="absolute top-2 right-2">
+   643→   643→                      <span className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase bg-[#FF4D00] text-white px-2 py-0.5">
+   644→   644→                        Platform
+   645→   645→                      </span>
+   646→   646→                    </div>
+   647→   647→                  )}
+   648→   648→                </div>
+   649→   649→                {/* Content */}
+   650→   650→                <div className="p-4 md:p-5">
+   651→   651→                  <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight mb-1 text-[#111]">
+   652→   652→                    {p.subject}
+   653→   653→                  </h3>
+   654→   654→                  <div className={`text-[9px] font-mono font-bold tracking-[0.1em] uppercase mb-3 ${
+   655→   655→                    p.type === "platform" ? "text-[#FF4D00]" : "text-[#FF4D00]/40"
+   656→   656→                  }`}>
+   657→   657→                    {p.method}
+   658→   658→                  </div>
+   659→   659→                  <p className={`text-[12px] font-medium leading-[1.6] ${
+   660→   660→                    p.type === "platform" ? "text-[#111]/50" : "text-[#111]/30"
+   661→   661→                  }`}>
+   662→   662→                    {p.statement}
+   663→   663→                  </p>
+   664→   664→                </div>
+   665→   665→              </motion.div>
+   666→   666→            ))}
+   667→   667→          </div>
+   668→   668→
+   669→   669→          {/* Key distinction callout */}
+   670→   670→          <motion.div
+   671→   671→            initial={{ opacity: 0 }}
+   672→   672→            animate={isInView ? { opacity: 1 } : {}}
+   673→   673→            transition={{ delay: 0.8 }}
+   674→   674→            className="mt-8 border-l-2 border-[#FF4D00] bg-[#FF4D00]/[0.03] rounded-r-sm p-6 md:p-8"
+   675→   675→          >
+   676→   676→            <p className="text-[14px] md:text-[16px] text-[#111]/50 font-medium leading-[1.7]">
+   677→   677→              Ford made <strong className="text-[#111]">one product</strong> faster. Tesla makes <strong className="text-[#111]">one product</strong> faster. 
+   678→   678→              Bell Labs and xCelero are different — they invented a <strong className="text-[#FF4D00]">method that compounds across every product</strong> simultaneously. 
+   679→   679→              The assembly line produces cars. The research campus produces discoveries. The outpost produces working ventures.
+   680→   680→            </p>
+   681→   681→          </motion.div>
+   682→   682→        </div>
+   683→   683→
+   684→   684→        {/* Interactive Cluster Visualization — replaces static image */}
+   685→   685→        <div className="px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
+   686→   686→          <div className="flex items-center gap-4 mb-8">
+   687→   687→            <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase text-[#111]/15">
+   688→   688→              Six clusters. One machine.
+   689→   689→            </span>
+   690→   690→            <div className="flex-1 h-[1px] bg-[#111]/5" />
+   691→   691→            <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">
+   692→   692→              Click to explore
+   693→   693→            </span>
+   694→   694→          </div>
+   695→   695→
+   696→   696→          <div className="grid lg:grid-cols-12 gap-6">
+   697→   697→            {/* Interactive hexagonal cluster map */}
+   698→   698→            <div className="lg:col-span-7">
+   699→   699→              <div className="relative bg-[#FAFAFA] rounded-sm p-6 md:p-8 min-h-[400px] md:min-h-[500px]">
+   700→   700→                {/* Background grid */}
+   701→   701→                <div className="absolute inset-0 opacity-[0.03] rounded-sm overflow-hidden" style={{
+   702→   702→                  backgroundImage: `linear-gradient(rgba(0,0,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.5) 1px, transparent 1px)`,
+   703→   703→                  backgroundSize: '40px 40px'
+   704→   704→                }} />
+   705→   705→                
+   706→   706→                {/* Cluster nodes */}
+   707→   707→                <div className="relative w-full h-full min-h-[360px] md:min-h-[460px]">
+   708→   708→                  {clusterData.map((c, i) => {
+   709→   709→                    const Icon = c.icon;
+   710→   710→                    // Position clusters in a spatial layout
+   711→   711→                    const positions = [
+   712→   712→                      { top: "5%", left: "25%" },   // Hive - front center
+   713→   713→                      { top: "35%", left: "5%" },    // Foundry - left
+   714→   714→                      { top: "30%", left: "45%" },   // Lab - center
+   715→   715→                      { top: "55%", left: "30%" },   // Commons - center bottom
+   716→   716→                      { top: "60%", left: "60%" },   // Living - right
+   717→   717→                      { top: "10%", left: "60%" },   // Extension - top right
+   718→   718→                    ];
+   719→   719→                    const pos = positions[i];
+   720→   720→                    const isActive = activeCluster === c.id;
+   721→   721→                    
+   722→   722→                    return (
+   723→   723→                      <motion.button
+   724→   724→                        key={c.id}
+   725→   725→                        suppressHydrationWarning
+   726→   726→                        onClick={() => setActiveCluster(isActive ? null : c.id)}
+   727→   727→                        initial={{ opacity: 0, scale: 0.8 }}
+   728→   728→                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+   729→   729→                        transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
+   730→   730→                        className={`absolute w-[120px] md:w-[140px] transition-all duration-300 text-left ${
+   731→   731→                          isActive ? "z-20" : "z-10"
+   732→   732→                        }`}
+   733→   733→                        style={{ top: pos.top, left: pos.left }}
+   734→   734→                      >
+   735→   735→                        <div className={`p-3 md:p-4 rounded-sm border transition-all duration-300 ${
+   736→   736→                          isActive
+   737→   737→                            ? "bg-[#111] text-white border-[#FF4D00] shadow-lg scale-110"
+   738→   738→                            : "bg-white border-[#111]/8 hover:border-[#FF4D00]/30 hover:shadow-md"
+   739→   739→                        }`}>
+   740→   740→                          <div className="flex items-center gap-2 mb-1">
+   741→   741→                            <Icon className={`w-4 h-4 ${isActive ? "text-[#FF4D00]" : "text-[#FF4D00]/60"}`} strokeWidth={1.5} />
+   742→   742→                            <span className={`text-[8px] font-mono font-bold tracking-[0.1em] uppercase ${isActive ? "text-[#FF4D00]" : "text-[#111]/20"}`}>
+   743→   743→                              {c.num}
+   744→   744→                            </span>
+   745→   745→                          </div>
+   746→   746→                          <h4 className={`text-[13px] font-display font-medium tracking-tight ${isActive ? "text-white" : "text-[#111]"}`}>
+   747→   747→                            {c.name}
+   748→   748→                          </h4>
+   749→   749→                          <div className={`text-[9px] font-mono tracking-[0.05em] ${isActive ? "text-white/30" : "text-[#111]/20"}`}>
+   750→   750→                            {c.sub}
+   751→   751→                          </div>
+   752→   752→                        </div>
+   753→   753→                      </motion.button>
+   754→   754→                    );
+   755→   755→                  })}
+   756→   756→
+   757→   757→                  {/* Connecting lines between clusters (SVG) */}
+   758→   758→                  <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
+   759→   759→                    <line x1="32%" y1="18%" x2="15%" y2="42%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+   760→   760→                    <line x1="32%" y1="18%" x2="55%" y2="38%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+   761→   761→                    <line x1="15%" y1="48%" x2="38%" y2="62%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+   762→   762→                    <line x1="55%" y1="38%" x2="38%" y2="62%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+   763→   763→                    <line x1="38%" y1="65%" x2="68%" y2="68%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+   764→   764→                    <line x1="68%" y1="20%" x2="55%" y2="38%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+   765→   765→                  </svg>
+   766→   766→                </div>
+   767→   767→              </div>
+   768→   768→            </div>
+   769→   769→
+   770→   770→            {/* Cluster detail panel */}
+   771→   771→            <div className="lg:col-span-5">
+   772→   772→              <AnimatePresence mode="wait">
+   773→   773→                {activeCluster ? (
+   774→   774→                  <motion.div
+   775→   775→                    key={activeCluster}
+   776→   776→                    initial={{ opacity: 0, x: 20 }}
+   777→   777→                    animate={{ opacity: 1, x: 0 }}
+   778→   778→                    exit={{ opacity: 0, x: -20 }}
+   779→   779→                    transition={{ duration: 0.3 }}
+   780→   780→                    className="bg-[#FAFAFA] rounded-sm p-6 md:p-8 min-h-[400px] md:min-h-[500px] flex flex-col"
+   781→   781→                  >
+   782→   782→                    {(() => {
+   783→   783→                      const cluster = clusterData.find(c => c.id === activeCluster);
+   784→   784→                      if (!cluster) return null;
+   785→   785→                      const Icon = cluster.icon;
+   786→   786→                      return (
+   787→   787→                        <>
+   788→   788→                          <div className="flex items-center gap-3 mb-6">
+   789→   789→                            <div className="w-10 h-10 bg-[#FF4D00] rounded-sm flex items-center justify-center">
+   790→   790→                              <Icon className="w-5 h-5 text-white" strokeWidth={1.5} />
+   791→   791→                            </div>
+   792→   792→                            <div>
+   793→   793→                              <h3 className="text-[22px] font-display font-medium tracking-tight text-[#111]">
+   794→   794→                                {cluster.name}
+   795→   795→                              </h3>
+   796→   796→                              <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]">
+   797→   797→                                Cluster {cluster.num} · {cluster.sub}
+   798→   798→                              </span>
+   799→   799→                            </div>
+   800→   800→                          </div>
+   801→   801→                          
+   802→   802→                          <div className="relative h-[140px] rounded-sm overflow-hidden mb-6">
+   803→   803→                            <img
+   804→   804→                              src={cluster.image}
+   805→   805→                              alt={cluster.name}
+   806→   806→                              className="w-full h-full object-cover"
+   807→   807→                            />
+   808→   808→                            <div className="absolute inset-0 bg-gradient-to-t from-[#FAFAFA] via-transparent to-transparent" />
+   809→   809→                          </div>
+   810→   810→
+   811→   811→                          <div className="flex-1">
+   812→   812→                            <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111]/15 mb-3">
+   813→   813→                              Why this configuration
+   814→   814→                            </div>
+   815→   815→                            <p className="text-[14px] text-[#111]/45 font-medium leading-[1.7]">
+   816→   816→                              {cluster.why}
+   817→   817→                            </p>
+   818→   818→                          </div>
+   819→   819→
+   820→   820→                          <button
+   821→   821→                            onClick={() => setActiveCluster(null)}
+   822→   822→                            className="mt-6 text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] hover:text-[#111] transition-colors"
+   823→   823→                          >
+   824→   824→                            ← Back to map
+   825→   825→                          </button>
+   826→   826→                        </>
+   827→   827→                      );
+   828→   828→                    })()}
+   829→   829→                  </motion.div>
+   830→   830→                ) : (
+   831→   831→                  <motion.div
+   832→   832→                    initial={{ opacity: 0 }}
+   833→   833→                    animate={{ opacity: 1 }}
+   834→   834→                    className="bg-[#FAFAFA] rounded-sm p-6 md:p-8 min-h-[400px] md:min-h-[500px] flex flex-col items-center justify-center text-center"
+   835→   835→                  >
+   836→   836→                    <div className="w-16 h-16 border border-[#111]/5 rounded-full flex items-center justify-center mb-6">
+   837→   837→                      <TreePine className="w-7 h-7 text-[#111]/10" strokeWidth={1} />
+   838→   838→                    </div>
+   839→   839→                    <p className="text-[14px] text-[#111]/25 font-medium leading-[1.6] max-w-xs">
+   840→   840→                      Click any cluster on the map to explore its spatial logic and configuration.
+   841→   841→                    </p>
+   842→   842→                    <p className="text-[12px] text-[#111]/15 font-medium mt-4">
+   843→   843→                      Each zone is optimized for its type of production.
+   844→   844→                    </p>
+   845→   845→                  </motion.div>
+   846→   846→                )}
+   847→   847→              </AnimatePresence>
+   848→   848→            </div>
+   849→   849→          </div>
+   850→   850→        </div>
+   851→   851→      </div>
+   852→   852→    </section>
+   853→   853→  );
+   854→   854→}
+   855→   855→
+   856→   856→/* ══════════════════════════════════════════════════════════════════════════
+   857→   857→   04. THE OUTPOST: LEVEL BY LEVEL — Vertical floor selector
+   858→   858→   ══════════════════════════════════════════════════════════════════════════ */
+   859→   859→function LevelsSection() {
+   860→   860→  const { ref, isInView } = useFade();
+   861→   861→  const [activeLevel, setActiveLevel] = useState("membrane");
+   862→   862→  const active = levels.find((l) => l.id === activeLevel)!;
+   863→   863→
+   864→   864→  return (
+   865→   865→    <section id="infra-levels" ref={ref} className="py-3 md:py-4">
+   866→   866→      <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
+   867→   867→        {/* Header */}
+   868→   868→        <div className="px-6 md:px-12 lg:px-20 pt-20 md:pt-32 pb-0">
+   869→   869→          <motion.div
+   870→   870→            {...fadeUp}
+   871→   871→            animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+   872→   872→          >
+   873→   873→            <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
+   874→   874→              Under One Roof
+   875→   875→            </span>
+   876→   876→            <h2 className="text-[40px] md:text-[60px] lg:text-[80px] font-display font-medium tracking-[-0.05em] leading-[0.85] text-[#111] mb-12">
+   877→   877→              The Outpost,
+   878→   878→              <br />
+   879→   879→              <span className="text-[#111]/12">level by level.</span>
+   880→   880→            </h2>
+   881→   881→          </motion.div>
+   882→   882→
+   883→   883→          {/* Vertical floor tabs — horizontal on mobile, vertical sidebar on desktop */}
+   884→   884→          <div className="flex gap-0 overflow-x-auto border-b border-[#111]/8 scrollbar-none -mx-6 md:-mx-12 lg:-mx-20 px-6 md:px-12 lg:px-20">
+   885→   885→            {levels.map((level) => {
+   886→   886→              const Icon = level.icon;
+   887→   887→              return (
+   888→   888→                <button
+   889→   889→                  key={level.id}
+   890→   890→                  suppressHydrationWarning
+   891→   891→                  onClick={() => setActiveLevel(level.id)}
+   892→   892→                  className={`flex items-center gap-2.5 px-5 py-4 text-left whitespace-nowrap border-b-2 transition-all min-h-[48px] flex-shrink-0 ${
+   893→   893→                    activeLevel === level.id
+   894→   894→                      ? "border-[#FF4D00] text-[#111]"
+   895→   895→                      : "border-transparent text-[#111]/25 hover:text-[#111]/50"
+   896→   896→                  }`}
+   897→   897→                >
+   898→   898→                  <Icon
+   899→   899→                    className={`w-4 h-4 flex-shrink-0 ${
+   900→   900→                      activeLevel === level.id ? "text-[#FF4D00]" : "text-[#111]/15"
+   901→   901→                    }`}
+   902→   902→                    strokeWidth={1.5}
+   903→   903→                  />
+   904→   904→                  <div>
+   905→   905→                    <div className={`text-[8px] font-mono font-bold tracking-[0.1em] uppercase ${
+   906→   906→                      activeLevel === level.id ? "text-[#FF4D00]" : "text-[#111]/15"
+   907→   907→                    }`}>
+   908→   908→                      {level.number}
+   909→   909→                    </div>
+   910→   910→                    <div className="text-[13px] font-display font-medium tracking-tight">
+   911→   911→                      {level.name}
+   912→   912→                    </div>
+   913→   913→                  </div>
+   914→   914→                </button>
+   915→   915→              );
+   916→   916→            })}
+   917→   917→          </div>
+   918→   918→        </div>
+   919→   919→
+   920→   920→        {/* Content area */}
+   921→   921→        <div className="px-6 md:px-12 lg:px-20 py-12 md:py-16">
+   922→   922→          <AnimatePresence mode="wait">
+   923→   923→            <motion.div
+   924→   924→              key={activeLevel}
+   925→   925→              initial={{ opacity: 0, y: 20 }}
+   926→   926→              animate={{ opacity: 1, y: 0 }}
+   927→   927→              exit={{ opacity: 0, y: -20 }}
+   928→   928→              transition={{ duration: 0.3 }}
+   929→   929→            >
+   930→   930→              <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
+   931→   931→                {/* Left: image */}
+   932→   932→                <div className="lg:col-span-5">
+   933→   933→                  <div className="relative overflow-hidden rounded-sm min-h-[280px] lg:min-h-[450px] lg:sticky lg:top-24">
+   934→   934→                    <img
+   935→   935→                      src={active.image}
+   936→   936→                      alt={active.name}
+   937→   937→                      className="absolute inset-0 w-full h-full object-cover"
+   938→   938→                    />
+   939→   939→                    <div className="absolute inset-0 bg-gradient-to-t from-[#111]/80 via-[#111]/20 to-transparent" />
+   940→   940→                    <div className="absolute bottom-0 left-0 p-6 md:p-8">
+   941→   941→                      <div className="text-[9px] font-mono font-bold tracking-[0.15em] text-[#FF4D00] mb-1">
+   942→   942→                        {active.number}
+   943→   943→                      </div>
+   944→   944→                      <h3 className="text-[28px] md:text-[36px] font-display font-medium tracking-[-0.02em] leading-[1] mb-2 text-white">
+   945→   945→                        {active.name}
+   946→   946→                      </h3>
+   947→   947→                      <p className="text-[13px] text-white/40 font-medium italic">
+   948→   948→                        {active.subtitle}
+   949→   949→                      </p>
+   950→   950→                    </div>
+   951→   951→                  </div>
+   952→   952→                </div>
+   953→   953→
+   954→   954→                {/* Right: content */}
+   955→   955→                <div className="lg:col-span-7">
+   956→   956→                  {/* Method highlight */}
+   957→   957→                  {active.method && (
+   958→   958→                    <div className="border-l-2 border-[#FF4D00] pl-6 mb-8">
+   959→   959→                      <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] mb-3">
+   960→   960→                        The Method
+   961→   961→                      </div>
+   962→   962→                      <p className="text-[14px] text-[#111]/50 font-medium leading-[1.7]">
+   963→   963→                        {active.method}
+   964→   964→                      </p>
+   965→   965→                    </div>
+   966→   966→                  )}
+   967→   967→
+   968→   968→                  {/* Airlock note */}
+   969→   969→                  {"note" in active && active.note && (
+   970→   970→                    <div className="bg-[#FAFAFA] rounded-sm p-5 mb-8">
+   971→   971→                      <p className="text-[12px] text-[#111]/35 font-medium leading-[1.6]">
+   972→   972→                        {active.note as string}
+   973→   973→                      </p>
+   974→   974→                    </div>
+   975→   975→                  )}
+   976→   976→
+   977→   977→                  {/* Items */}
+   978→   978→                  <div className="space-y-0">
+   979→   979→                    {active.items.map((item, i) => (
+   980→   980→                      <div
+   981→   981→                        key={i}
+   982→   982→                        className="border-b border-[#111]/6 py-5 last:border-b-0"
+   983→   983→                      >
+   984→   984→                        <h4 className="text-[13px] font-bold tracking-tight text-[#111]/70 mb-1.5">
+   985→   985→                          {item.title}
+   986→   986→                        </h4>
+   987→   987→                        <p className="text-[13px] text-[#111]/35 font-medium leading-[1.6]">
+   988→   988→                          {item.desc}
+   989→   989→                        </p>
+   990→   990→                        {"subitems" in item && item.subitems && (
+   991→   991→                          <ul className="mt-2 space-y-1">
+   992→   992→                            {(item.subitems as string[]).map((si, j) => (
+   993→   993→                              <li
+   994→   994→                                key={j}
+   995→   995→                                className="text-[11px] text-[#111]/25 font-medium leading-[1.5] pl-3 border-l border-[#FF4D00]/20"
+   996→   996→                              >
+   997→   997→                                {si}
+   998→   998→                              </li>
+   999→   999→                            ))}
+  1000→  1000→                          </ul>
+  1001→  1001→                        )}
+  1002→  1002→                      </div>
+  1003→  1003→                    ))}
+  1004→  1004→                  </div>
+  1005→  1005→
+  1006→  1006→                  {/* Lab principles */}
+  1007→  1007→                  {"principles" in active && active.principles && (
+  1008→  1008→                    <div className="grid sm:grid-cols-2 gap-3 mt-8">
+  1009→  1009→                      {(active.principles as { title: string; desc: string }[]).map((p, i) => (
+  1010→  1010→                        <div key={i} className="bg-[#FAFAFA] rounded-sm p-5">
+  1011→  1011→                          <h4 className="text-[12px] font-bold text-[#FF4D00] mb-2">
+  1012→  1012→                            {p.title}
+  1013→  1013→                          </h4>
+  1014→  1014→                          <p className="text-[11px] text-[#111]/30 font-medium leading-[1.6]">
+  1015→  1015→                            {p.desc}
+  1016→  1016→                          </p>
+  1017→  1017→                        </div>
+  1018→  1018→                      ))}
+  1019→  1019→                    </div>
+  1020→  1020→                  )}
+  1021→  1021→
+  1022→  1022→                  {/* Studio bottom line */}
+  1023→  1023→                  {"bottomLine" in active && active.bottomLine && (
+  1024→  1024→                    <div className="border-l-2 border-[#FF4D00] pl-6 mt-8">
+  1025→  1025→                      <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] mb-2">
+  1026→  1026→                        The Bottom Line
+  1027→  1027→                      </div>
+  1028→  1028→                      <p className="text-[14px] text-[#111]/45 font-medium leading-[1.7]">
+  1029→  1029→                        {active.bottomLine as string}
+  1030→  1030→                      </p>
+  1031→  1031→                    </div>
+  1032→  1032→                  )}
+  1033→  1033→
+  1034→  1034→                  {/* Commons spatial logic */}
+  1035→  1035→                  {"spatialLogic" in active && active.spatialLogic && (
+  1036→  1036→                    <div className="bg-[#FAFAFA] rounded-sm p-6 mt-8">
+  1037→  1037→                      <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111]/12 mb-2">
+  1038→  1038→                        The Spatial Logic
+  1039→  1039→                      </div>
+  1040→  1040→                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7]">
+  1041→  1041→                        {active.spatialLogic as string}
+  1042→  1042→                      </p>
+  1043→  1043→                    </div>
+  1044→  1044→                  )}
+  1045→  1045→                </div>
+  1046→  1046→              </div>
+  1047→  1047→            </motion.div>
+  1048→  1048→          </AnimatePresence>
+  1049→  1049→        </div>
+  1050→  1050→      </div>
+  1051→  1051→    </section>
+  1052→  1052→  );
+  1053→  1053→}
+  1054→  1054→
+  1055→  1055→/* ══════════════════════════════════════════════════════════════════════════
+  1056→  1056→   05. CAMPUS RING — Cinematic panoramic
+  1057→  1057→   ══════════════════════════════════════════════════════════════════════════ */
+  1058→  1058→function CampusRingSection() {
+  1059→  1059→  const { ref, isInView } = useFade();
+  1060→  1060→  return (
+  1061→  1061→    <section id="infra-campus-ring" ref={ref} className="py-3 md:py-4">
+  1062→  1062→      <div className="w-full max-w-[1400px] mx-auto bg-[#0A0A0A] text-white rounded-sm overflow-hidden">
+  1063→  1063→        {/* Full-width image */}
+  1064→  1064→        <div className="relative h-[40vh] md:h-[55vh] overflow-hidden">
+  1065→  1065→          <img
+  1066→  1066→            src="/infra/campus-ring.png"
+  1067→  1067→            alt="Campus Ring"
+  1068→  1068→            className="w-full h-full object-cover"
+  1069→  1069→          />
+  1070→  1070→          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-[#0A0A0A]/20" />
+  1071→  1071→          <div className="absolute bottom-0 left-0 px-6 md:px-12 lg:px-20 pb-10 md:pb-16 w-full">
+  1072→  1072→            <motion.div
+  1073→  1073→              {...fadeUp}
+  1074→  1074→              animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+  1075→  1075→            >
+  1076→  1076→              <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
+  1077→  1077→                The Campus Ring
+  1078→  1078→              </span>
+  1079→  1079→              <h2 className="text-[36px] md:text-[56px] lg:text-[72px] font-display font-medium tracking-[-0.04em] leading-[0.9] max-w-2xl">
+  1080→  1080→                What can&apos;t fit
+  1081→  1081→                <br />
+  1082→  1082→                <span className="text-white/15">under the roof.</span>
+  1083→  1083→              </h2>
+  1084→  1084→            </motion.div>
+  1085→  1085→          </div>
+  1086→  1086→        </div>
+  1087→  1087→
+  1088→  1088→        {/* Zone cards — horizontal scroll on mobile, grid on desktop */}
+  1089→  1089→        <div className="px-6 md:px-12 lg:px-20 py-16 md:py-24">
+  1090→  1090→          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+  1091→  1091→            {campusRing.map((zone, i) => {
+  1092→  1092→              const Icon = zone.icon;
+  1093→  1093→              return (
+  1094→  1094→                <motion.div
+  1095→  1095→                  key={zone.name}
+  1096→  1096→                  {...stagger(i)}
+  1097→  1097→                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+  1098→  1098→                  className="border border-white/[0.06] rounded-sm p-6 hover:border-[#FF4D00]/25 transition-all duration-300 group bg-white/[0.015]"
+  1099→  1099→                >
+
+[showing lines 600-1099 of 1722; use offset=1100 with limit to continue reading]
