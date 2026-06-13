@@ -29,18 +29,22 @@ const heroImages = [
   {
     src: "https://images.unsplash.com/photo-1631556760646-50241850eb25?auto=format&fit=crop&w=1200&q=80",
     alt: "Black woman scientist in laboratory",
+    position: "center 25%",
   },
   {
     src: "https://images.unsplash.com/photo-1611348524140-53c9a25263d6?auto=format&fit=crop&w=1200&q=80",
     alt: "Nairobi city skyline",
+    position: "center 40%",
   },
   {
     src: "https://images.unsplash.com/photo-1780567497689-025144c19b8c?auto=format&fit=crop&w=1200&q=80",
     alt: "Black entrepreneur working on laptop",
+    position: "center 20%",
   },
   {
     src: "https://images.unsplash.com/photo-1573164574511-73c773193279?auto=format&fit=crop&w=1200&q=80",
     alt: "Black professionals in business meeting",
+    position: "center 25%",
   },
 ];
 
@@ -64,10 +68,12 @@ const pillars = [
       {
         src: "https://images.unsplash.com/photo-1613457231357-a5db3bc5bd81?auto=format&fit=crop&w=1200&q=80",
         alt: "African urban infrastructure development",
+        position: "center 40%",
       },
       {
         src: "https://images.unsplash.com/photo-1579165466949-3180a3d056d5?auto=format&fit=crop&w=1200&q=80",
         alt: "Black scientist conducting research",
+        position: "center 25%",
       },
     ],
     link: "/platform",
@@ -84,10 +90,12 @@ const pillars = [
       {
         src: "https://images.unsplash.com/photo-1653566031535-bcf33e1c2893?auto=format&fit=crop&w=1200&q=80",
         alt: "Black founders building a venture",
+        position: "center 25%",
       },
       {
         src: "https://images.unsplash.com/photo-1758691736903-c60a33e5b83f?auto=format&fit=crop&w=1200&q=80",
         alt: "Diverse team brainstorming startup ideas",
+        position: "center 20%",
       },
     ],
     link: "/programs",
@@ -103,10 +111,12 @@ const pillars = [
       {
         src: "https://images.unsplash.com/photo-1767893609884-622503897e53?auto=format&fit=crop&w=1200&q=80",
         alt: "Investment discussion with data",
+        position: "center 30%",
       },
       {
         src: "https://images.unsplash.com/photo-1741991109902-98bf764fb35d?auto=format&fit=crop&w=1200&q=80",
         alt: "African city lights at night",
+        position: "center 40%",
       },
     ],
     link: "/capital",
@@ -123,10 +133,12 @@ const pillars = [
       {
         src: "https://images.unsplash.com/photo-1573496267526-08a69e46a409?auto=format&fit=crop&w=1200&q=80",
         alt: "Black women colleagues collaborating",
+        position: "center 20%",
       },
       {
         src: "https://images.unsplash.com/photo-1778876091184-8839210e1917?auto=format&fit=crop&w=1200&q=80",
         alt: "Community gathering at conference",
+        position: "center 25%",
       },
     ],
     link: "/join",
@@ -207,13 +219,14 @@ function Hero() {
               opacity: i === currentImage ? 1 : 0,
               scale: i === currentImage ? 1 : 1.03,
             }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0"
           >
             <img
               src={img.src}
               alt={img.alt}
               className="w-full h-full object-cover"
+              style={{ objectPosition: img.position }}
               loading={i === 0 ? "eager" : "lazy"}
             />
           </motion.div>
@@ -354,14 +367,17 @@ const bridgeImages = [
   {
     src: "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80",
     alt: "Black researcher in laboratory",
+    position: "center 30%",
   },
   {
     src: "https://images.unsplash.com/photo-1573164574397-dd250bc8a598?auto=format&fit=crop&w=800&q=80",
     alt: "Black professionals collaborating",
+    position: "center 25%",
   },
   {
     src: "https://images.unsplash.com/photo-1669127300649-940337f1487e?auto=format&fit=crop&w=800&q=80",
     alt: "African city development",
+    position: "center 40%",
   },
 ];
 
@@ -397,6 +413,7 @@ function MissionBridge() {
                 src={img.src}
                 alt={img.alt}
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                style={{ objectPosition: img.position }}
               />
             </motion.div>
           ))}
@@ -890,6 +907,7 @@ function PillarBlock({
                 src={img.src}
                 alt={img.alt}
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                style={{ objectPosition: img.position }}
               />
             </div>
           ))}

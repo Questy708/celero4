@@ -67,17 +67,20 @@ const traits = [
   {
     title: "Believe in the art of the pick",
     desc: "There's a popular narrative that a startup's first few years are for moving fast and finding ways out of tough problems later. We're firm believers in taking beginnings seriously, in slowing down to speed up. A high degree of startup mortality is baked in at the beginning, so being a good picker of technology, market, and architecture is vastly underrated.",
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80"
+    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80",
+    position: "center 20%"
   },
   {
     title: "Embrace their extremes",
     desc: "We don't back well-rounded founders. We seek people who have one or two outlier abilities, areas where they have a shot at being the best in the world. This is what allows them to see opportunities others miss, solve problems others can't crack, and work with a drive that others don't match.",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+    position: "center 25%"
   },
   {
     title: "Go unreasonably deep",
     desc: "There's a particular kind of intensity we look for, a relentless drive that goes far beyond surface insights or hard work. It's curiosity that crosses over into obsession but reads more \"learn-it-all\" than \"know-it-all.\" It means full immersion in materials science when starting an energy company or working on the factory floor to live the pain of industrial bottlenecks.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
+    position: "center 20%"
   }
 ];
 
@@ -214,14 +217,17 @@ const approachBridgeImages = [
   {
     src: "https://images.unsplash.com/photo-1573164574511-73c773193279?auto=format&fit=crop&w=800&q=80",
     alt: "Black professionals meeting",
+    position: "center 30%",
   },
   {
     src: "https://images.unsplash.com/photo-1653566031587-74f7d86a2e71?auto=format&fit=crop&w=800&q=80",
     alt: "Black professional team",
+    position: "center 25%",
   },
   {
     src: "https://images.unsplash.com/photo-1579165466949-3180a3d056d5?auto=format&fit=crop&w=800&q=80",
     alt: "Black researcher",
+    position: "center 25%",
   },
 ];
 
@@ -303,6 +309,7 @@ function ApproachBridge() {
                 src={img.src}
                 alt={img.alt}
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                style={{ objectPosition: img.position }}
               />
             </motion.div>
           ))}
@@ -778,7 +785,7 @@ function WhoWeBackSection() {
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="grid md:grid-cols-2 gap-8 md:gap-12 items-start"
               >
                 {/* Text content */}
@@ -803,6 +810,7 @@ function WhoWeBackSection() {
                     src={traits[activeTrait].image}
                     alt={traits[activeTrait].title}
                     className="w-full aspect-[3/4] object-cover"
+                    style={{ objectPosition: traits[activeTrait].position }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/10 to-transparent" />
                 </div>

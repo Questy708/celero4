@@ -185,3 +185,41 @@ Stage Summary:
 - Infrastructure exists group expanded from 2 to 10 innovators
 - Infrastructure must be built group expanded from 3 to 6 failure examples
 - Color differentiation: white (exists), orange-tinted (market-creating), red-tinted (#991B1B, must build)
+
+---
+Task ID: 1
+Agent: Main Agent
+Task: Fix slideshow face/text clipping, synchronize transition timings, and redesign "Six clusters. One machine." visual
+
+Work Log:
+- Added `position` property to heroImages data in Home.tsx with face-focused object-position values (center 20%-40%)
+- Applied `style={{ objectPosition: img.position }}` to hero slideshow images
+- Changed hero slideshow transition from `duration: 1.5, ease: "easeInOut"` to `duration: 0.6, ease: [0.22, 1, 0.36, 1]` for consistency
+- Added `position` property to bridgeImages in Home.tsx
+- Added `position` property to all pillar images (4 pillars × 2 images each)
+- Applied `objectPosition` style to bridge images and pillar images
+- Added `position` property to traits data in Approach.tsx with face-focused values
+- Changed traits transition from `duration: 0.4, ease: "easeInOut"` to `duration: 0.6, ease: [0.22, 1, 0.36, 1]`
+- Applied `objectPosition` style to trait portrait images
+- Added `position` property to approachBridgeImages in Approach.tsx
+- Applied `objectPosition` style to approach bridge images
+- Changed Infra.tsx CardCarousel transition from `duration-700` to `duration-[600ms]`
+- Added `objectPosition: 'center 25%'` to all CardCarousel card images
+- Completely redesigned "Six clusters. One machine." section in Infra.tsx:
+  - Replaced light background (#FAFAFA) with dark schematic background (#0A0A0A)
+  - Replaced positioned box layout with radial machine schematic diagram
+  - Added animated SVG circuit-trace connection lines with flowing dash animations
+  - Created central Commons node (circular, with pulse ring animation)
+  - Created 5 satellite cluster nodes with icon + label + subtitle layout
+  - Added blueprint grid overlay
+  - Added radial glow effect from center
+  - Added corner labels ("System Schematic", "xCelero Outpost v1.0")
+  - Redesigned detail panel to match dark theme with white text and orange accents
+  - Added animated CPU icon in empty state with "6 clusters · 1 machine · infinite compounds" tagline
+  - Synchronized all transition timings to 0.6s with matching ease curves
+
+Stage Summary:
+- All slideshows now use `object-position` to avoid cutting faces/text
+- All transition timings synchronized to 0.6s with `[0.22, 1, 0.36, 1]` easing
+- "Six clusters. One machine." now renders as a dark machine schematic with animated connections
+- Browser verification confirms all changes work correctly with zero errors

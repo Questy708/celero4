@@ -1,0 +1,1562 @@
+     1→"use client";
+     2→
+     3→import { useRef, useState, useMemo, useEffect, useCallback } from "react";
+     4→import { motion, useInView } from "framer-motion";
+     5→import { Link } from "@/artemis/router";
+     6→import {
+     7→  ArrowRight,
+     8→  ChevronDown,
+     9→  ChevronUp,
+    10→  Building2,
+    11→  Rocket,
+    12→  Coins,
+    13→  Users,
+    14→  MapPin,
+    15→  Check,
+    16→  Calendar,
+    17→  Clock,
+    18→  Star,
+    19→  Zap,
+    20→  TrendingUp,
+    21→  Globe2,
+    22→} from "lucide-react";
+    23→import { ReviewSection } from "@/artemis/components/ReviewSection";
+    24→import { routeLegs, MAP_LOCATIONS } from "@/artemis/data/routes";
+    25→
+    26→/* ── Data ── */
+    27→
+    28→const heroImages = [
+    29→  {
+    30→    src: "https://images.unsplash.com/photo-1631556760646-50241850eb25?auto=format&fit=crop&w=1200&q=80",
+    31→    alt: "Black woman scientist in laboratory",
+    32→  },
+    33→  {
+    34→    src: "https://images.unsplash.com/photo-1611348524140-53c9a25263d6?auto=format&fit=crop&w=1200&q=80",
+    35→    alt: "Nairobi city skyline",
+    36→  },
+    37→  {
+    38→    src: "https://images.unsplash.com/photo-1780567497689-025144c19b8c?auto=format&fit=crop&w=1200&q=80",
+    39→    alt: "Black entrepreneur working on laptop",
+    40→  },
+    41→  {
+    42→    src: "https://images.unsplash.com/photo-1573164574511-73c773193279?auto=format&fit=crop&w=1200&q=80",
+    43→    alt: "Black professionals in business meeting",
+    44→  },
+    45→];
+    46→
+    47→const stats = [
+    48→  { value: 5000, prefix: "", suffix: "+", label: "Market-defining companies on the Route", icon: Rocket },
+    49→  { value: 1, prefix: "$", suffix: "T+", label: "Projected portfolio value at scale", icon: TrendingUp },
+    50→  { value: 200, prefix: "", suffix: "+", label: "Unicorns projected", icon: Zap },
+    51→  { value: 190, prefix: "", suffix: "", label: "Hub locations across 39 countries", icon: Globe2 },
+    52→];
+    53→
+    54→const pillars = [
+    55→  {
+    56→    id: "infrastructure",
+    57→    icon: Building2,
+    58→    heading: "Infrastructure",
+    59→    subtext:
+    60→      "M1 Core campuses, XEmbassy nodes, & distributed living labs",
+    61→    description:
+    62→      "We are building the physical and digital infrastructure that ventures need to move from prototype to production. M1 Core campuses are designed to provide 50,000+ sq ft of lab, maker, and co-working space in prime hub cities. XEmbassy nodes — compact 5,000 sq ft drop-in studios — will extend reach into secondary markets. Distributed living labs will connect field testing sites across the Route, giving ventures access to real-world validation environments from day one.",
+    63→    images: [
+    64→      {
+    65→        src: "https://images.unsplash.com/photo-1613457231357-a5db3bc5bd81?auto=format&fit=crop&w=1200&q=80",
+    66→        alt: "African urban infrastructure development",
+    67→      },
+    68→      {
+    69→        src: "https://images.unsplash.com/photo-1579165466949-3180a3d056d5?auto=format&fit=crop&w=1200&q=80",
+    70→        alt: "Black scientist conducting research",
+    71→      },
+    72→    ],
+    73→    link: "/platform",
+    74→  },
+    75→  {
+    76→    id: "ventures",
+    77→    icon: Rocket,
+    78→    heading: "Ventures",
+    79→    subtext:
+    80→      "Venture commercialization programs with industry & government partners",
+    81→    description:
+    82→      "We are designing structured commercialization programs that take ventures from idea to revenue. Each program will be co-designed with industry and government partners who provide market access, pilot opportunities, and first-customer contracts. The Quest Fellowship — our flagship semester-long program run in collaboration with DDQIC at Queen's University — uses MIT's Disciplined Entrepreneurship framework to guide founders through 24 steps of validated learning. Programs will run on the Route, connecting cohorts across hub cities for shared deal flow and peer support.",
+    83→    images: [
+    84→      {
+    85→        src: "https://images.unsplash.com/photo-1653566031535-bcf33e1c2893?auto=format&fit=crop&w=1200&q=80",
+    86→        alt: "Black founders building a venture",
+    87→      },
+    88→      {
+    89→        src: "https://images.unsplash.com/photo-1758691736903-c60a33e5b83f?auto=format&fit=crop&w=1200&q=80",
+    90→        alt: "Diverse team brainstorming startup ideas",
+    91→      },
+    92→    ],
+    93→    link: "/programs",
+    94→  },
+    95→  {
+    96→    id: "capital",
+    97→    icon: Coins,
+    98→    heading: "Capital",
+    99→    subtext: "Aligned network of venture & non-dilutive capital",
+   100→    description:
+   101→      "We are mobilizing capital that matches the realities of building in the Global South. Our network is being built to include venture funds, national development allocators, development finance institutions, and non-dilutive grant programs. Solidarity pricing will ensure that founders in early-stage markets access the same quality of support at a fraction of Silicon Valley costs. We are also building a non-dilutive capital desk to match ventures with grants, prizes, and government incentives across 39+ countries on the Route.",
+   102→    images: [
+   103→      {
+   104→        src: "https://images.unsplash.com/photo-1767893609884-622503897e53?auto=format&fit=crop&w=1200&q=80",
+   105→        alt: "Investment discussion with data",
+   106→      },
+   107→      {
+   108→        src: "https://images.unsplash.com/photo-1741991109902-98bf764fb35d?auto=format&fit=crop&w=1200&q=80",
+   109→        alt: "African city lights at night",
+   110→      },
+   111→    ],
+   112→    link: "/capital",
+   113→  },
+   114→  {
+   115→    id: "community",
+   116→    icon: Users,
+   117→    heading: "Community",
+   118→    subtext:
+   119→      "The XCitizens network, operators, founders, investors & mentors across the Route",
+   120→    description:
+   121→      "The fourth pillar. Community is the connective tissue that will turn individual efforts into collective momentum. The XCitizens network is designed to span every hub on the Route: operators who run infrastructure, founders building ventures, investors deploying capital, and mentors transferring knowledge. Compound network effects mean every new member strengthens the whole, creating a flywheel that can accelerate commercialization for everyone.",
+   122→    images: [
+   123→      {
+   124→        src: "https://images.unsplash.com/photo-1573496267526-08a69e46a409?auto=format&fit=crop&w=1200&q=80",
+   125→        alt: "Black women colleagues collaborating",
+   126→      },
+   127→      {
+   128→        src: "https://images.unsplash.com/photo-1778876091184-8839210e1917?auto=format&fit=crop&w=1200&q=80",
+   129→        alt: "Community gathering at conference",
+   130→      },
+   131→    ],
+   132→    link: "/join",
+   133→  },
+   134→];
+   135→
+   136→const routeRegions = [
+   137→  {
+   138→    name: "Gulf of Guinea Arc",
+   139→    description: "Lagos, Accra, Abidjan, Dakar: the commercial backbone of West Africa",
+   140→  },
+   141→  {
+   142→    name: "East Africa Corridor",
+   143→    description:
+   144→      "Nairobi, Kampala, Kigali, Addis Ababa: innovation hubs of East Africa",
+   145→  },
+   146→  {
+   147→    name: "Southern Africa Arc",
+   148→    description:
+   149→      "Cape Town, Johannesburg, Harare, Maputo: mining, manufacturing, and finance",
+   150→  },
+   151→  {
+   152→    name: "Mediterranean Bridge",
+   153→    description: "Cairo, Tunis, Casablanca: Mediterranean gateway to the continent",
+   154→  },
+   155→  {
+   156→    name: "Sahel Band",
+   157→    description: "Bamako, Ouagadougou, Niamey, N'Djamena: climate adaptation frontier",
+   158→  },
+   159→  {
+   160→    name: "Central African Heartland",
+   161→    description:
+   162→      "Kinshasa, Brazzaville, Douala: mineral-rich, infrastructure-poor corridor",
+   163→  },
+   164→];
+   165→
+   166→/* ══════════════════════════════════════════════════════════════════════════
+   167→   HOME
+   168→   ══════════════════════════════════════════════════════════════════════════ */
+   169→export function Home() {
+   170→  return (
+   171→    <div className="bg-white text-[#111111]">
+   172→      <Hero />
+   173→      <MissionBridge />
+   174→      <BentoGrid />
+   175→      <NumbersSection />
+   176→      <ThreePillarsSection />
+   177→      <LocationsSection />
+   178→      <UpcomingEventsSection />
+   179→      <ReviewSection title="Dispatches from the field" />
+   180→      <NewsletterSection />
+   181→    </div>
+   182→  );
+   183→}
+   184→
+   185→/* ══════════════════════════════════════════════════════════════════════════
+   186→   HERO, Contained image with heading below (NEWLAB style)
+   187→   ══════════════════════════════════════════════════════════════════════════ */
+   188→function Hero() {
+   189→  const [currentImage, setCurrentImage] = useState(0);
+   190→
+   191→  useEffect(() => {
+   192→    const interval = setInterval(() => {
+   193→      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+   194→    }, 5000);
+   195→    return () => clearInterval(interval);
+   196→  }, []);
+   197→
+   198→  return (
+   199→    <section className="relative w-full px-6 md:px-12 lg:px-20 pt-4 md:pt-6">
+   200→      {/* Contained image, not full-bleed */}
+   201→      <div className="relative w-full max-w-[1400px] mx-auto h-[50vh] sm:h-[55vh] md:h-[65vh] lg:h-[75vh] overflow-hidden">
+   202→        {heroImages.map((img, i) => (
+   203→          <motion.div
+   204→            key={i}
+   205→            initial={false}
+   206→            animate={{
+   207→              opacity: i === currentImage ? 1 : 0,
+   208→              scale: i === currentImage ? 1 : 1.03,
+   209→            }}
+   210→            transition={{ duration: 1.5, ease: "easeInOut" }}
+   211→            className="absolute inset-0"
+   212→          >
+   213→            <img
+   214→              src={img.src}
+   215→              alt={img.alt}
+   216→              className="w-full h-full object-cover"
+   217→              loading={i === 0 ? "eager" : "lazy"}
+   218→            />
+   219→          </motion.div>
+   220→        ))}
+   221→        {/* Gradient overlay from bottom */}
+   222→        <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent" />
+   223→
+   224→        {/* Image indicators */}
+   225→        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+   226→          {heroImages.map((_, i) => (
+   227→            <button
+   228→              key={i}
+   229→              suppressHydrationWarning
+   230→              onClick={() => setCurrentImage(i)}
+   231→              className="min-h-[44px] min-w-[44px] flex items-center justify-center"
+   232→              aria-label={`Go to slide ${i + 1}`}
+   233→            >
+   234→              <span
+   235→                className={`block h-[3px] transition-all duration-500 ${
+   236→                  i === currentImage ? "bg-[#FF4D00] w-12 active:w-14" : "bg-black/30 w-8"
+   237→                }`}
+   238→              />
+   239→            </button>
+   240→          ))}
+   241→        </div>
+   242→      </div>
+   243→
+   244→      {/* Large centered heading below the image (NEWLAB style) */}
+   245→      <div className="w-full max-w-[1400px] mx-auto pt-8 md:pt-12 pb-6 md:pb-10">
+   246→        <motion.h1
+   247→          initial={{ opacity: 0, y: 30 }}
+   248→          animate={{ opacity: 1, y: 0 }}
+   249→          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+   250→          className="text-[28px] sm:text-[44px] md:text-[64px] lg:text-[86px] xl:text-[104px] leading-[0.9] font-display font-medium tracking-[-0.03em] text-center uppercase"
+   251→        >
+   252→          Venture platform
+   253→          <br />
+   254→          for critical
+   255→          <br />
+   256→          technology
+   257→        </motion.h1>
+   258→
+   259→        {/* Subtitle + CTA buttons */}
+   260→        <motion.div
+   261→          initial={{ opacity: 0, y: 20 }}
+   262→          animate={{ opacity: 1, y: 0 }}
+   263→          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.7 }}
+   264→          className="mt-6 md:mt-8 text-center max-w-2xl mx-auto"
+   265→        >
+   266→          <p className="text-[15px] md:text-[17px] leading-[1.6] text-[#111111]/60 font-medium mb-8">
+   267→            Designed to unite 190 hubs across 39 countries — commercializing the technology the next century needs: infrastructure, ventures, capital, and community, all on one platform.
+   268→          </p>
+   269→          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+   270→            <Link
+   271→              to="/ventures"
+   272→              className="inline-flex items-center gap-2 px-8 py-4 bg-[#FF4D00] text-white text-[12px] font-bold uppercase tracking-widest hover:bg-[#FF4D00]/90 transition-colors"
+   273→            >
+   274→              Explore Ventures
+   275→              <ArrowRight className="w-4 h-4" />
+   276→            </Link>
+   277→            <Link
+   278→              to="/capital"
+   279→              className="inline-flex items-center gap-2 px-8 py-4 border-2 border-[#111111] text-[#111111] text-[12px] font-bold uppercase tracking-widest hover:bg-[#111111] hover:text-white transition-colors bg-transparent"
+   280→            >
+   281→              Invest from $500
+   282→            </Link>
+   283→          </div>
+   284→        </motion.div>
+   285→
+   286→        {/* Scroll indicator */}
+   287→        <motion.div
+   288→          initial={{ opacity: 0 }}
+   289→          animate={{ opacity: 1 }}
+   290→          transition={{ duration: 1, delay: 1.5 }}
+   291→          className="flex flex-col items-center mt-10 md:mt-14"
+   292→        >
+   293→          <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase text-[#111111]/25 mb-3">Scroll</span>
+   294→          <motion.div
+   295→            animate={{ y: [0, 6, 0] }}
+   296→            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+   297→          >
+   298→            <ChevronDown className="w-5 h-5 text-[#FF4D00]/50" strokeWidth={1.5} />
+   299→          </motion.div>
+   300→        </motion.div>
+   301→      </div>
+   302→    </section>
+   303→  );
+   304→}
+   305→
+   306→/* ══════════════════════════════════════════════════════════════════════════
+   307→   MISSION BRIDGE: Image strip + two-column mission statement with dotted map
+   308→   ══════════════════════════════════════════════════════════════════════════ */
+   309→
+   310→/* Dot-matrix world map: recognizable continent outlines */
+   311→const worldDots = (() => {
+   312→  const rows = [
+   313→    ".......##..........###.............#####..####..............",
+   314→    "......####.........####............######.######............",
+   315→    ".....######........#####...........########.######..........",
+   316→    ".....#######.......#####..........#########..######.........",
+   317→    "....#########......######.........#########...######........",
+   318→    "....##########.....#######........#########....#####........",
+   319→    "...############....########.......########.....#####........",
+   320→    "...############....########.......########......####........",
+   321→    "....###########....#########......#######.......####........",
+   322→    "....##########.....##########.....######........###.........",
+   323→    ".....#########.....##########.....######........###.........",
+   324→    "......########.....###########....#####.........##..........",
+   325→    ".......#######.....###########....#####.........##..........",
+   326→    "........######.....############...######.........#..........",
+   327→    ".........#####.....####.#####....########...................",
+   328→    "..........####.....####..####...#########...................",
+   329→    "...........###.....####...####..#########...................",
+   330→    "............##.....####....###..########....................",
+   331→    ".............#......###....###..#######.....................",
+   332→    "....................###.....##...######.....................",
+   333→    ".....................##.....##...#####......................",
+   334→    "......................##.....#...####.......................",
+   335→    ".......................#.........###........................",
+   336→    "................................##.........................",
+   337→    "................................#..........................",
+   338→    "............................................................",
+   339→    "............................................................",
+   340→    "............................................................",
+   341→    "............................................................",
+   342→    "............................................................",
+   343→  ];
+   344→  const dots: { row: number; col: number }[] = [];
+   345→  rows.forEach((row, r) => {
+   346→    [...row].forEach((ch, c) => {
+   347→      if (ch === "#") dots.push({ row: r, col: c });
+   348→    });
+   349→  });
+   350→  return dots;
+   351→})();
+   352→
+   353→const bridgeImages = [
+   354→  {
+   355→    src: "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80",
+   356→    alt: "Black researcher in laboratory",
+   357→  },
+   358→  {
+   359→    src: "https://images.unsplash.com/photo-1573164574397-dd250bc8a598?auto=format&fit=crop&w=800&q=80",
+   360→    alt: "Black professionals collaborating",
+   361→  },
+   362→  {
+   363→    src: "https://images.unsplash.com/photo-1669127300649-940337f1487e?auto=format&fit=crop&w=800&q=80",
+   364→    alt: "African city development",
+   365→  },
+   366→];
+   367→
+   368→function MissionBridge() {
+   369→  const ref = useRef<HTMLDivElement>(null);
+   370→  const isInView = useInView(ref, { once: true, margin: "-80px" });
+   371→
+   372→  return (
+   373→    <section ref={ref} className="px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
+   374→      <div className="w-full max-w-[1400px] mx-auto">
+   375→        {/* Image strip: three overlapping images */}
+   376→        <motion.div
+   377→          initial={{ opacity: 0, y: 30 }}
+   378→          animate={isInView ? { opacity: 1, y: 0 } : {}}
+   379→          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+   380→          className="relative grid grid-cols-3 md:flex md:items-end md:justify-start md:gap-0 gap-3 md:gap-0 mb-16 md:mb-24"
+   381→        >
+   382→          {bridgeImages.map((img, i) => (
+   383→            <motion.div
+   384→              key={i}
+   385→              initial={{ opacity: 0, y: 20 }}
+   386→              animate={isInView ? { opacity: 1, y: 0 } : {}}
+   387→              transition={{ duration: 0.6, delay: 0.1 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+   388→              className={`relative overflow-hidden bg-[#F5F5F5] shadow-lg ${
+   389→                i === 0
+   390→                  ? "w-full md:w-[32%] aspect-[4/3] z-10"
+   391→                  : i === 1
+   392→                  ? "w-full md:w-[40%] aspect-[4/3] z-30 md:-mt-3 md:-ml-[4%]"
+   393→                  : "w-full md:w-[32%] aspect-[4/3] z-10 md:-ml-[4%]"
+   394→              }`}
+   395→            >
+   396→              <img
+   397→                src={img.src}
+   398→                alt={img.alt}
+   399→                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+   400→              />
+   401→            </motion.div>
+   402→          ))}
+   403→        </motion.div>
+   404→
+   405→        {/* Two-column layout: text left, dotted map right */}
+   406→        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+   407→          {/* Left: Mission text */}
+   408→          <motion.div
+   409→            initial={{ opacity: 0, y: 30 }}
+   410→            animate={isInView ? { opacity: 1, y: 0 } : {}}
+   411→            transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+   412→            className="lg:col-span-6"
+   413→          >
+   414→            <p className="text-[22px] sm:text-[28px] md:text-[34px] leading-[1.25] font-display font-medium tracking-[-0.02em] text-[#111111] mb-6 md:mb-8">
+   415→              The markets with the youngest populations and fastest growth will build what the next century runs on, yet <span className="text-[#FF4D00]">most ventures there never cross the valley of death</span>.
+   416→            </p>
+   417→            <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/60 font-medium max-w-xl">
+   418→              xCelero is designed to bridge that gap. A network of 190 hubs across 39 countries, built into a single commercialization engine: infrastructure to build, programs to validate, capital to scale, and community to compound. A breakthrough in isolation is a tragedy. <span className="text-[#111111] font-semibold">On the Route, it can become a flywheel.</span>
+   419→            </p>
+   420→          </motion.div>
+   421→
+   422→          {/* Right: Dotted world map */}
+   423→          <motion.div
+   424→            initial={{ opacity: 0, y: 30 }}
+   425→            animate={isInView ? { opacity: 1, y: 0 } : {}}
+   426→            transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+   427→            className="lg:col-span-6 flex items-center justify-center"
+   428→          >
+   429→            <div className="relative w-full max-w-lg">
+   430→              <svg
+   431→                viewBox="0 0 60 30"
+   432→                className="w-full h-auto"
+   433→                style={{ imageRendering: "auto" }}
+   434→              >
+   435→                {/* All land dots in dark color */}
+   436→                {worldDots.map((dot, i) => (
+   437→                  <circle
+   438→                    key={i}
+   439→                    cx={dot.col * 1}
+   440→                    cy={dot.row * 1}
+   441→                    r="0.35"
+   442→                    className="fill-[#111111]/70"
+   443→                  />
+   444→                ))}
+   445→                {/* Africa highlighted region: cols 23-33, rows 3-21 */}
+   446→                {worldDots
+   447→                  .filter(
+   448→                    (d) =>
+   449→                      d.col >= 23 && d.col <= 33 && d.row >= 3 && d.row <= 21
+   450→                  )
+   451→                  .map((dot, i) => (
+   452→                    <circle
+   453→                      key={`af-${i}`}
+   454→                      cx={dot.col * 1}
+   455→                      cy={dot.row * 1}
+   456→                      r="0.4"
+   457→                      className="fill-[#FF4D00]"
+   458→                    />
+   459→                  ))}
+   460→              </svg>
+   461→              {/* Label */}
+   462→              <div className="absolute bottom-2 right-4 text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">
+   463→                39 Countries · 190 Projected Hubs
+   464→              </div>
+   465→            </div>
+   466→          </motion.div>
+   467→        </div>
+   468→      </div>
+   469→    </section>
+   470→  );
+   471→}
+   472→
+   473→/* ══════════════════════════════════════════════════════════════════════════
+   474→   THE PLATFORM: Countdown ticker + thesis + pillar cards
+   475→   ══════════════════════════════════════════════════════════════════════════ */
+   476→
+   477→/* Live countdown hook — ticks every second toward a target date */
+   478→function useCountdown(targetDate: Date) {
+   479→  const [tick, setTick] = useState(0);
+   480→  const mountedRef = useRef(false);
+   481→
+   482→  useEffect(() => {
+   483→    mountedRef.current = true;
+   484→    const id = setInterval(() => setTick((t) => t + 1), 1000);
+   485→    return () => clearInterval(id);
+   486→  }, []);
+   487→
+   488→  const now = mountedRef.current ? Date.now() : targetDate.getTime();
+   489→  const diff = Math.max(0, targetDate.getTime() - now);
+   490→  const days = Math.floor(diff / 86400000);
+   491→  const hours = Math.floor((diff % 86400000) / 3600000);
+   492→  const minutes = Math.floor((diff % 3600000) / 60000);
+   493→  const seconds = Math.floor((diff % 60000) / 1000);
+   494→
+   495→  return { days, hours, minutes, seconds, elapsed: diff === 0, mounted: mountedRef.current };
+   496→}
+   497→
+   498→/* Pad a number to 2 digits */
+   499→function pad2(n: number) {
+   500→  return String(n).padStart(2, "0");
+   501→}
+   502→
+   503→function BentoGrid() {
+   504→  const ref = useRef<HTMLDivElement>(null);
+   505→  const isInView = useInView(ref, { once: true, margin: "-80px" });
+   506→
+   507→  // Year One launch: March 15, 2027 — first cohort departs the Gulf of Guinea
+   508→  const launchDate = new Date("2027-03-15T00:00:00Z");
+   509→  const { days, hours, minutes, seconds, mounted } = useCountdown(launchDate);
+   510→
+   511→  const pillars = [
+   512→    {
+   513→      title: "Infrastructure",
+   514→      stat: "190",
+   515→      statLabel: "Hubs · 39 Countries",
+   516→      description: "Physical spaces, legal frameworks, and shared systems that let ventures deploy faster and compound across borders.",
+   517→      icon: Building2,
+   518→      link: "/platform",
+   519→    },
+   520→    {
+   521→      title: "Ventures",
+   522→      stat: "40+",
+   523→      statLabel: "Portfolio Companies",
+   524→      description: "From energy to space — critical technology designed for the markets that need it most and the century that demands it.",
+   525→      icon: Rocket,
+   526→      link: "/ventures",
+   527→    },
+   528→    {
+   529→      title: "Capital",
+   530→      stat: "6",
+   531→      statLabel: "Investment Vehicles",
+   532→      description: "From $500 to $250K+, aligned capital designed for every stage — so breakthroughs don't stall for funding.",
+   533→      icon: Coins,
+   534→      link: "/capital",
+   535→    },
+   536→    {
+   537→      title: "Community",
+   538→      stat: "100",
+   539→      statLabel: "XCitizens per Cohort",
+   540→      description: "Operators and builders moving through the Route together — a mobile university for civilizational prototyping.",
+   541→      icon: Users,
+   542→      link: "/programs",
+   543→    },
+   544→  ];
+   545→
+   546→  const countdownUnits = [
+   547→    { value: days, label: "Days" },
+   548→    { value: hours, label: "Hrs" },
+   549→    { value: minutes, label: "Min" },
+   550→    { value: seconds, label: "Sec" },
+   551→  ];
+   552→
+   553→  return (
+   554→    <section ref={ref} className="py-20 md:py-32 px-6 md:px-12 lg:px-20">
+   555→      <div className="max-w-[1400px] mx-auto bg-[#0A0A0A] rounded-sm overflow-hidden">
+   556→        {/* ── Countdown ticker bar ── */}
+   557→        <div className="border-b border-white/[0.06]">
+   558→          <div className="flex items-center">
+   559→            {/* Mission status indicator */}
+   560→            <div className="flex items-center gap-2 px-4 md:gap-2.5 md:px-10 py-3.5 md:py-5 border-r border-white/[0.06] shrink-0">
+   561→              <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D00] animate-pulse" />
+   562→              <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]/60">
+   563→                T-0
+   564→              </span>
+   565→            </div>
+   566→            {/* Countdown digits */}
+   567→            {countdownUnits.map((unit, i) => (
+   568→              <motion.div
+   569→                key={unit.label}
+   570→                initial={{ opacity: 0, y: 10 }}
+   571→                animate={isInView ? { opacity: 1, y: 0 } : {}}
+   572→                transition={{ duration: 0.5, delay: i * 0.07, ease: "easeOut" }}
+   573→                className={`flex items-center gap-1.5 md:gap-2.5 px-2.5 md:px-7 py-3.5 md:py-5 shrink-0 ${
+   574→                  i < countdownUnits.length - 1 ? "border-r border-white/[0.06]" : ""
+   575→                }`}
+   576→              >
+   577→                <span className="text-[18px] md:text-[28px] font-display font-medium tracking-[-0.02em] text-white leading-none tabular-nums">
+   578→                  {mounted ? pad2(unit.value) : "--"}
+   579→                </span>
+   580→                <span className="text-[8px] md:text-[9px] font-mono font-bold tracking-[0.15em] md:tracking-[0.2em] uppercase text-white/25">
+   581→                  {unit.label}
+   582→                </span>
+   583→              </motion.div>
+   584→            ))}
+   585→            {/* Launch date label */}
+   586→            <div className="hidden md:flex items-center ml-auto px-6 md:px-10 py-5 shrink-0">
+   587→              <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-white/15">
+   588→                Mar 15, 2027 · Gulf of Guinea · Leg 1
+   589→              </span>
+   590→            </div>
+   591→          </div>
+   592→        </div>
+   593→
+   594→        {/* ── Thesis + Pillars: side-by-side on desktop ── */}
+   595→        <div className="grid lg:grid-cols-12">
+   596→          {/* Left: Thesis statement — sticky on scroll */}
+   597→          <div className="lg:col-span-5 px-6 md:px-14 lg:px-20 py-14 md:py-20 lg:py-24 lg:sticky lg:top-[80px] lg:self-start border-b lg:border-b-0 lg:border-r border-white/[0.06]">
+   598→            <motion.div
+   599→              initial={{ opacity: 0, y: 30 }}
+   600→              animate={isInView ? { opacity: 1, y: 0 } : {}}
+   601→              transition={{ duration: 0.8, ease: "easeOut" }}
+   602→            >
+   603→              <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-6 block">
+   604→                The Platform
+   605→              </span>
+   606→              <h2 className="text-[32px] sm:text-[44px] md:text-[56px] lg:text-[64px] font-display font-medium tracking-[-0.035em] leading-[0.92] text-white mb-8 md:mb-10">
+   607→                Four pillars,{" "}
+   608→                <em className="italic font-serif text-[#FF4D00]">one thesis</em>.
+   609→              </h2>
+   610→              <div className="space-y-5">
+   611→                <p className="text-[17px] md:text-[19px] leading-[1.6] text-white/40 font-medium">
+   612→                  Critical technology creates industries, builds cities, and unlocks wealth for generations. The next century belongs to the Global South — youngest populations, fastest-growing markets, boldest ambitions.
+   613→                </p>
+   614→                <p className="text-[14px] md:text-[16px] leading-[1.65] text-white/25 font-medium">
+   615→                  But isolated breakthroughs won&apos;t compound on their own.{" "}
+   616→                  <span className="text-white/70 font-semibold">Connected ones can.</span> xCelero unites 190 hubs across 39 countries into one commercialization engine — infrastructure, ventures, capital, community — so prosperity doesn&apos;t remain a promise but can become a product.
+   617→                </p>
+   618→              </div>
+   619→            </motion.div>
+   620→          </div>
+   621→
+   622→          {/* Right: Pillar cards stacked vertically */}
+   623→          <div className="lg:col-span-7">
+   624→            {pillars.map((pillar, i) => {
+   625→              const Icon = pillar.icon;
+   626→              return (
+   627→                <motion.div
+   628→                  key={pillar.title}
+   629→                  initial={{ opacity: 0, x: 30 }}
+   630→                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+   631→                  transition={{ duration: 0.7, delay: 0.3 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+   632→                >
+   633→                  <Link
+   634→                    to={pillar.link}
+   635→                    className="group block"
+   636→                  >
+   637→                    <div className={`relative overflow-hidden px-6 md:px-14 py-10 md:py-14 hover:bg-white/[0.02] transition-colors duration-500 ${
+   638→                      i < pillars.length - 1 ? "border-b border-white/[0.06]" : ""
+   639→                    }`}>
+   640→                      {/* Watermark number */}
+   641→                      <span className="absolute top-6 right-8 text-[72px] md:text-[96px] font-display font-medium tracking-[-0.04em] text-white/[0.03] leading-none select-none pointer-events-none">
+   642→                        {String(i + 1).padStart(2, "0")}
+   643→                      </span>
+   644→
+   645→                      <div className="relative flex flex-col md:flex-row md:items-start gap-6 md:gap-10">
+   646→                        {/* Icon */}
+   647→                        <div className="w-11 h-11 shrink-0 flex items-center justify-center border border-white/10 group-hover:border-[#FF4D00]/30 transition-colors duration-300">
+   648→                          <Icon className="w-[18px] h-[18px] text-white/20 group-hover:text-[#FF4D00] transition-colors duration-300" strokeWidth={1.5} />
+   649→                        </div>
+   650→
+   651→                        {/* Content */}
+   652→                        <div className="flex-1 min-w-0">
+   653→                          <div className="flex items-baseline gap-4 mb-4">
+   654→                            <h3 className="text-[22px] md:text-[28px] font-display font-medium tracking-[-0.02em] text-white group-hover:text-[#FF4D00] transition-colors duration-300">
+   655→                              {pillar.title}
+   656→                            </h3>
+   657→                            <ArrowRight className="w-4 h-4 text-white/0 group-hover:text-[#FF4D00] group-hover:translate-x-1 transition-all duration-300 shrink-0" />
+   658→                          </div>
+   659→
+   660→                          <p className="text-[13px] md:text-[14px] leading-[1.75] text-white/20 group-hover:text-white/40 transition-colors duration-300 mb-6 max-w-md">
+   661→                            {pillar.description}
+   662→                          </p>
+   663→
+   664→                          {/* Stat badge */}
+   665→                          <div className="flex items-baseline gap-2">
+   666→                            <span className="text-[32px] md:text-[40px] font-display font-medium tracking-[-0.03em] text-white/80 leading-none">
+   667→                              {pillar.stat}
+   668→                            </span>
+   669→                            <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]/40">
+   670→                              {pillar.statLabel}
+   671→                            </span>
+   672→                          </div>
+   673→                        </div>
+   674→                      </div>
+   675→                    </div>
+   676→                  </Link>
+   677→                </motion.div>
+   678→              );
+   679→            })}
+   680→          </div>
+   681→        </div>
+   682→      </div>
+   683→    </section>
+   684→  );
+   685→}
+   686→
+   687→/* ══════════════════════════════════════════════════════════════════════════
+   688→   NUMBERS SECTION: Animated counting stats
+   689→   ══════════════════════════════════════════════════════════════════════════ */
+   690→function AnimatedCounter({ value, prefix, suffix, duration = 2 }: {
+   691→  value: number;
+   692→  prefix: string;
+   693→  suffix: string;
+   694→  duration?: number;
+   695→}) {
+   696→  const [count, setCount] = useState(0);
+   697→  const [hasAnimated, setHasAnimated] = useState(false);
+   698→  const ref = useRef<HTMLDivElement>(null);
+   699→
+   700→  useEffect(() => {
+   701→    const el = ref.current;
+   702→    if (!el || hasAnimated) return;
+   703→
+   704→    const observer = new IntersectionObserver(
+   705→      ([entry]) => {
+   706→        if (entry.isIntersecting && !hasAnimated) {
+   707→          setHasAnimated(true);
+   708→          observer.disconnect();
+   709→
+   710→          let startTime: number | null = null;
+   711→          let animationFrame: number;
+   712→
+   713→          const animate = (timestamp: number) => {
+   714→            if (!startTime) startTime = timestamp;
+   715→            const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+   716→            const eased = 1 - Math.pow(1 - progress, 3);
+   717→            setCount(value * eased);
+   718→
+   719→            if (progress < 1) {
+   720→              animationFrame = requestAnimationFrame(animate);
+   721→            }
+   722→          };
+   723→
+   724→          animationFrame = requestAnimationFrame(animate);
+   725→          return () => cancelAnimationFrame(animationFrame);
+   726→        }
+   727→      },
+   728→      { threshold: 0.2 }
+   729→    );
+   730→
+   731→    observer.observe(el);
+   732→    return () => observer.disconnect();
+   733→  }, [hasAnimated, value, duration]);
+   734→
+   735→  const displayValue = value % 1 === 0 ? Math.round(count) : count.toFixed(1);
+   736→
+   737→  return (
+   738→    <div ref={ref} className="tabular-nums">
+   739→      <span className="text-[36px] sm:text-[48px] md:text-[72px] lg:text-[88px] font-display font-medium tracking-[-0.03em] leading-[1]">
+   740→        {prefix}{displayValue}{suffix}
+   741→      </span>
+   742→    </div>
+   743→  );
+   744→}
+   745→
+   746→function NumbersSection() {
+   747→  const ref = useRef<HTMLDivElement>(null);
+   748→  const isInView = useInView(ref, { once: true, margin: "-80px" });
+   749→
+   750→  return (
+   751→    <section
+   752→      ref={ref}
+   753→      className="py-20 md:py-32 px-6 md:px-12 lg:px-20 border-t border-[#111111]/10 bg-[#FAFAFA]"
+   754→    >
+   755→      <div className="w-full max-w-[1400px] mx-auto">
+   756→        <motion.div
+   757→          initial={{ opacity: 0 }}
+   758→          animate={isInView ? { opacity: 1 } : {}}
+   759→          transition={{ duration: 0.6 }}
+   760→          className="mb-16 md:mb-24"
+   761→        >
+   762→          <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-[#FF4D00] block mb-4">
+   763→            By the numbers
+   764→          </span>
+   765→          <span className="text-[28px] sm:text-[36px] md:text-[48px] font-display font-medium tracking-[-0.02em] text-[#111111]/80 leading-[1.1]">
+   766→            10-Year Outlook
+   767→          </span>
+   768→        </motion.div>
+   769→
+   770→        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
+   771→          {stats.map((stat, i) => {
+   772→            const Icon = stat.icon;
+   773→            return (
+   774→              <motion.div
+   775→                key={i}
+   776→                initial={{ opacity: 0, y: 40 }}
+   777→                animate={isInView ? { opacity: 1, y: 0 } : {}}
+   778→                transition={{
+   779→                  duration: 0.7,
+   780→                  delay: i * 0.15,
+   781→                  ease: [0.22, 1, 0.36, 1],
+   782→                }}
+   783→                className={`border-t border-[#111111]/10 pt-8 pb-8 ${
+   784→                  i > 0 ? "lg:border-l lg:pl-8" : ""
+   785→                } ${i % 2 === 1 ? "pl-6 sm:pl-8" : ""}`}
+   786→              >
+   787→                <div className="flex items-center gap-2 mb-4">
+   788→                  <Icon className="w-4 h-4 text-[#FF4D00]" strokeWidth={1.5} />
+   789→                  <span className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30">
+   790→                    {String(i + 1).padStart(2, "0")}
+   791→                  </span>
+   792→                </div>
+   793→                <AnimatedCounter
+   794→                  value={stat.value}
+   795→                  prefix={stat.prefix}
+   796→                  suffix={stat.suffix}
+   797→                />
+   798→                <div className="text-[13px] md:text-[15px] leading-[1.5] text-[#111111]/50 font-medium max-w-[200px] mt-4">
+   799→                  {stat.label}
+   800→                </div>
+   801→              </motion.div>
+   802→            );
+   803→          })}
+   804→        </div>
+   805→      </div>
+   806→    </section>
+   807→  );
+   808→}
+   809→
+   810→/* ══════════════════════════════════════════════════════════════════════════
+   811→   THREE PILLARS SECTION, Each pillar: heading + subtext left, 2 images right
+   812→   ══════════════════════════════════════════════════════════════════════════ */
+   813→function ThreePillarsSection() {
+   814→  return (
+   815→    <section className="border-t border-[#111111]/10">
+   816→      {pillars.map((pillar, idx) => (
+   817→        <PillarBlock key={pillar.id} pillar={pillar} index={idx} />
+   818→      ))}
+   819→    </section>
+   820→  );
+   821→}
+   822→
+   823→function PillarBlock({
+   824→  pillar,
+   825→  index,
+   826→}: {
+   827→  pillar: (typeof pillars)[number];
+   828→  index: number;
+   829→}) {
+   830→  const ref = useRef<HTMLDivElement>(null);
+   831→  const isInView = useInView(ref, { once: true, margin: "-80px" });
+   832→  const Icon = pillar.icon;
+   833→
+   834→  return (
+   835→    <div
+   836→      ref={ref}
+   837→      className={`py-20 md:py-32 px-6 md:px-12 lg:px-20 border-t border-[#111111]/10`}
+   838→    >
+   839→      <div className="w-full max-w-[1400px] mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+   840→        {/* Left: heading + subtext + description */}
+   841→        <motion.div
+   842→          initial={{ opacity: 0, y: 30 }}
+   843→          animate={isInView ? { opacity: 1, y: 0 } : {}}
+   844→          transition={{ duration: 0.8, ease: "easeOut" }}
+   845→          className="lg:col-span-5"
+   846→        >
+   847→          <div className="flex items-center gap-3 mb-6">
+   848→            <div className="w-10 h-10 rounded-full border border-[#111111]/10 flex items-center justify-center">
+   849→              <Icon className="w-4 h-4 text-[#FF4D00]" strokeWidth={1.5} />
+   850→            </div>
+   851→            <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-[#111111]/40">
+   852→              {String(index + 1).padStart(2, "0")}
+   853→            </span>
+   854→          </div>
+   855→
+   856→          <h2 className="text-[28px] sm:text-[36px] md:text-[64px] lg:text-[80px] font-display font-medium tracking-[-0.03em] leading-[0.9] mb-4">
+   857→            {pillar.heading}
+   858→          </h2>
+   859→
+   860→          <p className="text-[16px] md:text-[18px] leading-[1.6] text-[#111111]/80 font-medium max-w-md mb-4">
+   861→            {pillar.subtext}
+   862→          </p>
+   863→
+   864→          <p className="text-[14px] md:text-[15px] leading-[1.7] text-[#111111]/50 font-medium max-w-md mb-8">
+   865→            {pillar.description}
+   866→          </p>
+   867→
+   868→          <Link
+   869→            to={pillar.link}
+   870→            className="inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.12em] text-[#FF4D00] hover:text-[#111111] transition-colors group"
+   871→          >
+   872→            Explore {pillar.heading}
+   873→            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+   874→          </Link>
+   875→        </motion.div>
+   876→
+   877→        {/* Right: 2 image cards side by side */}
+   878→        <motion.div
+   879→          initial={{ opacity: 0, y: 30 }}
+   880→          animate={isInView ? { opacity: 1, y: 0 } : {}}
+   881→          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+   882→          className="lg:col-span-7 grid grid-cols-2 gap-4"
+   883→        >
+   884→          {pillar.images.map((img, i) => (
+   885→            <div
+   886→              key={i}
+   887→              className="aspect-[3/4] overflow-hidden group"
+   888→            >
+   889→              <img
+   890→                src={img.src}
+   891→                alt={img.alt}
+   892→                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+   893→              />
+   894→            </div>
+   895→          ))}
+   896→        </motion.div>
+   897→      </div>
+   898→    </div>
+   899→  );
+   900→}
+   901→
+   902→/* ── Upcoming Events Data ── */
+   903→const homeEvents = [
+   904→  {
+   905→    title: "Accelerator Cohort 1 Demo Day",
+   906→    date: "March 28, 2026",
+   907→    time: "10:00 AM EAT",
+   908→    location: "M1 Core Nairobi + Virtual",
+   909→    type: "Demo Day",
+   910→    description: "Ventures present validated MVPs to investors and partners. Sector deep-dives in energy, life sciences, and digital finance.",
+   911→    featured: true,
+   912→    image: "https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?auto=format&fit=crop&w=800&q=80",
+   913→  },
+   914→  {
+   915→    title: "Route Summit: Gulf of Guinea Arc",
+   916→    date: "April 12, 2026",
+   917→    time: "9:00 AM WAT",
+   918→    location: "XEmbassy Lagos",
+   919→    type: "Summit",
+   920→    description: "Operators and founders from Lagos, Accra, and Abidjan convene for cross-hub deal flow and peer mentorship.",
+   921→    featured: false,
+   922→    image: "https://images.unsplash.com/photo-1775163560631-6ff15eb2fa1f?auto=format&fit=crop&w=800&q=80",
+   923→  },
+   924→  {
+   925→    title: "Building in Life Sciences: From Lab to Market",
+   926→    date: "April 25, 2026",
+   927→    time: "2:00 PM EAT",
+   928→    location: "Virtual Masterclass",
+   929→    type: "Masterclass",
+   930→    description: "Regulatory pathways for diagnostics and therapeutics in African markets. Case studies from Refract and Allele.",
+   931→    featured: false,
+   932→    image: "https://images.unsplash.com/photo-1707944746042-e4c81c191812?auto=format&fit=crop&w=800&q=80",
+   933→  },
+   934→  {
+   935→    title: "Capital Roundtable: Thematic Fund Deep Dive",
+   936→    date: "May 15, 2026",
+   937→    time: "11:00 AM CAT",
+   938→    location: "M1 Core Cape Town + Virtual",
+   939→    type: "Investor Event",
+   940→    description: "Thematic Fund allocation strategy, portfolio construction, and co-investment opportunities for LPs.",
+   941→    featured: true,
+   942→    image: "https://images.unsplash.com/photo-1767893609884-622503897e53?auto=format&fit=crop&w=800&q=80",
+   943→  },
+   944→];
+   945→
+   946→/* ══════════════════════════════════════════════════════════════════════════
+   947→   UPCOMING EVENTS SECTION, Magazine-style editorial layout
+   948→   ══════════════════════════════════════════════════════════════════════════ */
+   949→function UpcomingEventsSection() {
+   950→  const ref = useRef<HTMLDivElement>(null);
+   951→  const isInView = useInView(ref, { once: true, margin: "-80px" });
+   952→
+   953→  const featuredEvents = homeEvents.filter((e) => e.featured);
+   954→  const otherEvents = homeEvents.filter((e) => !e.featured);
+   955→  const heroEvent = featuredEvents[0];
+   956→
+   957→  const eventTypeStyle: Record<string, string> = {
+   958→    "Demo Day": "bg-[#FF4D00] text-white",
+   959→    Summit: "bg-[#111111] text-white",
+   960→    Masterclass: "bg-[#FF4D00]/10 text-[#FF4D00]",
+   961→    "Investor Event": "bg-[#FF4D00] text-white",
+   962→  };
+   963→
+   964→  return (
+   965→    <section
+   966→      ref={ref}
+   967→      className="py-20 md:py-32 px-6 md:px-12 lg:px-20 border-t border-[#111111]/10 bg-[#FAFAFA]"
+   968→    >
+   969→      <div className="w-full max-w-[1400px] mx-auto">
+   970→        {/* Header */}
+   971→        <motion.div
+   972→          initial={{ opacity: 0, y: 30 }}
+   973→          animate={isInView ? { opacity: 1, y: 0 } : {}}
+   974→          transition={{ duration: 0.8, ease: "easeOut" }}
+   975→          className="mb-12 md:mb-16"
+   976→        >
+   977→          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+   978→            <div>
+   979→              <span className="text-[10px] font-mono font-bold tracking-[0.25em] uppercase text-[#FF4D00] mb-4 block">
+   980→                Upcoming Events
+   981→              </span>
+   982→              <h2 className="text-[32px] sm:text-[44px] md:text-[56px] lg:text-[64px] font-display font-medium tracking-[-0.03em] leading-[0.95]">
+   983→                Where the network
+   984→                <br />
+   985→                <em className="italic font-serif text-[#FF4D00]">convenes</em>.
+   986→              </h2>
+   987→            </div>
+   988→            <Link
+   989→              to="/community"
+   990→              className="inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.12em] text-[#FF4D00] hover:text-[#111111] transition-colors group flex-shrink-0"
+   991→            >
+   992→              View all events
+   993→              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+   994→            </Link>
+   995→          </div>
+   996→        </motion.div>
+   997→
+   998→        {/* Magazine layout: featured hero + compact list */}
+   999→        <div className="grid lg:grid-cols-12 gap-5 md:gap-6">
+  1000→          {/* Left: Featured hero event */}
+  1001→          {heroEvent && (
+  1002→            <motion.div
+  1003→              initial={{ opacity: 0, y: 25 }}
+  1004→              animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1005→              transition={{ duration: 0.6, ease: "easeOut" }}
+  1006→              className="lg:col-span-7 group border bg-white overflow-hidden hover:shadow-md transition-all duration-300 border-[#FF4D00]/30 hover:border-[#FF4D00]/50"
+  1007→            >
+  1008→              {/* Tall hero image */}
+  1009→              <div className="relative aspect-[4/3] lg:aspect-[3/2] overflow-hidden">
+  1010→                <img
+  1011→                  src={heroEvent.image}
+  1012→                  alt={heroEvent.title}
+  1013→                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+  1014→                />
+  1015→                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+  1016→                {/* Type badge */}
+  1017→                <div className="absolute top-4 left-4 flex items-center gap-2">
+  1018→                  <span className={`text-[9px] font-mono font-bold tracking-[0.1em] uppercase px-2.5 py-1 ${eventTypeStyle[heroEvent.type] || "bg-[#111111]/10 text-[#111111]"}`}>
+  1019→                    {heroEvent.type}
+  1020→                  </span>
+  1021→                  <span className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase px-2.5 py-1 bg-[#FF4D00] text-white flex items-center gap-1">
+  1022→                    <Star className="w-3 h-3" />
+  1023→                    Featured
+  1024→                  </span>
+  1025→                </div>
+  1026→                {/* Title + date overlaid on image */}
+  1027→                <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8">
+  1028→                  <h3 className="text-[22px] sm:text-[28px] md:text-[34px] font-display font-medium tracking-tight leading-[1.1] text-white mb-3 group-hover:text-[#FF4D00] transition-colors">
+  1029→                    {heroEvent.title}
+  1030→                  </h3>
+  1031→                  <p className="text-[13px] md:text-[15px] text-white/70 leading-[1.6] font-medium mb-4 line-clamp-2">
+  1032→                    {heroEvent.description}
+  1033→                  </p>
+  1034→                  <div className="flex flex-wrap items-center gap-4 text-[11px] text-white/60 font-mono font-bold tracking-[0.05em] uppercase">
+  1035→                    <span className="flex items-center gap-1.5">
+  1036→                      <Calendar className="w-3.5 h-3.5 text-[#FF4D00]" />
+  1037→                      {heroEvent.date}
+  1038→                    </span>
+  1039→                    <span className="flex items-center gap-1.5">
+  1040→                      <Clock className="w-3.5 h-3.5 text-[#FF4D00]" />
+  1041→                      {heroEvent.time}
+  1042→                    </span>
+  1043→                    <span className="flex items-center gap-1.5">
+  1044→                      <MapPin className="w-3.5 h-3.5 text-[#FF4D00]" />
+  1045→                      {heroEvent.location}
+  1046→                    </span>
+  1047→                  </div>
+  1048→                </div>
+  1049→              </div>
+  1050→            </motion.div>
+  1051→          )}
+  1052→
+  1053→          {/* Right: Compact event list */}
+  1054→          <div className="lg:col-span-5 flex flex-col gap-5 md:gap-6">
+  1055→            {/* Second featured event (if any) */}
+  1056→            {featuredEvents[1] && (
+  1057→              <motion.div
+  1058→                initial={{ opacity: 0, y: 25 }}
+  1059→                animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1060→                transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
+  1061→                className="group border bg-white overflow-hidden hover:shadow-md transition-all duration-300 border-[#FF4D00]/30 hover:border-[#FF4D00]/50"
+  1062→              >
+  1063→                <div className="relative aspect-[16/9] overflow-hidden">
+  1064→                  <img
+  1065→                    src={featuredEvents[1].image}
+  1066→                    alt={featuredEvents[1].title}
+  1067→                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+  1068→                  />
+  1069→                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+  1070→                  <div className="absolute top-3 left-3 flex items-center gap-2">
+  1071→                    <span className={`text-[9px] font-mono font-bold tracking-[0.1em] uppercase px-2 py-0.5 ${eventTypeStyle[featuredEvents[1].type] || "bg-[#111111]/10 text-[#111111]"}`}>
+  1072→                      {featuredEvents[1].type}
+  1073→                    </span>
+  1074→                    <span className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase px-2 py-0.5 bg-[#FF4D00] text-white flex items-center gap-1">
+  1075→                      <Star className="w-3 h-3" />
+  1076→                      Featured
+  1077→                    </span>
+  1078→                  </div>
+  1079→                </div>
+  1080→                <div className="p-5">
+  1081→                  <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight leading-tight mb-2 group-hover:text-[#FF4D00] transition-colors">
+  1082→                    {featuredEvents[1].title}
+  1083→                  </h3>
+  1084→                  <p className="text-[12px] md:text-[13px] text-[#111111]/50 leading-[1.6] font-medium mb-3 line-clamp-2">
+  1085→                    {featuredEvents[1].description}
+  1086→                  </p>
+  1087→                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-[#111111]/40 font-mono font-bold tracking-[0.05em] uppercase">
+  1088→                    <span className="flex items-center gap-1">
+  1089→                      <Calendar className="w-3 h-3 text-[#FF4D00]/60" />
+  1090→                      {featuredEvents[1].date}
+  1091→                    </span>
+  1092→                    <span className="flex items-center gap-1">
+  1093→                      <MapPin className="w-3 h-3 text-[#FF4D00]/60" />
+  1094→                      {featuredEvents[1].location}
+  1095→                    </span>
+  1096→                  </div>
+  1097→                </div>
+  1098→              </motion.div>
+  1099→            )}
+  1100→
+  1101→            {/* Other events as compact rows */}
+  1102→            {otherEvents.map((event, i) => (
+  1103→              <motion.div
+  1104→                key={event.title}
+  1105→                initial={{ opacity: 0, y: 20 }}
+  1106→                animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1107→                transition={{ duration: 0.5, delay: 0.25 + i * 0.1, ease: "easeOut" }}
+  1108→                className="group border bg-white overflow-hidden hover:shadow-md transition-all duration-300 border-[#111111]/10 hover:border-[#111111]/25"
+  1109→              >
+  1110→                <div className="flex gap-4 p-4 md:p-5">
+  1111→                  {/* Date block */}
+  1112→                  <div className="flex-shrink-0 w-16 md:w-20 flex flex-col items-center justify-center border border-[#111111]/10 bg-white py-2">
+  1113→                    <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]">
+  1114→                      {event.date.split(" ")[0]}
+  1115→                    </span>
+  1116→                    <span className="text-[24px] md:text-[28px] font-display font-medium leading-[1] text-[#111111]">
+  1117→                      {event.date.split(" ")[1].replace(",", "")}
+  1118→                    </span>
+  1119→                    <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#111111]/40">
+  1120→                      {event.date.split(" ")[2]}
+  1121→                    </span>
+  1122→                  </div>
+  1123→
+  1124→                  {/* Content */}
+  1125→                  <div className="flex-1 min-w-0">
+  1126→                    <div className="flex items-center gap-2 mb-1.5">
+  1127→                      <span className={`text-[8px] font-mono font-bold tracking-[0.1em] uppercase px-1.5 py-0.5 ${eventTypeStyle[event.type] || "bg-[#111111]/10 text-[#111111]"}`}>
+  1128→                        {event.type}
+  1129→                      </span>
+  1130→                    </div>
+  1131→                    <h3 className="text-[15px] md:text-[17px] font-display font-medium tracking-tight leading-tight mb-1.5 group-hover:text-[#FF4D00] transition-colors">
+  1132→                      {event.title}
+  1133→                    </h3>
+  1134→                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-[#111111]/40 font-mono font-bold tracking-[0.05em] uppercase">
+  1135→                      <span className="flex items-center gap-1">
+  1136→                        <Clock className="w-3 h-3 text-[#FF4D00]/60" />
+  1137→                        {event.time}
+  1138→                      </span>
+  1139→                      <span className="flex items-center gap-1">
+  1140→                        <MapPin className="w-3 h-3 text-[#FF4D00]/60" />
+  1141→                        {event.location}
+  1142→                      </span>
+  1143→                    </div>
+  1144→                  </div>
+  1145→                </div>
+  1146→              </motion.div>
+  1147→            ))}
+  1148→          </div>
+  1149→        </div>
+  1150→      </div>
+  1151→    </section>
+  1152→  );
+  1153→}
+  1154→
+  1155→/* ══════════════════════════════════════════════════════════════════════════
+  1156→   LOCATIONS SECTION, Interactive Blueprint Map with leg filters
+  1157→   ══════════════════════════════════════════════════════════════════════════ */
+  1158→function LocationsSection() {
+  1159→  const ref = useRef<HTMLDivElement>(null);
+  1160→  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  1161→  const [activeLeg, setActiveLeg] = useState<string | null>(null);
+  1162→
+  1163→  return (
+  1164→    <section
+  1165→      ref={ref}
+  1166→      className="py-20 md:py-32 px-6 md:px-12 lg:px-20 border-t border-[#111111]/10 bg-white"
+  1167→    >
+  1168→      <div className="w-full max-w-[1400px] mx-auto">
+  1169→        {/* Header, centered, NEWLAB style */}
+  1170→        <motion.div
+  1171→          initial={{ opacity: 0, y: 30 }}
+  1172→          animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1173→          transition={{ duration: 0.8, ease: "easeOut" }}
+  1174→          className="text-center mb-12 md:mb-16"
+  1175→        >
+  1176→          <h2 className="text-[36px] sm:text-[56px] md:text-[80px] lg:text-[110px] font-display font-medium tracking-[-0.03em] leading-[0.9] mb-4 uppercase">
+  1177→            The Route
+  1178→          </h2>
+  1179→          <p className="text-[14px] md:text-[16px] text-[#111111]/40 font-medium tracking-[0.1em] uppercase max-w-2xl mx-auto">
+  1180→            Global hubs in geographies prioritizing reindustrialization
+  1181→          </p>
+  1182→        </motion.div>
+  1183→
+  1184→        {/* Leg filter buttons */}
+  1185→        <motion.div
+  1186→          initial={{ opacity: 0, y: 20 }}
+  1187→          animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1188→          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+  1189→          className="flex flex-wrap justify-center gap-2 mb-8 md:mb-12"
+  1190→        >
+  1191→          <button
+  1192→            onClick={() => setActiveLeg(null)}
+  1193→            className={`px-3 py-1.5 text-[11px] font-mono font-bold tracking-widest uppercase border transition-colors ${
+  1194→              activeLeg === null
+  1195→                ? "bg-[#111111] text-white border-[#111111]"
+  1196→                : "bg-white text-[#111111]/50 border-[#111111]/15 hover:border-[#111111]/30"
+  1197→            }`}
+  1198→          >
+  1199→            All Legs
+  1200→          </button>
+  1201→          {routeLegs.map((leg) => (
+  1202→            <button
+  1203→              key={leg.id}
+  1204→              onClick={() => setActiveLeg(activeLeg === leg.id ? null : leg.id)}
+  1205→              className={`px-3 py-1.5 text-[11px] font-mono font-bold tracking-widest uppercase border transition-colors ${
+  1206→                activeLeg === leg.id
+  1207→                  ? "text-white border-transparent"
+  1208→                  : "bg-white text-[#111111]/50 border-[#111111]/15 hover:border-[#111111]/30"
+  1209→              }`}
+  1210→              style={activeLeg === leg.id ? { backgroundColor: leg.color, borderColor: leg.color } : {}}
+  1211→            >
+  1212→              {leg.legNumber}. {leg.name.split(" ")[0]}
+  1213→            </button>
+  1214→          ))}
+  1215→        </motion.div>
+  1216→
+  1217→        {/* Blueprint Map */}
+  1218→        <motion.div
+  1219→          initial={{ opacity: 0, y: 30 }}
+  1220→          animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1221→          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+  1222→          className="relative w-full mb-8 md:mb-12"
+  1223→        >
+  1224→          <BlueprintMap activeLeg={activeLeg} />
+  1225→        </motion.div>
+  1226→
+  1227→        {/* Legend */}
+  1228→        <motion.div
+  1229→          initial={{ opacity: 0 }}
+  1230→          animate={isInView ? { opacity: 1 } : {}}
+  1231→          transition={{ duration: 0.6, delay: 0.4 }}
+  1232→          className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-[10px] font-mono text-[#111111]/40 mb-8 md:mb-12"
+  1233→        >
+  1234→          {routeLegs.map((leg) => (
+  1235→            <button
+  1236→              key={leg.id}
+  1237→              onClick={() => setActiveLeg(activeLeg === leg.id ? null : leg.id)}
+  1238→              className="flex items-center gap-2 hover:text-[#111111]/70 transition-colors"
+  1239→            >
+  1240→              <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: leg.color }} />
+  1241→              <span>
+  1242→                Leg {leg.legNumber}: {leg.name}
+  1243→              </span>
+  1244→            </button>
+  1245→          ))}
+  1246→        </motion.div>
+  1247→
+  1248→        {/* View Full Route Map link */}
+  1249→        <div className="text-center mb-16 md:mb-24">
+  1250→          <Link
+  1251→            to="/routes"
+  1252→            className="inline-flex items-center gap-3 px-8 py-4 bg-[#111111] text-white text-[12px] uppercase tracking-[0.12em] font-bold hover:bg-[#FF4D00] transition-colors duration-300 group"
+  1253→          >
+  1254→            View Full Route Map
+  1255→            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+  1256→          </Link>
+  1257→        </div>
+  1258→
+  1259→        {/* Accordion list of route regions */}
+  1260→        <div className="max-w-4xl mx-auto">
+  1261→          {routeRegions.map((region, i) => (
+  1262→            <LocationAccordion key={i} region={region} index={i} />
+  1263→          ))}
+  1264→        </div>
+  1265→      </div>
+  1266→    </section>
+  1267→  );
+  1268→}
+  1269→
+  1270→/* ── Blueprint Map, Newlab topographic map with color-coded pin markers ── */
+  1271→function BlueprintMap({ activeLeg }: { activeLeg: string | null }) {
+  1272→  const isAnyActive = activeLeg !== null;
+  1273→
+  1274→  const visibleLocations = useMemo(
+  1275→    () => (isAnyActive ? MAP_LOCATIONS.filter((l) => l.legId === activeLeg) : MAP_LOCATIONS),
+  1276→    [isAnyActive, activeLeg]
+  1277→  );
+  1278→
+  1279→  return (
+  1280→    <div className="w-full relative">
+  1281→      <div className="relative w-full overflow-hidden bg-white">
+  1282→        {/* World map image, Newlab topographic map */}
+  1283→        <img
+  1284→          alt="World Map showing xCelero Routes"
+  1285→          className="w-full h-auto pointer-events-none select-none opacity-80"
+  1286→          src="/routes/newlab-map.avif"
+  1287→        />
+  1288→
+  1289→        {/* Pin markers with always-visible labels */}
+  1290→        {visibleLocations.map((loc, index) => (
+  1291→          <Link
+  1292→            key={loc.id}
+  1293→            to="/routes"
+  1294→            className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10"
+  1295→            style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
+  1296→          >
+  1297→            <motion.div
+  1298→              initial={{ scale: 0, opacity: 0 }}
+  1299→              animate={{ scale: 1, opacity: 1 }}
+  1300→              transition={{ type: "spring", stiffness: 350, damping: 25, delay: index * 0.03 }}
+  1301→              className="relative flex items-center justify-center"
+  1302→            >
+  1303→              {/* Colored marker dot */}
+  1304→              <span
+  1305→                className="relative w-3.5 h-3.5 md:w-4 md:h-4 rounded-full shrink-0 cursor-pointer transition-all duration-200 border-[2.5px] border-transparent hover:border-black/20 hover:scale-110"
+  1306→                style={{ backgroundColor: loc.legColor }}
+  1307→                aria-label={`View ${loc.name} on Routes page`}
+  1308→              />
+  1309→
+  1310→              {/* Always-visible label */}
+  1311→              <div
+  1312→                className={`absolute bg-[#111111] text-white font-mono text-[8px] md:text-[10px] font-bold tracking-[0.15em] px-2 py-1 md:px-3 md:py-1.5 whitespace-nowrap top-1/2 -translate-y-1/2 pointer-events-none shadow-sm ${
+  1313→                  loc.labelPos === "left" ? "right-full mr-2 md:mr-3" : "left-full ml-2 md:ml-3"
+  1314→                }`}
+  1315→              >
+  1316→                {loc.name}
+  1317→              </div>
+  1318→            </motion.div>
+  1319→          </Link>
+  1320→        ))}
+  1321→      </div>
+  1322→    </div>
+  1323→  );
+  1324→}
+  1325→
+  1326→/* ── Location Accordion ── */
+  1327→function LocationAccordion({
+  1328→  region,
+  1329→  index,
+  1330→}: {
+  1331→  region: (typeof routeRegions)[number];
+  1332→  index: number;
+  1333→}) {
+  1334→  const [isOpen, setIsOpen] = useState(false);
+  1335→
+  1336→  return (
+  1337→    <motion.div
+  1338→      initial={{ opacity: 0, y: 20 }}
+  1339→      whileInView={{ opacity: 1, y: 0 }}
+  1340→      viewport={{ once: true, margin: "-30px" }}
+  1341→      transition={{ duration: 0.5, delay: index * 0.08 }}
+  1342→      className="border-t border-[#111111]/10 border-l-[3px] border-l-[#FF4D00] pl-4 md:pl-6 hover:bg-[#FF4D00]/[0.02] transition-colors"
+  1343→    >
+  1344→      <button
+  1345→        suppressHydrationWarning
+  1346→        onClick={() => setIsOpen(!isOpen)}
+  1347→        className="w-full flex items-center justify-between py-5 md:py-6 text-left group"
+  1348→      >
+  1349→        <div className="flex items-center gap-3">
+  1350→          <span className="relative flex h-3 w-3 shrink-0">
+  1351→            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4D00]/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+  1352→            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#FF4D00]" />
+  1353→          </span>
+  1354→          <MapPin className="w-4 h-4 text-[#FF4D00]/60 group-hover:text-[#FF4D00] transition-colors" />
+  1355→          <span className="text-[18px] md:text-[22px] font-display font-medium tracking-tight">
+  1356→            {region.name}
+  1357→          </span>
+  1358→        </div>
+  1359→        <div className="text-[#111111]/30 group-hover:text-[#111111]/60 transition-colors">
+  1360→          {isOpen ? (
+  1361→            <ChevronUp className="w-5 h-5" />
+  1362→          ) : (
+  1363→            <ChevronDown className="w-5 h-5" />
+  1364→          )}
+  1365→        </div>
+  1366→      </button>
+  1367→      <motion.div
+  1368→        initial={false}
+  1369→        animate={{
+  1370→          height: isOpen ? "auto" : 0,
+  1371→          opacity: isOpen ? 1 : 0,
+  1372→        }}
+  1373→        transition={{ duration: 0.3, ease: "easeInOut" }}
+  1374→        className="overflow-hidden"
+  1375→      >
+  1376→        <p className="pb-5 md:pb-6 pl-10 text-[15px] md:text-[17px] text-[#111111]/50 font-medium leading-[1.6]">
+  1377→          {region.description}
+  1378→        </p>
+  1379→      </motion.div>
+  1380→    </motion.div>
+  1381→  );
+  1382→}
+  1383→
+  1384→/* ══════════════════════════════════════════════════════════════════════════
+  1385→   NEWSLETTER SECTION, Two-column: heading + form
+  1386→   ══════════════════════════════════════════════════════════════════════════ */
+  1387→function NewsletterSection() {
+  1388→  const ref = useRef<HTMLDivElement>(null);
+  1389→  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  1390→  const [submitted, setSubmitted] = useState(false);
+  1391→  const [firstName, setFirstName] = useState("");
+  1392→  const [lastName, setLastName] = useState("");
+  1393→  const [email, setEmail] = useState("");
+  1394→  const [isSubmitting, setIsSubmitting] = useState(false);
+  1395→  const [submitError, setSubmitError] = useState("");
+  1396→
+  1397→  const handleReturnToSite = useCallback(() => {
+  1398→    window.scrollTo({ top: 0, behavior: "smooth" });
+  1399→  }, []);
+  1400→
+  1401→  return (
+  1402→    <section
+  1403→      ref={ref}
+  1404→      className="border-t border-[#111111]/10 relative overflow-hidden"
+  1405→    >
+  1406→      {/* Subtle dot-grid background pattern */}
+  1407→      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(#FF4D00 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+  1408→      <div className="py-20 md:py-32 px-6 md:px-12 lg:px-20 bg-white relative z-10">
+  1409→        <div className="w-full max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
+  1410→          {/* Left: Heading */}
+  1411→          <motion.div
+  1412→            initial={{ opacity: 0, y: 30 }}
+  1413→            animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1414→            transition={{ duration: 0.8, ease: "easeOut" }}
+  1415→          >
+  1416→            <h2 className="text-[28px] sm:text-[40px] md:text-[56px] font-display font-medium tracking-[-0.03em] leading-[0.95] uppercase mb-6">
+  1417→              Subscribe to the
+  1418→              <br />
+  1419→              xCelero Letter
+  1420→            </h2>
+  1421→            <p className="text-[15px] md:text-[17px] text-[#111111]/50 font-medium leading-[1.6] max-w-md">
+  1422→              Quarterly dispatches on critical technology commercialization,
+  1423→              Route Deal insights, and venture infrastructure across the Global South.
+  1424→            </p>
+  1425→          </motion.div>
+  1426→
+  1427→          {/* Right: Form or Confirmation */}
+  1428→          <motion.div
+  1429→            initial={{ opacity: 0, y: 30 }}
+  1430→            animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1431→            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+  1432→            className="flex flex-col justify-center"
+  1433→          >
+  1434→            {submitted ? (
+  1435→              <motion.div
+  1436→                initial={{ opacity: 0, y: 20 }}
+  1437→                animate={{ opacity: 1, y: 0 }}
+  1438→                transition={{ duration: 0.6, ease: "easeOut" }}
+  1439→                className="space-y-6"
+  1440→              >
+  1441→                {/* Checkmark icon */}
+  1442→                <div className="w-16 h-16 rounded-full border-2 border-[#FF4D00] flex items-center justify-center">
+  1443→                  <Check className="w-7 h-7 text-[#FF4D00]" strokeWidth={2.5} />
+  1444→                </div>
+  1445→
+  1446→                {/* Confirmation heading */}
+  1447→                <h3 className="text-[28px] sm:text-[36px] md:text-[44px] font-display font-medium tracking-[-0.02em] leading-[0.95]">
+  1448→                  Check your inbox
+  1449→                </h3>
+  1450→
+  1451→                {/* Confirmation body */}
+  1452→                <p className="text-[15px] md:text-[17px] text-[#111111]/50 font-medium leading-[1.6] max-w-md">
+  1453→                  You&apos;re now subscribed to the xCelero Letter. Look for our quarterly dispatch on critical technology commercialization.
+  1454→                </p>
+  1455→
+  1456→                {/* Return to site link */}
+  1457→                <button
+  1458→                  onClick={handleReturnToSite}
+  1459→                  className="inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.12em] text-[#FF4D00] hover:text-[#111111] transition-colors group"
+  1460→                >
+  1461→                  Return to site
+  1462→                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+  1463→                </button>
+  1464→              </motion.div>
+  1465→            ) : (
+  1466→              <form
+  1467→                onSubmit={async (e) => {
+  1468→                  e.preventDefault();
+  1469→                  setSubmitError("");
+  1470→                  setIsSubmitting(true);
+  1471→                  try {
+  1472→                    const res = await fetch("/api/capital/subscribe", {
+  1473→                      method: "POST",
+  1474→                      headers: { "Content-Type": "application/json" },
+  1475→                      body: JSON.stringify({ email, firstName, lastName, consent: true, source: "newsletter_home" }),
+  1476→                    });
+  1477→                    if (!res.ok) {
+  1478→                      const data = await res.json().catch(() => ({}));
+  1479→                      throw new Error(data.error || "Subscription failed");
+  1480→                    }
+  1481→                    setSubmitted(true);
+  1482→                  } catch (err) {
+  1483→                    setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+  1484→                  } finally {
+  1485→                    setIsSubmitting(false);
+  1486→                  }
+  1487→                }}
+  1488→                className="space-y-6"
+  1489→              >
+  1490→                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+  1491→                  <div>
+  1492→                    <label className="block text-[10px] font-mono tracking-[0.15em] uppercase text-[#111111]/40 mb-2">
+  1493→                      First Name *
+  1494→                    </label>
+  1495→                    <input
+  1496→                      suppressHydrationWarning
+  1497→                      type="text"
+  1498→                      required
+  1499→                      value={firstName}
+  1500→                      onChange={(e) => setFirstName(e.target.value)}
+  1501→                      className="w-full border-b border-[#111111]/20 bg-transparent py-3 text-[15px] font-medium focus:border-[#FF4D00] focus:outline-none transition-colors placeholder:text-[#111111]/20"
+  1502→                      placeholder="First name"
+  1503→                    />
+  1504→                  </div>
+  1505→                  <div>
+  1506→                    <label className="block text-[10px] font-mono tracking-[0.15em] uppercase text-[#111111]/40 mb-2">
+  1507→                      Last Name *
+  1508→                    </label>
+  1509→                    <input
+  1510→                      suppressHydrationWarning
+  1511→                      type="text"
+  1512→                      required
+  1513→                      value={lastName}
+  1514→                      onChange={(e) => setLastName(e.target.value)}
+  1515→                      className="w-full border-b border-[#111111]/20 bg-transparent py-3 text-[15px] font-medium focus:border-[#FF4D00] focus:outline-none transition-colors placeholder:text-[#111111]/20"
+  1516→                      placeholder="Last name"
+  1517→                    />
+  1518→                  </div>
+  1519→                </div>
+  1520→                <div>
+  1521→                  <label className="block text-[10px] font-mono tracking-[0.15em] uppercase text-[#111111]/40 mb-2">
+  1522→                    Email *
+  1523→                  </label>
+  1524→                  <input
+  1525→                    suppressHydrationWarning
+  1526→                    type="email"
+  1527→                    required
+  1528→                    value={email}
+  1529→                    onChange={(e) => setEmail(e.target.value)}
+  1530→                    className="w-full border-b border-[#111111]/20 bg-transparent py-3 text-[15px] font-medium focus:border-[#FF4D00] focus:outline-none transition-colors placeholder:text-[#111111]/20"
+  1531→                    placeholder="you@email.com"
+  1532→                  />
+  1533→                </div>
+  1534→                <p className="text-[11px] text-[#111111]/30 leading-[1.5]">
+  1535→                  By subscribing you agree to our{" "}
+  1536→                  <span className="text-[#2563EB] underline cursor-pointer">Privacy Policy</span>.
+  1537→                  We respect your data. Unsubscribe anytime.
+  1538→                </p>
+  1539→                {submitError && (
+  1540→                  <p className="text-[13px] text-red-600 font-medium">{submitError}</p>
+  1541→                )}
+  1542→                <button
+  1543→                  suppressHydrationWarning
+  1544→                  type="submit"
+  1545→                  disabled={isSubmitting}
+  1546→                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-4 min-h-[44px] bg-[#FF4D00] text-white text-[12px] uppercase tracking-[0.12em] font-bold hover:bg-[#FF4D00]/90 transition-colors duration-300 shadow-lg shadow-[#FF4D00]/20 disabled:opacity-60 disabled:cursor-not-allowed"
+  1547→                >
+  1548→                  {isSubmitting ? "Subscribing…" : "Subscribe Now"}
+  1549→                  {!isSubmitting && <ArrowRight className="w-4 h-4" />}
+  1550→                </button>
+  1551→                <p className="text-[10px] text-[#111111]/25 leading-[1.5] mt-3 max-w-sm">
+  1552→                  We never share your email with third parties. You can unsubscribe at any time. Read our Privacy Policy for details.
+  1553→                </p>
+  1554→              </form>
+  1555→            )}
+  1556→          </motion.div>
+  1557→        </div>
+  1558→      </div>
+  1559→    </section>
+  1560→  );
+  1561→}
+  1562→
