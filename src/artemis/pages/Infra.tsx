@@ -659,11 +659,26 @@ function CaseSection() {
             <p className="text-[22px] md:text-[28px] font-display font-medium tracking-tight text-[#111] mb-3">
               This is why xCelero exists.
             </p>
+            <p className="text-[14px] text-[#111]/35 font-medium leading-[1.7] mb-4">
+              54gene couldn&apos;t find a working cold chain. Sendy couldn&apos;t find
+              a paved road. Dash couldn&apos;t find an inter operable banking rail. Each
+              venture faced the same problem: the infrastructure gap is too wide for
+              any single company to bridge.
+            </p>
+            <p className="text-[14px] text-[#111]/35 font-medium leading-[1.7] mb-4">
+              xCelero solves this by building shared production infrastructure —
+              foundries with CNC machines and 5-axis mills running across 30 ventures&apos;
+              schedules, labs with bioreactors that never sit idle, GPU clusters
+              processing 40 ventures&apos; training jobs, component libraries where
+              one venture&apos;s tested part becomes every other venture&apos;s
+              starting point. The method compounds: when Venture A solves cold-chain
+              logistics in Nairobi, Venture B in Accra inherits the playbook — not
+              the problem.
+            </p>
             <p className="text-[14px] text-[#111]/35 font-medium leading-[1.7]">
-              We don&apos;t just invest in ventures — we build the infrastructure
-              those ventures need to exist. The Outposts, the XEmbassies, the
-              190+ projected hubs on the Route — these aren&apos;t real estate
-              plays. They&apos;re operating systems for the next civilization.
+              Where Bezos had FedEx and Musk had Sand Hill Road, xCelero ventures
+              have the Outpost — the shared infrastructure layer that makes the
+              impossible baseline possible.
             </p>
           </div>
         </motion.div>
