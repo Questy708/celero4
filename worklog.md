@@ -105,3 +105,34 @@ Stage Summary:
 - Replaced repetitive "section number → orange label → heading" pattern with varied treatments
 - Used accent lines (w-12 h-[1px] bg-[#FF4D00]) and inline labels (number | divider | label)
 - Maintained max-w-[1400px] alignment constraint throughout
+---
+Task ID: 1
+Agent: Main Agent
+Task: Complete layout overhaul of the Infra page for better visual results
+
+Work Log:
+- Read the full Infra.tsx (1526 lines, 11 sections) and Layout.tsx to understand current structure
+- Planned a complete layout redesign with new visual language
+- Rewrote the entire Infra.tsx with these key changes:
+  - Changed page background from `bg-white` to `bg-[#F5F5F0]` (warm off-white) creating floating card effect
+  - Hero: Redesigned from full-center to a 12-col grid with title on left, stats sidebar on right, scroll indicator at bottom
+  - Case Section: Transformed from split image/content to editorial manifesto with pull quote + 3 comparison cards. Kampala card highlighted in orange when active
+  - Outpost Model: Added "method" labels to Ford/Tesla/xCelero timeline cards, changed to top marker dots with connecting line, added grayscale→color hover on cluster images
+  - Levels Section: Cleaner tab styling with better visual hierarchy
+  - Campus Ring: Changed from 7-col grid to 4-col uniform grid for better card sizing
+  - Core Tech: Changed from featured first item to uniform cards (fixes uneven heights)
+  - Flow Section: Added weight indicator bars (1/3, 2/3, 3/3 filled) for lightweight/mid/deep-tech
+  - Moat Section: Cleaned up typography and spacing
+  - Civilization Section: Restructured to lead with the thesis statement, then Problem/Solution, then Type 0 vs Type 1
+  - All sections maintain the max-w-[1400px] containment pattern for background alignment with footer
+  - Removed repetitive "01/02/03..." section numbering in favor of descriptive labels
+  - Changed grid overlay in hero from white to subtle orange tint
+
+Stage Summary:
+- Complete Infra.tsx rewrite (~1050 lines)
+- All 11 sections render correctly with no errors
+- Interactive elements (tabs, buttons, filters) all functional
+- Page background changed to warm off-white (#F5F5F0) for floating card effect
+- Visual variety increased between sections
+- Side nav updated with better dot styling
+- Lint check passes clean
