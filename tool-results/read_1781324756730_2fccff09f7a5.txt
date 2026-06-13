@@ -1,0 +1,611 @@
+    50→    50→      - StaticText "LAYERS"
+    51→    51→      - StaticText "13"
+    52→    52→      - StaticText "DOMAINS"
+    53→    53→  - generic
+    54→    54→    - image "Case for Infrastructure"
+    55→    55→    - StaticText "THE CASE FOR INFRASTRUCTURE"
+    56→    56→  - heading "Infrastructure is the invisible prerequisite." [level=2, ref=e39]
+    57→    57→    - StaticText "Infrastructure is the"
+    58→    58→    - LineBreak "\n"
+    59→    59→    - StaticText "invisible prerequisite."
+    60→    60→  - paragraph
+    61→    61→    - StaticText "In the West, infrastructure is invisible — it already exists. In the Global South, it's the first thing you have to build."
+    62→    62→  - generic
+    63→    63→    - button "📦 Jeff Bezos USA, 1994 AMAZON" [ref=e95]
+    64→    64→      - StaticText "📦"
+    65→    65→      - heading "Jeff Bezos" [level=3, ref=e141]
+    66→    66→      - StaticText "USA, 1994"
+    67→    67→      - StaticText "AMAZON"
+    68→    68→    - button "🚀 Elon Musk USA, 2002 TESLA / SPACEX He could recruit from Stanford and MIT. File patents in a legal system that enforced them. Raise capital on Sand Hill Road. The roads were already paved. The grid was already stable. The regulatory framework was codified and navigable. Every system the venture needed was already operational." [ref=e96]
+    69→    69→      - StaticText "🚀"
+    70→    70→      - heading "Elon Musk" [level=3, ref=e142]
+    71→    71→      - StaticText "USA, 2002"
+    72→    72→      - StaticText "TESLA / SPACEX"
+    73→    73→      - paragraph
+    74→    74→        - StaticText "He could recruit from Stanford and MIT. File patents in a legal system that enforced them. Raise capital on Sand Hill Road. The roads were already paved. The grid was already stable. The regulatory framework was codified and navigable."
+    75→    75→      - paragraph
+    76→    76→        - StaticText "Every system the venture needed was already operational."
+    77→    77→    - button "🏗️ A builder in Kampala UGANDA, 2024 ANY VENTURE" [ref=e97]
+    78→    78→      - StaticText "🏗️"
+    79→    79→      - heading "A builder in Kampala" [level=3, ref=e143]
+    80→    80→      - StaticText "UGANDA, 2024"
+    81→    81→      - StaticText "ANY VENTURE"
+    82→    82→  - paragraph
+    83→    83→    - StaticText "This is why xCelero exists."
+    84→    84→  - paragraph
+    85→    85→    - StaticText "We don't just invest in ventures — we build the infrastructure those ventures need to exist. The Outposts, the XEmbassies, the 190+ projected hubs on the Route — these aren't real estate plays. They're operating systems for the next civilization."
+    86→    86→  - StaticText "03"
+    87→    87→  - StaticText "THE OUTPOST MODEL"
+    88→    88→  - heading "The method is the moat." [level=2, ref=e40]
+    89→    89→    - StaticText "The method is the moat."
+    90→    90→  - generic
+    91→    91→    - generic
+    92→    92→      - generic
+    93→    93→        - StaticText "1913"
+    94→    94→        - heading "Ford" [level=3, ref=e149]
+    95→    95→        - paragraph
+    96→    96→      - generic
+    97→    97→        - StaticText "2018"
+    98→    98→        - heading "Tesla" [level=3, ref=e150]
+    99→    99→        - paragraph
+   100→   100→      - generic
+   101→   101→        - StaticText "2024"
+   102→   102→        - heading "xCelero" [level=3, ref=e151]
+   103→   103→        - paragraph
+   104→   104→  - generic
+   105→   105→    - StaticText "CROSS SECTION"
+   106→   106→    - image "Outpost Cross-Section"
+   107→   107→    - paragraph
+   108→   108→      - StaticText "Six clusters. One machine. Each zone optimized for its type of production."
+   109→   109→  - StaticText "THE 6 CLUSTERS"
+   110→   110→  - generic
+   111→   111→    - generic
+   112→   112→      - image "The Hive"
+   113→   113→      - StaticText "01"
+   114→   114→      - generic
+   115→   115→        - StaticText "CLUSTER "
+   116→   116→        - StaticText "01"
+   117→   117→        - heading "The Hive" [level=3, ref=e152]
+   118→   118→    - StaticText "CO-WORKING + SOFTWARE"
+   119→   119→    - paragraph
+   120→   120→      - StaticText "The biggest cluster by area. Least environmentally controlled — desks and WiFi don't need fume hoods. Placed at the front of campus, closest to the city. The café spills into it. The membrane between Hive and city is thin by design."
+   121→   121→  - generic
+   122→   122→    - generic
+   123→   123→      - image "The Foundry"
+   124→   124→      - StaticText "02"
+   125→   125→      - generic
+   126→   126→        - StaticText "CLUSTER "
+   127→   127→        - StaticText "02"
+   128→   128→        - heading "The Foundry" [level=3, ref=e153]
+   129→   129→    - StaticText "HARDWARE PRODUCTION"
+   130→   130→    - paragraph
+   131→   131→      - StaticText "Needs high ceilings, heavy floor loads, fume extraction, crane access, loading dock adjacency. Separate building with its own HVAC, its own structural system. Trucks back up to it. It's loud. That's what it's for."
+   132→   132→  - generic
+   133→   133→    - generic
+   134→   134→      - image "The Lab"
+   135→   135→      - StaticText "03"
+   136→   136→      - generic
+   137→   137→        - StaticText "CLUSTER "
+   138→   138→        - StaticText "03"
+   139→   139→        - heading "The Lab" [level=3, ref=e154]
+   140→   140→    - StaticText "SCIENCE PRODUCTION"
+   141→   141→    - paragraph
+   142→   142→      - StaticText "Needs environmental isolation — positive/negative pressure, HEPA filtration, chemical waste handling, vibration isolation. Can't share HVAC with the Foundry. The transition from Foundry to Lab is an airlock — not a stairwell."
+   143→   143→  - generic
+   144→   144→    - generic
+   145→   145→      - image "The Commons"
+   146→   146→      - StaticText "04"
+   147→   147→      - generic
+   148→   148→        - StaticText "CLUSTER "
+   149→   149→        - StaticText "04"
+   150→   150→        - heading "The Commons" [level=3, ref=e155]
+   151→   151→    - StaticText "CONVERGENCE"
+   152→   152→    - paragraph
+   153→   153→      - StaticText "The convergence point. Placed at the CENTER, equidistant from Hive, Foundry, and Lab. Every venture passes through here daily. Collision isn't hoped for — it's architecturally forced."
+   154→   154→  - generic
+   155→   155→    - generic
+   156→   156→      - image "The Living"
+   157→   157→      - StaticText "05"
+   158→   158→      - generic
+   159→   159→        - StaticText "CLUSTER "
+   160→   160→        - StaticText "05"
+   161→   161→        - heading "The Living" [level=3, ref=e156]
+   162→   162→    - StaticText "REST + RECOVERY"
+   163→   163→    - paragraph
+   164→   164→      - StaticText "Adjacent to Hive and Lab — not separated by parking lots, but by a walkway. Close enough to feel connected. Far enough to have silence."
+   165→   165→  - generic
+   166→   166→    - generic
+   167→   167→      - image "The Extension"
+   168→   168→      - StaticText "06"
+   169→   169→      - generic
+   170→   170→        - StaticText "CLUSTER "
+   171→   171→        - StaticText "06"
+   172→   172→        - heading "The Extension" [level=3, ref=e157]
+   173→   173→    - StaticText "OUTDOOR PRODUCTION"
+   174→   174→    - paragraph
+   175→   175→      - StaticText "Production zones that happen to be outdoors — as essential to their domain as the Foundry is to hardware. Radiates outward from the campus."
+   176→   176→  - StaticText "04"
+   177→   177→  - StaticText "UNDER ONE ROOF"
+   178→   178→  - heading "The Outpost, level by level." [level=2, ref=e41]
+   179→   179→    - StaticText "The Outpost,"
+   180→   180→    - LineBreak "\n"
+   181→   181→    - StaticText "level by level."
+   182→   182→  - button "GROUND The Membrane" [ref=e42]
+   183→   183→    - StaticText "GROUND"
+   184→   184→    - StaticText "The Membrane"
+   185→   185→  - button "LEVEL 1 The Foundry" [ref=e43]
+   186→   186→    - StaticText "LEVEL 1"
+   187→   187→    - StaticText "The Foundry"
+   188→   188→  - button "LEVEL 2 The Lab" [ref=e44]
+   189→   189→    - StaticText "LEVEL 2"
+   190→   190→    - StaticText "The Lab"
+   191→   191→  - button "LEVEL 3 The Studio + Co-Working" [ref=e45]
+   192→   192→    - StaticText "LEVEL 3"
+   193→   193→    - StaticText "The Studio + Co-Working"
+   194→   194→  - button "LEVEL 4 The Commons" [ref=e46]
+   195→   195→    - StaticText "LEVEL 4"
+   196→   196→    - StaticText "The Commons"
+   197→   197→  - button "LEVEL 5 The Living" [ref=e47]
+   198→   198→    - StaticText "LEVEL 5"
+   199→   199→    - StaticText "The Living"
+   200→   200→  - generic
+   201→   201→    - image "The Foundry"
+   202→   202→    - generic
+   203→   203→      - StaticText "LEVEL 1"
+   204→   204→      - heading "The Foundry" [level=3, ref=e144]
+   205→   205→      - paragraph
+   206→   206→        - StaticText "Where hardware gets built — faster than any standalone workshop"
+   207→   207→  - StaticText "THE METHOD"
+   208→   208→  - paragraph
+   209→   209→    - StaticText "Traditional hardware ventures design from scratch, source individually, prototype sequentially, test one configuration at a time. The Foundry reinvents this as a Build Line — shared component libraries eliminate redesign, parallel integration eliminates sequential waiting, shared test rigs eliminate the one-venture-one-rig bottleneck."
+   210→   210→  - heading "Heavy Bays" [level=4, ref=e48]
+   211→   211→  - paragraph
+   212→   212→    - StaticText "Energy, manufacturing, space, mobility. Reconfigurable test rigs. Overhead crane, three-phase power, fume extraction. Floor rated 500+ kg/sq m, 5m+ ceilings. Adjacent to loading docks."
+   213→   213→  - list
+   214→   214→    - listitem [level=1]
+   215→   215→      - StaticText "Reconfigurable test rigs — same bay, different venture, different fixture"
+   216→   216→    - listitem [level=1]
+   217→   217→      - StaticText "Overhead crane, three-phase power, fume extraction"
+   218→   218→    - listitem [level=1]
+   219→   219→      - StaticText "Floor rated 500+ kg/sq m, 5m+ ceilings"
+   220→   220→    - listitem [level=1]
+   221→   221→      - StaticText "Adjacent to loading docks — heavy materials roll in, not ride elevators"
+   222→   222→  - heading "Mid Bays" [level=4, ref=e49]
+   223→   223→  - paragraph
+   224→   224→    - StaticText "Agritech, healthtech, logistics hardware. Quick-change workstations: CNC, 3D printing, laser cutting in cells, not rows. Submit design file at 9am, pick up finished part by 5pm."
+   225→   225→  - list
+   226→   226→    - listitem [level=1]
+   227→   227→      - StaticText "Quick-change workstations: CNC, 3D printing, laser cutting in cells"
+   228→   228→    - listitem [level=1]
+   229→   229→      - StaticText "Submit design file at 9am, pick up finished part by 5pm"
+   230→   230→    - listitem [level=1]
+   231→   231→      - StaticText "Environmental test chambers"
+   232→   232→    - listitem [level=1]
+   233→   233→      - StaticText "Small-scale pilot production rigs"
+   234→   234→  - heading "Light Bays" [level=4, ref=e50]
+   235→   235→  - paragraph
+   236→   236→    - StaticText "IoT, robotics electronics, connected systems. Electronics assembly: pick-and-place, reflow, testing. Robotics integration: floor space for movement, safety barriers."
+   237→   237→  - list
+   238→   238→    - listitem [level=1]
+   239→   239→      - StaticText "Electronics assembly: pick-and-place, reflow, testing"
+   240→   240→    - listitem [level=1]
+   241→   241→      - StaticText "Robotics integration: floor space for movement, safety barriers"
+   242→   242→    - listitem [level=1]
+   243→   243→      - StaticText "Sensor calibration"
+   244→   244→  - heading "The Shared Island" [level=4, ref=e51]
+   245→   245→  - paragraph
+   246→   246→    - StaticText "Center of the Foundry. Not owned by any venture. Industrial metal 3D printers, 5-axis CNC, waterjet / plasma cutters, coordinate measuring machines. The outpost's Gigapresses."
+   247→   247→  - heading "The Component Library" [level=4, ref=e52]
+   248→   248→  - paragraph
+   249→   249→    - StaticText "Standardized actuators, sensors, controllers, motors — characterized, tested, documented. A robotics venture doesn't design a motor from scratch. It pulls from the library. When Venture A tests and adds a new component, Venture B uses it next week."
+   250→   250→  - generic
+   251→   251→    - image "Campus Ring"
+   252→   252→    - StaticText "05"
+   253→   253→    - StaticText "THE CAMPUS RING"
+   254→   254→    - heading "What can't fit under the roof." [level=2, ref=e145]
+   255→   255→      - StaticText "What can't fit under the roof."
+   256→   256→  - heading "Energy Yard" [level=4, ref=e53]
+   257→   257→  - StaticText "ENERGY"
+   258→   258→  - paragraph
+   259→   259→    - StaticText "Solar arrays, battery storage, microgrid control."
+   260→   260→  - heading "Agri Plots" [level=4, ref=e54]
+   261→   261→  - StaticText "AGRITECH"
+   262→   262→  - paragraph
+   263→   263→    - StaticText "Vertical farming rigs, sensor-equipped field rows, soil testing."
+   264→   264→  - heading "Drone Corridor" [level=4, ref=e55]
+   265→   265→  - StaticText "MOBILITY"
+   266→   266→  - paragraph
+   267→   267→    - StaticText "Designated airspace, launch/recovery pad, obstacle courses."
+   268→   268→  - heading "Water Bay" [level=4, ref=e56]
+   269→   269→  - StaticText "WATER"
+   270→   270→  - paragraph
+   271→   271→    - StaticText "Filtration, desalination, atmospheric harvesting, quality analysis."
+   272→   272→  - heading "Construction Zone" [level=4, ref=e57]
+   273→   273→  - StaticText "BUILT ENV"
+   274→   274→  - paragraph
+   275→   275→    - StaticText "Prefab assembly, modular building testing, materials exposure."
+   276→   276→  - heading "Logistics Yard" [level=4, ref=e58]
+   277→   277→  - StaticText "LOGISTICS"
+   278→   278→  - paragraph
+   279→   279→    - StaticText "Freight staging, last-mile simulation, AV navigation courses."
+   280→   280→  - heading "Proving Ground" [level=4, ref=e59]
+   281→   281→  - StaticText "ANY"
+   282→   282→  - paragraph
+   283→   283→    - StaticText "UV, salt spray, dust, rain — real durability conditions."
+   284→   284→  - StaticText "06"
+   285→   285→  - heading "8 domains of independent innovation." [level=2, ref=e60]
+   286→   286→    - StaticText "8 domains of independent innovation."
+   287→   287→  - heading "Robotics" [level=3, ref=e61]
+   288→   288→  - paragraph
+   289→   289→    - StaticText "Autonomous systems for manufacturing, logistics, and hazardous environments."
+   290→   290→  - heading "Connected Systems" [level=3, ref=e62]
+   291→   291→  - paragraph
+   292→   292→    - StaticText "IoT, mesh networks, and real-time sensor infrastructure."
+   293→   293→  - heading "Artificial Intelligence" [level=3, ref=e63]
+   294→   294→  - paragraph
+   295→   295→    - StaticText "Edge AI, multilingual LLMs, and decision platforms."
+   296→   296→  - heading "Material Science" [level=3, ref=e64]
+   297→   297→  - paragraph
+   298→   298→    - StaticText "Mycelium composites, bio-plastics, and novel semiconductors."
+   299→   299→  - heading "Blockchain" [level=3, ref=e65]
+   300→   300→  - paragraph
+   301→   301→    - StaticText "Decentralized identity, traceability ledgers, and trustless settlement."
+   302→   302→  - heading "Additive Mfg" [level=3, ref=e66]
+   303→   303→  - paragraph
+   304→   304→    - StaticText "3D printing, CNC, and modular micro-factories."
+   305→   305→  - heading "Quantum Computing" [level=3, ref=e67]
+   306→   306→  - paragraph
+   307→   307→    - StaticText "Quantum sensing and unbreakable encryption."
+   308→   308→  - heading "Computer Vision" [level=3, ref=e68]
+   309→   309→  - paragraph
+   310→   310→    - StaticText "Real-time diagnostics, satellite analytics, autonomous navigation."
+   311→   311→  - StaticText "07"
+   312→   312→  - StaticText "THE FLOW"
+   313→   313→  - heading "How ventures move through space." [level=2, ref=e69]
+   314→   314→    - StaticText "How ventures move through space."
+   315→   315→  - generic
+   316→   316→    - generic
+   317→   317→      - StaticText "LIGHTWEIGHT"
+   318→   318→      - paragraph
+   319→   319→        - StaticText "SAAS, FINTECH, MARKETPLACE"
+   320→   320→      - paragraph
+   321→   321→        - StaticText "Studio + Commons. Never touches Foundry or Lab. Physical footprint: a desk."
+   322→   322→    - generic
+   323→   323→      - StaticText "MID-WEIGHT"
+   324→   324→      - paragraph
+   325→   325→        - StaticText "AGRITECH, HEALTHTECH, LOGISTICS"
+   326→   326→      - paragraph
+   327→   327→        - StaticText "Software team in Studio, hardware prototyping in Foundry, testing in Lab + Campus Ring. Multiple levels in parallel."
+   328→   328→    - generic
+   329→   329→      - StaticText "DEEP-TECH"
+   330→   330→      - paragraph
+   331→   331→        - StaticText "ENERGY, BIOTECH, SEMICONDUCTORS, SPACE"
+   332→   332→      - paragraph
+   333→   333→        - StaticText "Touches every level + campus. Science in Lab, hardware in Foundry, software in Studio, all converging at Commons."
+   334→   334→  - StaticText "08"
+   335→   335→  - StaticText "THE MOAT"
+   336→   336→  - heading "Why no one can copy this." [level=2, ref=e70]
+   337→   337→    - StaticText "Why no one can copy this."
+   338→   338→  - blockquote
+   339→   339→    - StaticText "“The method isn't obvious until someone invents it. Ford's competitors had lathes. They didn't have the assembly line.”"
+   340→   340→  - heading "The Traditional Model" [level=3, ref=e71]
+   341→   341→  - StaticText "1"
+   342→   342→  - heading "Knowledge dies." [level=4, ref=e72]
+   343→   343→    - StaticText "Knowledge dies."
+   344→   344→  - paragraph
+   345→   345→    - StaticText "Each venture starts at zero and crawls forward alone."
+   346→   346→  - StaticText "2"
+   347→   347→  - heading "Equipment idles." [level=4, ref=e73]
+   348→   348→    - StaticText "Equipment idles."
+   349→   349→  - paragraph
+   350→   350→    - StaticText "One venture can't keep a machine busy. Hundreds of hours of idle equipment per day."
+   351→   351→  - StaticText "3"
+   352→   352→  - heading "Capital duplicates." [level=4, ref=e74]
+   353→   353→    - StaticText "Capital duplicates."
+   354→   354→  - paragraph
+   355→   355→    - StaticText "Each venture buys its own CNC, its own bioreactor. Millions in duplicated CapEx."
+   356→   356→  - paragraph
+   357→   357→    - StaticText "One venture, one of everything, zero compounding."
+   358→   358→  - button "KNOWLEDGE COMPOUNDS" [ref=e75]
+   359→   359→    - StaticText "KNOWLEDGE COMPOUNDS"
+   360→   360→  - button "EQUIPMENT NEVER IDLES" [ref=e76]
+   361→   361→    - StaticText "EQUIPMENT NEVER IDLES"
+   362→   362→  - button "CAPITAL DOESN'T DUPLICATE" [ref=e77]
+   363→   363→    - StaticText "CAPITAL DOESN'T DUPLICATE"
+   364→   364→  - button "THE METHOD IS THE PRODUCT" [ref=e78]
+   365→   365→    - StaticText "THE METHOD IS THE PRODUCT"
+   366→   366→  - button "WHY THIS CHANGES EVERYTHING" [ref=e79]
+   367→   367→    - StaticText "WHY THIS CHANGES EVERYTHING"
+   368→   368→  - StaticText "BIOREACTOR"
+   369→   369→  - paragraph
+   370→   370→    - StaticText "A shared bioreactor running across 15 ventures' batches has near-zero downtime. When Venture A's fermentation finishes, Venture B's starts."
+   371→   371→  - StaticText "CNC MACHINE"
+   372→   372→  - paragraph
+   373→   373→    - StaticText "A shared CNC machine scheduled across 30 ventures' fabrication jobs has near-zero idle time. The queue is always full."
+   374→   374→  - StaticText "GPU CLUSTER"
+   375→   375→  - paragraph
+   376→   376→    - StaticText "A shared GPU cluster processing 40 ventures' training jobs has near-zero idle compute. The GPUs are always running."
+   377→   377→  - StaticText "02"
+   378→   378→  - StaticText ". "
+   379→   379→  - StaticText "EQUIPMENT NEVER IDLES"
+   380→   380→  - paragraph
+   381→   381→    - StaticText "Equipment utilization approaches 90%+ because 100 ventures collectively can keep machines busy. This isn't just cost savings — it's a fundamentally different production rate."
+   382→   382→  - generic
+   383→   383→    - image "Global Hub Network"
+   384→   384→    - StaticText "09"
+   385→   385→    - StaticText "HUBS ON THE ROUTE"
+   386→   386→    - heading "A union of cities." [level=2, ref=e146]
+   387→   387→      - StaticText "A union of cities."
+   388→   388→  - StaticText "190+"
+   389→   389→  - StaticText "HUBS"
+   390→   390→  - StaticText "39+"
+   391→   391→  - StaticText "COUNTRIES"
+   392→   392→  - StaticText "6"
+   393→   393→  - StaticText "LEGS"
+   394→   394→  - button "ALL" [ref=e80]
+   395→   395→  - button "1. GULF" [ref=e81]
+   396→   396→    - StaticText "1. GULF"
+   397→   397→  - button "2. SAHEL" [ref=e82]
+   398→   398→    - StaticText "2. SAHEL"
+   399→   399→  - button "3. EAST" [ref=e83]
+   400→   400→    - StaticText "3. EAST"
+   401→   401→  - button "4. CENTRAL" [ref=e84]
+   402→   402→    - StaticText "4. CENTRAL"
+   403→   403→  - button "5. SOUTHERN" [ref=e85]
+   404→   404→    - StaticText "5. SOUTHERN"
+   405→   405→  - button "6. NORTH" [ref=e86]
+   406→   406→    - StaticText "6. NORTH"
+   407→   407→  - generic
+   408→   408→    - heading "Leg 1: Gulf of Guinea Arc" [level=3, ref=e98]
+   409→   409→      - StaticText "Leg 1: Gulf of Guinea Arc"
+   410→   410→    - StaticText "49"
+   411→   411→    - StaticText " HUBS · "
+   412→   412→    - StaticText "5"
+   413→   413→    - StaticText " COUNTRIES"
+   414→   414→    - heading "LAGOS" [level=4, ref=e99]
+   415→   415→    - paragraph
+   416→   416→      - StaticText "Africa's commercial nerve center: 20M people, limitless velocity"
+   417→   417→    - heading "ACCRA" [level=4, ref=e100]
+   418→   418→    - paragraph
+   419→   419→      - StaticText "Stable gateway for West African fintech and creative industries"
+   420→   420→    - heading "ABIDJAN" [level=4, ref=e101]
+   421→   421→    - paragraph
+   422→   422→      - StaticText "Francophone hub: financial services and cocoa logistics"
+   423→   423→    - heading "DAKAR" [level=4, ref=e102]
+   424→   424→    - paragraph
+   425→   425→      - StaticText "Westernmost point: maritime gateway and digital arts capital"
+   426→   426→    - heading "DOUALA" [level=4, ref=e103]
+   427→   427→    - paragraph
+   428→   428→      - StaticText "Central African port entry: bilingual trade corridor"
+   429→   429→    - heading "Leg 2: Sahel Band" [level=3, ref=e104]
+   430→   430→      - StaticText "Leg 2: Sahel Band"
+   431→   431→    - StaticText "22"
+   432→   432→    - StaticText " HUBS · "
+   433→   433→    - StaticText "5"
+   434→   434→    - StaticText " COUNTRIES"
+   435→   435→    - heading "BAMAKO" [level=4, ref=e105]
+   436→   436→    - paragraph
+   437→   437→      - StaticText "Sahel's administrative anchor: music and gold"
+   438→   438→    - heading "OUAGADOUGOU" [level=4, ref=e106]
+   439→   439→    - paragraph
+   440→   440→      - StaticText "Burkinabé cultural capital: artisan commerce and resistance"
+   441→   441→    - heading "NIAMEY" [level=4, ref=e107]
+   442→   442→    - paragraph
+   443→   443→      - StaticText "Niger River gateway: uranium and pastoral trade"
+   444→   444→    - heading "N'DJAMENA" [level=4, ref=e108]
+   445→   445→    - paragraph
+   446→   446→      - StaticText "Chad's crossroads: humanitarian logistics hub"
+   447→   447→    - heading "TIMBUKTU" [level=4, ref=e109]
+   448→   448→    - paragraph
+   449→   449→      - StaticText "The legendary city of knowledge: manuscripts and memory"
+   450→   450→    - heading "Leg 3: East African Corridor" [level=3, ref=e110]
+   451→   451→      - StaticText "Leg 3: East African Corridor"
+   452→   452→    - StaticText "24"
+   453→   453→    - StaticText " HUBS · "
+   454→   454→    - StaticText "6"
+   455→   455→    - StaticText " COUNTRIES"
+   456→   456→    - heading "NAIROBI" [level=4, ref=e111]
+   457→   457→    - paragraph
+   458→   458→      - StaticText "East Africa's tech capital: M-Pesa, iHub, Silicon Savannah"
+   459→   459→    - heading "KIGALI" [level=4, ref=e112]
+   460→   460→    - paragraph
+   461→   461→      - StaticText "The clean governance model: governance innovation and ease-of-doing-business"
+   462→   462→    - heading "DAR ES SALAAM" [level=4, ref=e113]
+   463→   463→    - paragraph
+   464→   464→      - StaticText "Indian Ocean port: freight gateway to the interior"
+   465→   465→    - heading "KAMPALA" [level=4, ref=e114]
+   466→   466→    - paragraph
+   467→   467→      - StaticText "Lake Victoria hub: mobile money and agricultural trade"
+   468→   468→    - heading "MOMBASA" [level=4, ref=e115]
+   469→   469→    - paragraph
+   470→   470→      - StaticText "Ancient port city: the Northern Corridor's maritime terminus"
+   471→   471→    - heading "Leg 4: Central African Heartland" [level=3, ref=e116]
+   472→   472→      - StaticText "Leg 4: Central African Heartland"
+   473→   473→    - StaticText "19"
+   474→   474→    - StaticText " HUBS · "
+   475→   475→    - StaticText "5"
+   476→   476→    - StaticText " COUNTRIES"
+   477→   477→    - heading "KINSHASA" [level=4, ref=e117]
+   478→   478→    - paragraph
+   479→   479→      - StaticText "17 million people: the largest francophone city on Earth"
+   480→   480→    - heading "LUBUMBASHI" [level=4, ref=e118]
+   481→   481→    - paragraph
+   482→   482→      - StaticText "Copperbelt capital: mineral processing and export"
+   483→   483→    - heading "DOUALA" [level=4, ref=e119]
+   484→   484→    - paragraph
+   485→   485→      - StaticText "Atlantic port: the River Stack's maritime gateway"
+   486→   486→    - heading "BRAZZAVILLE" [level=4, ref=e120]
+   487→   487→    - paragraph
+   488→   488→      - StaticText "Pool Malebo: twin city to Kinshasa across the river"
+   489→   489→    - heading "YAOUNDÉ" [level=4, ref=e121]
+   490→   490→    - paragraph
+   491→   491→      - StaticText "Cameroon's administrative capital: bilingual bridge"
+   492→   492→    - heading "Leg 5: Southern Arc" [level=3, ref=e122]
+   493→   493→      - StaticText "Leg 5: Southern Arc"
+   494→   494→    - StaticText "18"
+   495→   495→    - StaticText " HUBS · "
+   496→   496→    - StaticText "6"
+   497→   497→    - StaticText " COUNTRIES"
+   498→   498→    - heading "HARARE" [level=4, ref=e123]
+   499→   499→    - paragraph
+   500→   500→      - StaticText "Zimbabwe's capital: agricultural trade and tech emergence"
+   501→   501→    - heading "LUSAKA" [level=4, ref=e124]
+   502→   502→    - paragraph
+   503→   503→      - StaticText "Zambia's commercial center: Copperbelt logistics hub"
+   504→   504→    - heading "LUANDA" [level=4, ref=e125]
+   505→   505→    - paragraph
+   506→   506→      - StaticText "Angola's oil capital: Portuguese-speaking gateway"
+   507→   507→    - heading "LIVINGSTONE" [level=4, ref=e126]
+   508→   508→    - paragraph
+   509→   509→      - StaticText "Victoria Falls: tourism and energy infrastructure"
+   510→   510→    - heading "BULAWAYO" [level=4, ref=e127]
+   511→   511→    - paragraph
+   512→   512→      - StaticText "Zimbabwe's second city: rail heritage and industrial base"
+   513→   513→    - heading "Leg 6: North Africa & Global Gateways" [level=3, ref=e128]
+   514→   514→      - StaticText "Leg 6: North Africa & Global Gateways"
+   515→   515→    - StaticText "80"
+   516→   516→    - StaticText " HUBS · "
+   517→   517→    - StaticText "5"
+   518→   518→    - StaticText " COUNTRIES"
+   519→   519→    - heading "CAIRO" [level=4, ref=e129]
+   520→   520→    - paragraph
+   521→   521→      - StaticText "20 million people: Africa's largest city and energy corridor"
+   522→   522→    - heading "CASABLANCA" [level=4, ref=e130]
+   523→   523→    - paragraph
+   524→   524→      - StaticText "Morocco's economic pillar: maritime and financial gateway"
+   525→   525→    - heading "TUNIS" [level=4, ref=e131]
+   526→   526→    - paragraph
+   527→   527→      - StaticText "Carthage's heir: Mediterranean trade and digital governance"
+   528→   528→    - heading "DUBAI" [level=4, ref=e132]
+   529→   529→    - paragraph
+   530→   530→      - StaticText "Global capital hub: diaspora investment and logistics"
+   531→   531→    - heading "LONDON" [level=4, ref=e133]
+   532→   532→    - paragraph
+   533→   533→      - StaticText "Financial gateway: capital markets and regulatory bridge"
+   534→   534→  - link "EXPLORE THE FULL ROUTE" [ref=e134]
+   535→   535→  - StaticText "10"
+   536→   536→  - StaticText "THE CIVILIZATION"
+   537→   537→  - heading "The xCelero Scale." [level=2, ref=e87]
+   538→   538→    - StaticText "The xCelero Scale."
+   539→   539→  - StaticText "P"
+   540→   540→  - StaticText "PROBLEM"
+   541→   541→  - paragraph
+   542→   542→    - StaticText "The Kardashev Scale measures civilization by energy output. One dimension. Myopic. The real bottleneck isn't energy — it's the rate at which ideas become working solutions."
+   543→   543→  - paragraph
+   544→   544→    - StaticText "10 years for a drug, 18 months for a robot, 2 years for a hardware product, and 90% of ventures die trying."
+   545→   545→  - StaticText "S"
+   546→   546→  - StaticText "SOLUTION"
+   547→   547→  - paragraph
+   548→   548→    - StaticText "xCelero reinvents the production method."
+   549→   549→  - StaticText "Build Line"
+   550→   550→  - paragraph
+   551→   551→    - StaticText "Hardware prototypes per unit time no standalone workshop can match."
+   552→   552→  - StaticText "Discovery Line"
+   553→   553→  - paragraph
+   554→   554→    - StaticText "Validated findings per unit time no isolated lab can match."
+   555→   555→  - StaticText "Ship Line"
+   556→   556→  - paragraph
+   557→   557→    - StaticText "Working software per unit time no standalone team can match."
+   558→   558→  - StaticText "Power Line"
+   559→   559→  - paragraph
+   560→   560→    - StaticText "Energy products validated per unit time no single test rig can match."
+   561→   561→  - heading "The xCelero Scale measures civilization not by energy, but by working solutions per unit time per outpost." [level=3, ref=e88]
+   562→   562→    - StaticText "The xCelero Scale measures civilization not by energy, but by working solutions per unit time per outpost."
+   563→   563→  - StaticText "TYPE 0"
+   564→   564→  - paragraph
+   565→   565→    - StaticText "Produces solutions sequentially — one lab, one company, one country at a time. 90% die."
+   566→   566→  - StaticText "TYPE 1"
+   567→   567→  - paragraph
+   568→   568→    - StaticText "Produces solutions through compound production methods — where every venture starts at the accumulated endpoint of every venture before it."
+   569→   569→  - paragraph
+   570→   570→    - StaticText "The outpost is the unit cell. The method is the moat. Replicated 190 times across 39 countries, this isn't a venture platform. It's a new method of invention itself."
+   571→   571→  - StaticText "FIELD NOTES"
+   572→   572→  - heading "Dispatches from the field" [level=2, ref=e89]
+   573→   573→  - link "ALL DISPATCHES" [ref=e90]
+   574→   574→  - link "Self-Sustaining Energy: The Case for Next-Gen Microgrids in the Global South ENERGY | Dr. Amina Touré Self-Sustaining Energy: The Case for Next-Gen Microgrids in the Global South Why decentralized energy grids are not just a climate imperative, but a self-reliant necessity for leapfrogging legacy infrastructure in regions that cannot afford to wait." [ref=e91]
+   575→   575→    - generic
+   576→   576→      - image "Self-Sustaining Energy: The Case for Next-Gen Microgrids in the Global South"
+   577→   577→    - generic
+   578→   578→      - StaticText "ENERGY"
+   579→   579→      - StaticText "|"
+   580→   580→      - StaticText "Dr. Amina Touré"
+   581→   581→      - heading "Self-Sustaining Energy: The Case for Next-Gen Microgrids in the Global South" [level=3, ref=e147]
+   582→   582→      - paragraph
+   583→   583→        - StaticText "Why decentralized energy grids are not just a climate imperative, but a self-reliant necessity for leapfrogging legacy infrastructure in regions that cannot afford to wait."
+   584→   584→  - link "Algorithmic Agriculture and the Future of Food Security FOOD SYSTEMS | Elias Vance · February 22, 2025 Algorithmic Agriculture and the Future of Food Security How edge computing, real-time planetary monitoring, and independent compute nodes are creating hyper-resilient crop cycles that can feed the next billion without depleting the earth." [ref=e92]
+   585→   585→    - image "Algorithmic Agriculture and the Future of Food Security"
+   586→   586→    - StaticText "FOOD SYSTEMS"
+   587→   587→    - StaticText "|"
+   588→   588→    - StaticText "Elias Vance"
+   589→   589→    - StaticText " · "
+   590→   590→    - StaticText "February 22, 2025"
+   591→   591→    - heading "Algorithmic Agriculture and the Future of Food Security" [level=3, ref=e135]
+   592→   592→    - paragraph
+   593→   593→      - StaticText "How edge computing, real-time planetary monitoring, and independent compute nodes are creating hyper-resilient crop cycles that can feed the next billion without depleting the earth."
+   594→   594→  - link "The XEmbassy Blueprint: Distributed Manufacturing at Scale INFRASTRUCTURE | xCelero Systems Team · March 10, 2025 The XEmbassy Blueprint: Distributed Manufacturing at Scale Unpacking the architecture behind our physical manufacturing nodes and why we believe the future of deep-tech production is local, modular, and radically proximate." [ref=e93]
+   595→   595→    - image "The XEmbassy Blueprint: Distributed Manufacturing at Scale"
+   596→   596→    - StaticText "INFRASTRUCTURE"
+   597→   597→    - StaticText "|"
+   598→   598→    - StaticText "xCelero Systems Team"
+   599→   599→    - StaticText " · "
+   600→   600→    - StaticText "March 10, 2025"
+   601→   601→    - heading "The XEmbassy Blueprint: Distributed Manufacturing at Scale" [level=3, ref=e136]
+   602→   602→    - paragraph
+   603→   603→      - StaticText "Unpacking the architecture behind our physical manufacturing nodes and why we believe the future of deep-tech production is local, modular, and radically proximate."
+   604→   604→  - link "Why Venture Capital Has Failed Africa, And What Comes Next CAPITAL | Mara Okonkwo · April 05, 2025 Why Venture Capital Has Failed Africa, And What Comes Next A structural critique of traditional VC models in emerging markets and the blueprint for capital architectures that actually work, evergreen funds, blended finance, and non-dilutive capital desks." [ref=e94]
+   605→   605→    - image "Why Venture Capital Has Failed Africa, And What Comes Next"
+   606→   606→    - StaticText "CAPITAL"
+   607→   607→    - StaticText "|"
+   608→   608→    - StaticText "Mara Okonkwo"
+   609→   609→    - StaticText " · "
+   610→   610→    - StaticText "April 05, 2025"
+   611→   611→    - heading "Why Venture Capital Has Failed Africa, And What Comes Next" [level=3, ref=e137]
+   612→   612→    - paragraph
+   613→   613→      - StaticText "A structural critique of traditional VC models in emerging markets and the blueprint for capital architectures that actually work, evergreen funds, blended finance, and non-dilutive capital desks."
+   614→   614→- contentinfo
+   615→   615→  - link "XCELERO ACCELERATOR From thesis to operating company in 24 months. High-intensity venture building with funding, mentorship, and Route infrastructure built in." [ref=e8]
+   616→   616→    - generic
+   617→   617→      - StaticText "XCELERO ACCELERATOR"
+   618→   618→      - heading "From thesis to operating company in 24 months." [level=2, ref=e138]
+   619→   619→      - paragraph
+   620→   620→        - StaticText "High-intensity venture building with funding, mentorship, and Route infrastructure built in."
+   621→   621→  - link "XCELERO CAPITAL Invest in critical technology from $500. Six vehicles, one thesis: back the technology the next century needs, in the markets that need it most." [ref=e9]
+   622→   622→    - generic
+   623→   623→      - StaticText "XCELERO CAPITAL"
+   624→   624→      - heading "Invest in critical technology from $500." [level=2, ref=e139]
+   625→   625→      - paragraph
+   626→   626→        - StaticText "Six vehicles, one thesis: back the technology the next century needs, in the markets that need it most."
+   627→   627→  - generic
+   628→   628→    - StaticText "XCELERO"
+   629→   629→    - LineBreak "\n"
+   630→   630→    - StaticText "LABS"
+   631→   631→  - StaticText "XCELERO LABS"
+   632→   632→  - link "About" [ref=e10]
+   633→   633→  - link "Companies" [ref=e11]
+   634→   634→  - link "Careers" [ref=e12]
+   635→   635→  - link "How We Work" [ref=e13]
+   636→   636→  - link "News" [ref=e14]
+   637→   637→  - StaticText "PROGRAMS"
+   638→   638→  - link "Overview" [ref=e15]
+   639→   639→  - link "Fellowship" [ref=e16]
+   640→   640→  - link "Hansa Hubs" [ref=e17]
+   641→   641→  - StaticText "SOCIAL"
+   642→   642→  - link "LinkedIn" [ref=e18]
+   643→   643→  - link "X" [ref=e19]
+   644→   644→  - link "YouTube" [ref=e20]
+   645→   645→  - StaticText "LEGAL"
+   646→   646→  - link "Terms of Use" [ref=e21]
+   647→   647→  - link "Privacy" [ref=e22]
+   648→   648→  - link "Admin" [ref=e23]
+   649→   649→  - generic
+   650→   650→    - StaticText "© 2026 XCELERO LABS."
+   651→   651→- generic
+   652→   652→  - StaticText "Invest in critical technology from $500"
+   653→   653→  - link "INVEST NOW →" [ref=e24]
+   654→   654→  - button "Dismiss" [ref=e25]
+   655→   655→- button "Scroll to top" [ref=e1]
+   656→   656→- region "Notifications (F8)" [ref=e2]
+   657→   657→  - list
+   658→   658→- button "Open Next.js Dev Tools" [expanded=false, ref=e148]
+   659→   659→  - image
+   660→   660→- alert

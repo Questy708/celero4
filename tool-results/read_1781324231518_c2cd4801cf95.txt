@@ -1,0 +1,625 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useState, useCallback, useRef } from "react";
+     4→import { Search, ArrowRight, Menu, X, ArrowUp, ChevronDown, LogIn, ArrowLeft, Shield } from "lucide-react";
+     5→import { motion, AnimatePresence } from "framer-motion";
+     6→import { Link, useRouter } from "../router";
+     7→import { SearchModal } from "./SearchModal";
+     8→
+     9→/* ── Page transition variants based on path ── */
+    10→function getTransitionForPath(path: string) {
+    11→  // Editorial pages: fade-only, no y movement
+    12→  const editorialPaths = ["/about", "/manifesto", "/approach"];
+    13→  // Content-heavy pages: slide-up
+    14→  const contentPaths = ["/ventures", "/programs", "/routes", "/capital", "/platform", "/infra"];
+    15→  // Data pages: subtle crossfade
+    16→  const dataPaths = ["/community", "/insights", "/careers", "/team", "/case-studies", "/admin"];
+    17→
+    18→  if (editorialPaths.includes(path)) {
+    19→    return {
+    20→      initial: { opacity: 0 },
+    21→      animate: { opacity: 1 },
+    22→      exit: { opacity: 0 },
+    23→      transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+    24→    };
+    25→  }
+    26→  if (contentPaths.includes(path)) {
+    27→    return {
+    28→      initial: { opacity: 0, y: 20 },
+    29→      animate: { opacity: 1, y: 0 },
+    30→      exit: { opacity: 0, y: -10 },
+    31→      transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+    32→    };
+    33→  }
+    34→  if (dataPaths.includes(path)) {
+    35→    return {
+    36→      initial: { opacity: 0, y: 4 },
+    37→      animate: { opacity: 1, y: 0 },
+    38→      exit: { opacity: 0, y: -4 },
+    39→      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+    40→    };
+    41→  }
+    42→  // Default/home: gentle fade
+    43→  return {
+    44→    initial: { opacity: 0, y: 8 },
+    45→    animate: { opacity: 1, y: 0 },
+    46→    exit: { opacity: 0, y: -8 },
+    47→    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+    48→  };
+    49→}
+    50→
+    51→export function Layout({ children }: { children: React.ReactNode }) {
+    52→  const { path } = useRouter();
+    53→
+    54→  // Town Square is a full-screen immersive experience: no nav, footer, or sticky bars
+    55→  const isImmersive = path === "/townsquare";
+    56→  // Admin dashboard has its own dark layout: no nav, footer, or sticky bars
+    57→  const isAdmin = path === "/admin";
+    58→
+    59→  useEffect(() => {
+    60→    window.scrollTo(0, 0);
+    61→  }, [path]);
+    62→
+    63→  const t = getTransitionForPath(path);
+    64→
+    65→  if (isImmersive) {
+    66→    return (
+    67→      <div className="min-h-screen bg-white text-[#111111] font-sans selection:bg-[#FF4D00]/20 selection:text-[#111111]">
+    68→        {/* Floating close button for immersive mode */}
+    69→        <Link
+    70→          to="/"
+    71→          className="fixed top-4 left-4 z-[100] w-10 h-10 rounded-full bg-[#FF4D00] text-white flex items-center justify-center shadow-lg hover:bg-[#FF4D00]/90 transition-colors"
+    72→          aria-label="Close and return to home"
+    73→        >
+    74→          <X className="w-5 h-5" />
+    75→        </Link>
+    76→        <AnimatePresence mode="wait">
+    77→          <motion.div
+    78→            key={path}
+    79→            initial={{ opacity: 0 }}
+    80→            animate={{ opacity: 1 }}
+    81→            exit={{ opacity: 0 }}
+    82→            transition={{ duration: 0.3 }}
+    83→          >
+    84→            {children}
+    85→          </motion.div>
+    86→        </AnimatePresence>
+    87→      </div>
+    88→    );
+    89→  }
+    90→
+    91→  if (isAdmin) {
+    92→    return (
+    93→      <div className="min-h-screen bg-[#111111] text-white font-sans selection:bg-[#FF4D00]/20 selection:text-white">
+    94→        <AnimatePresence mode="wait">
+    95→          <motion.div
+    96→            key={path}
+    97→            initial={{ opacity: 0 }}
+    98→            animate={{ opacity: 1 }}
+    99→            exit={{ opacity: 0 }}
+   100→            transition={{ duration: 0.3 }}
+   101→          >
+   102→            {children}
+   103→          </motion.div>
+   104→        </AnimatePresence>
+   105→      </div>
+   106→    );
+   107→  }
+   108→
+   109→  return (
+   110→    <div className="min-h-screen bg-[#FAFAFA] text-[#111111] font-sans flex flex-col selection:bg-[#FF4D00]/20 selection:text-[#111111]">
+   111→      <Nav />
+   112→      <main className="flex-grow pt-[80px]">
+   113→        <AnimatePresence mode="wait">
+   114→          <motion.div
+   115→            key={path}
+   116→            initial={t.initial}
+   117→            animate={t.animate}
+   118→            exit={t.exit}
+   119→            transition={t.transition}
+   120→          >
+   121→            {children}
+   122→          </motion.div>
+   123→        </AnimatePresence>
+   124→      </main>
+   125→      <Footer />
+   126→      <StickyInvestBar />
+   127→      <ScrollToTopButton />
+   128→    </div>
+   129→  );
+   130→}
+   131→
+   132→/* ══════════════════════════════════════════════════════════════════════════
+   133→   NAV
+   134→   ══════════════════════════════════════════════════════════════════════════ */
+   135→function Nav() {
+   136→  const [isSearchOpen, setIsSearchOpen] = useState(false);
+   137→  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+   138→  const { path } = useRouter();
+   139→
+   140→  // Close mobile menu on route change (handled via Link onClick in mobile menu)
+   141→
+   142→  // Lock body scroll when mobile menu is open
+   143→  useEffect(() => {
+   144→    if (isMobileMenuOpen) {
+   145→      document.body.style.overflow = "hidden";
+   146→    } else {
+   147→      document.body.style.overflow = "";
+   148→    }
+   149→    return () => {
+   150→      document.body.style.overflow = "";
+   151→    };
+   152→  }, [isMobileMenuOpen]);
+   153→
+   154→  useEffect(() => {
+   155→    const handleKeyDown = (e: KeyboardEvent) => {
+   156→      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+   157→        e.preventDefault();
+   158→        setIsSearchOpen((prev) => !prev);
+   159→      }
+   160→      if (e.key === "Escape") {
+   161→        setIsMobileMenuOpen(false);
+   162→      }
+   163→    };
+   164→    window.addEventListener("keydown", handleKeyDown);
+   165→    return () => window.removeEventListener("keydown", handleKeyDown);
+   166→  }, []);
+   167→
+   168→  const navGroups = [
+   169→    {
+   170→      label: "Company",
+   171→      links: [
+   172→        { name: "About", path: "/about" },
+   173→        { name: "How We Work", path: "/approach" },
+   174→        { name: "Manifesto", path: "/manifesto" },
+   175→      ],
+   176→    },
+   177→    {
+   178→      label: "Platform",
+   179→      links: [
+   180→        { name: "Infrastructure", path: "/platform" },
+   181→        { name: "Infra", path: "/infra" },
+   182→        { name: "Routes", path: "/routes" },
+   183→        { name: "Ventures", path: "/ventures" },
+   184→      ],
+   185→    },
+   186→    {
+   187→      label: "Network",
+   188→      links: [
+   189→        { name: "Capital", path: "/capital" },
+   190→        { name: "Programs", path: "/programs" },
+   191→        { name: "Community", path: "/community" },
+   192→        { name: "Insights", path: "/insights" },
+   193→        { name: "Careers", path: "/careers" },
+   194→      ],
+   195→    },
+   196→  ];
+   197→
+   198→  const mobileNavGroups = [
+   199→    {
+   200→      label: "Company",
+   201→      links: [
+   202→        { name: "About", path: "/about" },
+   203→        { name: "How We Work", path: "/approach" },
+   204→        { name: "Manifesto", path: "/manifesto" },
+   205→      ],
+   206→    },
+   207→    {
+   208→      label: "The Platform",
+   209→      links: [
+   210→        { name: "Infrastructure", path: "/platform" },
+   211→        { name: "Infra", path: "/infra" },
+   212→        { name: "Routes", path: "/routes" },
+   213→        { name: "Ventures", path: "/ventures" },
+   214→      ],
+   215→    },
+   216→    {
+   217→      label: "Capital & Network",
+   218→      links: [
+   219→        { name: "Capital", path: "/capital" },
+   220→        { name: "Programs", path: "/programs" },
+   221→        { name: "Community", path: "/community" },
+   222→        { name: "Careers", path: "/careers" },
+   223→        { name: "Insights", path: "/insights" },
+   224→      ],
+   225→    },
+   226→  ];
+   227→
+   228→  return (
+   229→    <>
+   230→      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FAFAFA]/90 backdrop-blur-md border-b border-[#111111]/10 h-[80px] flex items-center px-6 md:px-12">
+   231→        <div className="w-full max-w-[1400px] mx-auto flex justify-between items-center">
+   232→          <Link to="/" className="flex items-center space-x-3 group">
+   233→            <div className="w-6 h-6 bg-[#FF4D00] flex items-center justify-center transition-transform group-hover:scale-105">
+   234→              <span className="text-white font-bold text-[10px]">X</span>
+   235→            </div>
+   236→            <span className="text-sm font-bold tracking-tight uppercase whitespace-nowrap hidden sm:inline text-[#111111]">xCelero Labs</span>
+   237→          </Link>
+   238→
+   239→          {/* Desktop nav links with dropdowns */}
+   240→          <div className="hidden lg:flex items-center gap-1">
+   241→            {navGroups.map((group) => (
+   242→              <div key={group.label} className="relative group/dropdown">
+   243→                <button
+   244→                  className="flex items-center gap-1 px-3 py-2 text-[11px] tracking-[0.1em] font-medium text-[#111111]/60 hover:text-[#FF4D00] transition-colors"
+   245→                >
+   246→                  {group.label}
+   247→                  <ChevronDown className="w-3 h-3 transition-transform duration-200 group-hover/dropdown:rotate-180" />
+   248→                </button>
+   249→                {/* Dropdown panel */}
+   250→                <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-200 -translate-y-1 group-hover/dropdown:translate-y-0">
+   251→                  <div className="bg-white border border-[#111111]/10 shadow-lg min-w-[200px] py-2">
+   252→                    {group.links.map((item) => {
+   253→                      const isActive = path === item.path;
+   254→                      return (
+   255→                        <Link
+   256→                          key={item.name}
+   257→                          to={item.path}
+   258→                          className={`block px-5 py-2.5 text-[12px] tracking-[0.05em] font-medium transition-colors ${
+   259→                            isActive
+   260→                              ? "text-[#FF4D00] bg-[#FF4D00]/5"
+   261→                              : "text-[#111111]/60 hover:text-[#FF4D00] hover:bg-[#FF4D00]/5"
+   262→                          }`}
+   263→                        >
+   264→                          {item.name}
+   265→                        </Link>
+   266→                      );
+   267→                    })}
+   268→                  </div>
+   269→                </div>
+   270→              </div>
+   271→            ))}
+   272→          </div>
+   273→
+   274→          <div className="flex items-center space-x-4">
+   275→            <button
+   276→              onClick={() => setIsSearchOpen(true)}
+   277→              className="p-2 border border-[#111111]/10 hover:border-[#111111] hover:bg-[#111111] hover:text-white transition-colors group flex items-center gap-2"
+   278→              aria-label="Search"
+   279→            >
+   280→              <Search className="w-4 h-4 text-[#111111] group-hover:text-white" />
+   281→              <span className="hidden sm:inline-flex text-[10px] font-mono font-medium text-[#111111]/40 group-hover:text-white/50">⌘K</span>
+   282→            </button>
+   283→            <Link to="/townsquare" className="px-5 py-2.5 bg-[#FF4D00] text-white text-[11px] tracking-[0.1em] font-bold hover:bg-[#FF4D00]/90 transition-colors inline-flex items-center gap-1.5">
+   284→              <LogIn className="w-3.5 h-3.5" />
+   285→              Sign In
+   286→            </Link>
+   287→            <Link to="/join" className="px-5 py-2.5 border border-[#111111] text-[11px] tracking-[0.1em] font-bold hover:bg-[#111111] hover:text-white transition-colors hidden sm:inline-flex">
+   288→              Join
+   289→            </Link>
+   290→
+   291→            {/* Hamburger button: mobile only */}
+   292→            <button
+   293→              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+   294→              className="lg:hidden p-2 border border-[#111111]/10 hover:border-[#111111] hover:bg-[#111111] hover:text-white transition-colors group"
+   295→              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+   296→            >
+   297→              <motion.div
+   298→                animate={isMobileMenuOpen ? "open" : "closed"}
+   299→                variants={{
+   300→                  open: { rotate: 90, scale: 1 },
+   301→                  closed: { rotate: 0, scale: 1 },
+   302→                }}
+   303→                transition={{ duration: 0.2 }}
+   304→              >
+   305→                {isMobileMenuOpen ? (
+   306→                  <X className="w-5 h-5 text-[#111111] group-hover:text-white" />
+   307→                ) : (
+   308→                  <Menu className="w-5 h-5 text-[#111111] group-hover:text-white" />
+   309→                )}
+   310→              </motion.div>
+   311→            </button>
+   312→          </div>
+   313→        </div>
+   314→      </nav>
+   315→
+   316→      {/* Mobile Menu Overlay */}
+   317→      <AnimatePresence>
+   318→        {isMobileMenuOpen && (
+   319→          <motion.div
+   320→            initial={{ opacity: 0, y: 20 }}
+   321→            animate={{ opacity: 1, y: 0 }}
+   322→            exit={{ opacity: 0, y: 20 }}
+   323→            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+   324→            className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md flex flex-col"
+   325→          >
+   326→            {/* Close button */}
+   327→            <div className="flex items-center justify-between px-6 h-[80px]">
+   328→              <Link to="/" className="flex items-center space-x-3 group" onClick={() => setIsMobileMenuOpen(false)}>
+   329→                <div className="w-6 h-6 bg-[#FF4D00] flex items-center justify-center">
+   330→                  <span className="text-white font-bold text-[10px]">X</span>
+   331→                </div>
+   332→                <span className="text-sm font-bold tracking-tight uppercase text-white">xCelero Labs</span>
+   333→              </Link>
+   334→              <button
+   335→                onClick={() => setIsMobileMenuOpen(false)}
+   336→                className="min-w-[44px] min-h-[44px] flex items-center justify-center text-white/60 hover:text-white transition-colors rounded-sm hover:bg-white/10"
+   337→                aria-label="Close menu"
+   338→              >
+   339→                <X className="w-6 h-6" />
+   340→              </button>
+   341→            </div>
+   342→
+   343→            {/* Categorized nav links: centered vertically */}
+   344→            <div className="flex-1 flex flex-col justify-center px-8 md:px-16 lg:px-24 overflow-y-auto">
+   345→              {mobileNavGroups.map((group, groupIdx) => (
+   346→                <motion.div
+   347→                  key={group.label}
+   348→                  initial={{ opacity: 0, y: 20 }}
+   349→                  animate={{ opacity: 1, y: 0 }}
+   350→                  transition={{ delay: groupIdx * 0.1, duration: 0.4 }}
+   351→                  className={groupIdx < mobileNavGroups.length - 1 ? "mb-8 md:mb-10" : ""}
+   352→                >
+   353→                  {/* Category label with extending line */}
+   354→                  <div className="flex items-center gap-3 mb-3">
+   355→                    <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-[#FF4D00] whitespace-nowrap">
+   356→                      {group.label}
+   357→                    </span>
+   358→                    <div className="flex-1 h-px bg-white/10" />
+   359→                  </div>
+   360→
+   361→                  {/* Links within category */}
+   362→                  <div className="flex flex-col gap-2">
+   363→                    {group.links.map((item) => {
+   364→                      const isActive = path === item.path;
+   365→                      return (
+   366→                        <Link
+   367→                          key={item.name}
+   368→                          to={item.path}
+   369→                          className={`text-2xl sm:text-3xl font-display font-medium tracking-tight transition-colors flex items-center gap-2 ${
+   370→                            isActive
+   371→                              ? "text-[#FF4D00]"
+   372→                              : "text-white/60 hover:text-[#FF4D00]"
+   373→                          }`}
+   374→                          onClick={() => setIsMobileMenuOpen(false)}
+   375→                        >
+   376→                          {isActive && (
+   377→                            <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D00] flex-shrink-0" />
+   378→                          )}
+   379→                          {item.name}
+   380→                        </Link>
+   381→                      );
+   382→                    })}
+   383→                  </div>
+   384→                </motion.div>
+   385→              ))}
+   386→            </div>
+   387→
+   388→            {/* Bottom CTAs */}
+   389→            <div
+   390→              className="px-6 pb-16 flex flex-col sm:flex-row items-center justify-center gap-4"
+   391→              style={{ paddingBottom: 'max(4rem, calc(4rem + env(safe-area-inset-bottom, 0px)))' }}
+   392→            >
+   393→              <Link
+   394→                to="/townsquare"
+   395→                className="min-h-[44px] px-8 py-3 bg-[#FF4D00] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#FF4D00]/90 transition-colors inline-flex items-center justify-center gap-2"
+   396→                onClick={() => setIsMobileMenuOpen(false)}
+   397→              >
+   398→                <LogIn className="w-4 h-4" />
+   399→                Sign In
+   400→              </Link>
+   401→              <Link
+   402→                to="/capital"
+   403→                className="min-h-[44px] px-8 py-3 border border-white/20 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white hover:text-[#111111] transition-colors inline-flex items-center justify-center"
+   404→                onClick={() => setIsMobileMenuOpen(false)}
+   405→              >
+   406→                Invest Now
+   407→              </Link>
+   408→              <Link
+   409→                to="/join"
+   410→                className="min-h-[44px] px-8 py-3 border border-white/20 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white hover:text-[#111111] transition-colors inline-flex items-center justify-center"
+   411→                onClick={() => setIsMobileMenuOpen(false)}
+   412→              >
+   413→                Join
+   414→              </Link>
+   415→            </div>
+   416→          </motion.div>
+   417→        )}
+   418→      </AnimatePresence>
+   419→
+   420→      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+   421→    </>
+   422→  );
+   423→}
+   424→
+   425→/* ══════════════════════════════════════════════════════════════════════════
+   426→   STICKY INVEST CTA BAR
+   427→   ══════════════════════════════════════════════════════════════════════════ */
+   428→function StickyInvestBar() {
+   429→  const [visible, setVisible] = useState(false);
+   430→  const [dismissed, setDismissed] = useState(() => {
+   431→    if (typeof window === "undefined") return false;
+   432→    try {
+   433→      return sessionStorage.getItem("invest-bar-dismissed") === "true";
+   434→    } catch {
+   435→      return false;
+   436→    }
+   437→  });
+   438→  const { path } = useRouter();
+   439→
+   440→  useEffect(() => {
+   441→    const handleScroll = () => {
+   442→      const viewportHeight = window.innerHeight;
+   443→      setVisible(window.scrollY > viewportHeight);
+   444→    };
+   445→    window.addEventListener("scroll", handleScroll, { passive: true });
+   446→    return () => window.removeEventListener("scroll", handleScroll);
+   447→  }, []);
+   448→
+   449→  const handleDismiss = useCallback(() => {
+   450→    setDismissed(true);
+   451→    try {
+   452→      sessionStorage.setItem("invest-bar-dismissed", "true");
+   453→    } catch {
+   454→      // sessionStorage not available
+   455→    }
+   456→  }, []);
+   457→
+   458→  // Don't show on capital page or if dismissed
+   459→  const isCapitalPage = path === "/capital";
+   460→  const shouldShow = visible && !dismissed && !isCapitalPage;
+   461→
+   462→  return (
+   463→    <AnimatePresence>
+   464→      {shouldShow && (
+   465→        <motion.div
+   466→          initial={{ y: 48, opacity: 0 }}
+   467→          animate={{ y: 0, opacity: 1 }}
+   468→          exit={{ y: 48, opacity: 0 }}
+   469→          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+   470→          className="fixed bottom-0 left-0 right-0 z-40 bg-[#111111] text-white flex items-center justify-between px-4 md:px-6 min-h-[48px] md:h-12"
+   471→          style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+   472→        >
+   473→          <span className="text-[11px] sm:text-[13px] font-medium text-white/70 truncate mr-2 sm:mr-4">
+   474→            <span className="hidden sm:inline">Invest in critical technology from $500</span>
+   475→            <span className="sm:hidden">Invest in critical tech from $500</span>
+   476→          </span>
+   477→          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+   478→            <Link
+   479→              to="/capital"
+   480→              className="min-h-[44px] px-4 py-2 bg-[#FF4D00] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#FF4D00]/90 transition-colors whitespace-nowrap inline-flex items-center"
+   481→            >
+   482→              Invest Now →
+   483→            </Link>
+   484→            <button
+   485→              onClick={handleDismiss}
+   486→              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-white/30 hover:text-white/70 transition-colors"
+   487→              aria-label="Dismiss"
+   488→            >
+   489→              <X className="w-3.5 h-3.5" />
+   490→            </button>
+   491→          </div>
+   492→        </motion.div>
+   493→      )}
+   494→    </AnimatePresence>
+   495→  );
+   496→}
+   497→
+   498→/* ══════════════════════════════════════════════════════════════════════════
+   499→   SCROLL-TO-TOP BUTTON
+   500→   ══════════════════════════════════════════════════════════════════════════ */
+   501→function ScrollToTopButton() {
+   502→  const [visible, setVisible] = useState(false);
+   503→
+   504→  useEffect(() => {
+   505→    const handleScroll = () => {
+   506→      setVisible(window.scrollY > 400);
+   507→    };
+   508→    window.addEventListener("scroll", handleScroll, { passive: true });
+   509→    return () => window.removeEventListener("scroll", handleScroll);
+   510→  }, []);
+   511→
+   512→  const scrollToTop = useCallback(() => {
+   513→    window.scrollTo({ top: 0, behavior: "smooth" });
+   514→  }, []);
+   515→
+   516→  return (
+   517→    <AnimatePresence>
+   518→      {visible && (
+   519→        <motion.button
+   520→          initial={{ opacity: 0, scale: 0.8 }}
+   521→          animate={{ opacity: 1, scale: 1 }}
+   522→          exit={{ opacity: 0, scale: 0.8 }}
+   523→          transition={{ duration: 0.2 }}
+   524→          onClick={scrollToTop}
+   525→          className="fixed bottom-24 md:bottom-20 right-4 md:right-6 z-30 w-11 h-11 bg-white border border-[#111111]/10 flex items-center justify-center hover:bg-[#111111] hover:text-white transition-colors shadow-sm"
+   526→          aria-label="Scroll to top"
+   527→        >
+   528→          <ArrowUp className="w-4 h-4" />
+   529→        </motion.button>
+   530→      )}
+   531→    </AnimatePresence>
+   532→  );
+   533→}
+   534→
+   535→/* ══════════════════════════════════════════════════════════════════════════
+   536→   FOOTER
+   537→   ══════════════════════════════════════════════════════════════════════════ */
+   538→function Footer() {
+   539→  return (
+   540→    <footer className="py-0">
+   541→      <div className="w-full max-w-[1400px] mx-auto bg-[#000000] text-white px-6 md:px-12 lg:px-20 pt-24 pb-12 rounded-sm">
+   542→        {/* CTA cards */}
+   543→        <div className="grid md:grid-cols-2 gap-6 mb-24">
+   544→          <Link to="/programs" className="group block">
+   545→            <div className="border border-white/10 p-10 md:p-12 aspect-[16/9] md:aspect-auto md:h-[300px] flex flex-col justify-between hover:bg-white/5 transition-colors relative overflow-hidden">
+   546→               <div className="flex justify-between items-start">
+   547→                  <div className="text-[10px] font-bold tracking-widest uppercase text-white/50">xCelero Accelerator</div>
+   548→                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+   549→                    <ArrowRight className="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform" />
+   550→                  </div>
+   551→               </div>
+   552→               <div>
+   553→                  <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-medium tracking-tight mb-4">From thesis to operating company in 24 months.</h2>
+   554→                  <p className="text-white/50 font-medium">High-intensity venture building with funding, mentorship, and Route infrastructure built in.</p>
+   555→               </div>
+   556→            </div>
+   557→          </Link>
+   558→
+   559→          <Link to="/capital" className="group block">
+   560→            <div className="border border-white/10 p-10 md:p-12 aspect-[16/9] md:aspect-auto md:h-[300px] flex flex-col justify-between hover:bg-white/5 transition-colors relative overflow-hidden">
+   561→               <div className="flex justify-between items-start">
+   562→                  <div className="text-[10px] font-bold tracking-widest uppercase text-white/50">xCelero Capital</div>
+   563→                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+   564→                    <ArrowRight className="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform" />
+   565→                  </div>
+   566→               </div>
+   567→               <div>
+   568→                  <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-medium tracking-tight mb-4">Invest in critical technology from $500.</h2>
+   569→                  <p className="text-white/50 font-medium">Six vehicles, one thesis: back the technology the next century needs, in the markets that need it most.</p>
+   570→               </div>
+   571→            </div>
+   572→          </Link>
+   573→        </div>
+   574→
+   575→        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 mb-24">
+   576→          <div className="lg:col-span-6">
+   577→            <div className="text-[36px] sm:text-[50px] md:text-[80px] lg:text-[100px] font-display font-medium leading-[0.9] tracking-tight uppercase mb-8">
+   578→              xCelero<br />Labs
+   579→            </div>
+   580→          </div>
+   581→
+   582→          <div className="lg:col-span-6 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8 md:gap-8">
+   583→            <div className="flex flex-col gap-4">
+   584→              <span className="text-[10px] font-bold tracking-widest uppercase text-white/30">xCelero Labs</span>
+   585→              <Link to="/about" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">About</Link>
+   586→              <Link to="/ventures" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Companies</Link>
+   587→              <Link to="/careers" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Careers</Link>
+   588→              <Link to="/approach" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">How We Work</Link>
+   589→              <Link to="/insights" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">News</Link>
+   590→            </div>
+   591→
+   592→            <div className="flex flex-col gap-4">
+   593→              <span className="text-[10px] font-bold tracking-widest uppercase text-white/30">Programs</span>
+   594→              <Link to="/programs" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Overview</Link>
+   595→              <Link to="/programs" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Fellowship</Link>
+   596→              <Link to="/programs" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Hansa Hubs</Link>
+   597→            </div>
+   598→
+   599→            <div className="flex flex-col gap-4">
+   600→              <span className="text-[10px] font-bold tracking-widest uppercase text-white/30">Social</span>
+   601→              <a href="#" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">LinkedIn</a>
+   602→              <a href="#" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">X</a>
+   603→              <a href="#" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">YouTube</a>
+   604→            </div>
+   605→
+   606→            <div className="flex flex-col gap-4">
+   607→              <span className="text-[10px] font-bold tracking-widest uppercase text-white/30">Legal</span>
+   608→              <Link to="/" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Terms of Use</Link>
+   609→              <Link to="/" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Privacy</Link>
+   610→              <Link to="/admin" className="text-[13px] font-bold text-white/40 hover:text-[#FF4D00] transition-colors inline-flex items-center gap-1.5">
+   611→                <Shield className="w-3 h-3" />
+   612→                Admin
+   613→              </Link>
+   614→            </div>
+   615→          </div>
+   616→        </div>
+   617→
+   618→        <div className="pt-8 border-t border-white/10 text-[10px] text-white/30 uppercase tracking-widest font-mono" suppressHydrationWarning>
+   619→          © {new Date().getFullYear()} xCelero Labs.
+   620→        </div>
+   621→      </div>
+   622→    </footer>
+   623→  );
+   624→}
+   625→
