@@ -136,3 +136,25 @@ Stage Summary:
 - Visual variety increased between sections
 - Side nav updated with better dot styling
 - Lint check passes clean
+---
+Task ID: 2
+Agent: Main Agent
+Task: Major Infra page improvements - Case section with African startups, Outpost Model light bg + interactive cluster viz, Hubs light bg
+
+Work Log:
+- Searched web for real African startup failure examples: found 54gene (Nigeria biotech, $45M raised, shut down 2024), Sendy (Kenya logistics, $20M raised, shut down 2023), Dash (Ghana fintech, $86M raised, shut down 2023)
+- Searched for production method innovators: Toyota (Lean Manufacturing), Bell Labs (Compound Research), Intel (Moore's Law as Method)
+- Searched for portrait images: Bezos, Musk, Ford, Toyota factory, Bell Labs, 54gene lab, Sendy warehouse, African entrepreneurs
+- Replaced generic "A builder in Kampala" with 3 real African startups: 54gene, Sendy, Dash
+- Redesigned Case Section: split into two groups (West: 2 horizontal image+text cards, Africa: 3 vertical image-header cards with orange accent)
+- Redesigned Outpost Model Section: converted from dark to WHITE background, expanded from 3 to 6 method innovators (Ford, Toyota, Bell Labs, Intel, Tesla, xCelero), added "Platform" badges for Bell Labs and xCelero, added key distinction callout
+- Replaced static cross-section image with interactive cluster visualization: clickable node map with 6 cluster positions, SVG connecting lines, detail panel on click
+- Converted Hubs on the Route from dark (#0A0A0A) to white background with light-gray city cards
+- All changes verified with Agent Browser - no errors, all interactive elements working
+
+Stage Summary:
+- Case section now shows 5 real examples with images instead of 3 generic ones
+- Outpost Model is now white background with 6 innovator timeline + interactive cluster map
+- Hubs section is now white background
+- Dark backgrounds only remain on: Hero, Campus Ring, Flow, Moat (dark part)
+- Lint clean, no dev server errors

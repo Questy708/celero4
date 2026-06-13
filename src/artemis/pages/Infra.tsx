@@ -169,9 +169,20 @@ const coreTechnologies = [
 ];
 
 const caseComparisons = [
-  { founder: "Jeff Bezos", company: "Amazon", context: "USA, 1994", advantage: "He didn't need to build a banking system — credit cards and ACH already existed. He didn't need to build delivery infrastructure — FedEx and UPS already covered every address. The entire financial stack was mature, trusted, and ubiquitous.", takeaway: "The infrastructure was invisible because it was already there.", icon: "📦" },
-  { founder: "Elon Musk", company: "Tesla / SpaceX", context: "USA, 2002", advantage: "He could recruit from Stanford and MIT. File patents in a legal system that enforced them. Raise capital on Sand Hill Road. The roads were already paved. The grid was already stable. The regulatory framework was codified and navigable.", takeaway: "Every system the venture needed was already operational.", icon: "🚀" },
-  { founder: "A builder in Kampala", company: "Any venture", context: "Uganda, 2024", advantage: "No mature payments infrastructure. No reliable last-mile logistics. No deep-tech talent pipeline — the best engineers emigrate. No venture capital ecosystem. The grid fails daily. Legal frameworks shift without notice. Supply chains are informal, opaque, and cash-dependent.", takeaway: "Before you build the product, you must first build the ground it stands on.", icon: "🏗️" },
+  { founder: "Jeff Bezos", company: "Amazon", context: "USA, 1994", image: "https://sfile.chatglm.cn/images-ppt/7b685c8e5fa4.png", advantage: "He didn't need to build a banking system — credit cards and ACH already existed. He didn't need to build delivery infrastructure — FedEx and UPS already covered every address. The entire financial stack was mature, trusted, and ubiquitous.", takeaway: "The infrastructure was invisible because it was already there." },
+  { founder: "Elon Musk", company: "Tesla / SpaceX", context: "USA, 2002", image: "https://sfile.chatglm.cn/images-ppt/49edeabd4822.png", advantage: "He could recruit from Stanford and MIT. File patents in a legal system that enforced them. Raise capital on Sand Hill Road. The roads were already paved. The grid was already stable. The regulatory framework was codified and navigable.", takeaway: "Every system the venture needed was already operational." },
+  { founder: "54gene", company: "Biotech / Genomics", context: "Nigeria, 2019 — Shut down 2024", image: "https://sfile.chatglm.cn/images-ppt/75c2b00edce1.jpg", advantage: "Raised $45M to build Africa's first large-scale biobank. But cold-chain infrastructure was unreliable. Lab equipment had to be imported at 3x cost. No local reagent supply chain. Talent emigrated. The grid failed daily. Each of these was a separate infrastructure problem no single venture could solve.", takeaway: "$45M in funding couldn't overcome the infrastructure deficit. The science was sound. The ground beneath it wasn't." },
+  { founder: "Sendy", company: "Logistics / Delivery", context: "Kenya, 2014 — Shut down 2023", image: "https://sfile.chatglm.cn/images-ppt/1ba21c0ff0e1.jpg", advantage: "Raised $20M to build an on-demand delivery platform. But last-mile roads were unpaved. Address systems were informal — 'turn left at the blue kiosk.' No standardized logistics infrastructure existed. They had to build the roads, the addressing system, and the delivery app — all at once.", takeaway: "In the West, Uber builds on top of Google Maps and paved roads. In Africa, you build the map, the road, and the ride." },
+  { founder: "Dash", company: "Fintech / Payments", context: "Ghana, 2019 — Shut down 2023", image: "https://sfile.chatglm.cn/images-ppt/510589276692.jpg", advantage: "Raised $86M to connect mobile money wallets across Africa. But banking rails didn't interoperate. Regulatory frameworks varied by country and shifted without notice. No shared KYC infrastructure. Each market required rebuilding the financial plumbing from scratch.", takeaway: "$86M and they still couldn't build what Visa takes for granted. Infrastructure isn't optional — it's the prerequisite." },
+];
+
+const methodInnovators = [
+  { subject: "Ford", year: "1913", method: "The Assembly Line", image: "https://sfile.chatglm.cn/images-ppt/3ffa4d06784c.jpg", statement: "didn't share a workshop. He reinvented the method — the assembly line — and that method was itself the moat. No one could match his output per unit time.", type: "single" as const },
+  { subject: "Toyota", year: "1950s", method: "Lean Manufacturing", image: "https://sfile.chatglm.cn/images-ppt/5f5aac38a596.jpg", statement: "didn't just build cars faster. Taiichi Ohno invented a method — lean production — where waste is eliminated, inventory minimized, and every worker stops the line. Toyota's method became the global standard.", type: "single" as const },
+  { subject: "Bell Labs", year: "1940s–70s", method: "Compound Research", image: "https://sfile.chatglm.cn/images-ppt/be8c75f29160.jpg", statement: "didn't just fund smart people. They invented a method — the research campus — where physicists sat next to engineers, where the transistor, the laser, Unix, and information theory all emerged from the same cafeteria. The method produced 9 Nobel Prizes.", type: "platform" as const },
+  { subject: "Intel", year: "1968", method: "Moore's Law as Method", image: "/infra/outpost-campus.png", statement: "didn't just make chips. Gordon Moore's observation — that transistor count doubles every two years — became a self-fulfilling production method. Every Intel factory was designed to make the next law-breaking chip. The method drove the industry.", type: "single" as const },
+  { subject: "Tesla", year: "2018", method: "Gigapress + Unboxed", image: "/infra/foundry-interior.png", statement: "didn't parallelize a factory. They invented a new method — Gigapressing, Unboxed assembly — that produces cars per unit time no traditional line can match.", type: "single" as const },
+  { subject: "xCelero", year: "2024", method: "Production-Method Architecture", image: "/infra/outpost-campus.png", statement: "doesn't share labs. It reinvents the method by which ventures go from idea to working solution. 5,000+ ventures, 190+ hubs, one compound production method. Ford made one product faster. xCelero makes every product faster — because the method compounds.", type: "platform" as const },
 ];
 
 const ventureFlows = [
@@ -403,13 +414,12 @@ function HeroSection() {
    ══════════════════════════════════════════════════════════════════════════ */
 function CaseSection() {
   const { ref, isInView } = useFade();
-  const [activeCase, setActiveCase] = useState(2);
 
   return (
     <section id="infra-case" ref={ref} className="py-3 md:py-4">
       <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
         {/* Pull quote */}
-        <div className="px-6 md:px-12 lg:px-20 pt-20 md:pt-32 pb-16 md:pb-20">
+        <div className="px-6 md:px-12 lg:px-20 pt-20 md:pt-32 pb-12 md:pb-16">
           <motion.div
             {...fadeUp}
             animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
@@ -432,58 +442,109 @@ function CaseSection() {
           </motion.div>
         </div>
 
-        {/* Three comparison cards — full width row */}
+        {/* Two groups: West (2 cards) vs Africa (3 cards) */}
         <div className="px-6 md:px-12 lg:px-20 pb-16 md:pb-20">
-          <div className="grid md:grid-cols-3 gap-4">
-            {caseComparisons.map((c, i) => (
-              <motion.button
-                key={i}
-                {...stagger(i)}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                suppressHydrationWarning
-                onClick={() => setActiveCase(i)}
-                className={`text-left transition-all duration-300 rounded-sm border ${
-                  activeCase === i
-                    ? i === 2
-                      ? "bg-[#FF4D00] text-white border-[#FF4D00] p-6 md:p-8"
-                      : "bg-[#111] text-white border-[#111] p-6 md:p-8"
-                    : "bg-transparent hover:bg-[#FAFAFA] p-6 md:p-8 border-[#111]/8"
-                }`}
-              >
-                <span className="text-[28px] leading-none block mb-4">{c.icon}</span>
-                <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                  <h3 className="text-[16px] font-display font-medium tracking-tight">
-                    {c.founder}
-                  </h3>
-                  <span className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase opacity-30">
-                    {c.context}
-                  </span>
-                </div>
-                <div className={`text-[10px] font-mono font-bold tracking-[0.12em] uppercase mb-4 ${activeCase === i ? (i === 2 ? "text-white/60" : "text-[#FF4D00]") : "text-[#111]/20"}`}>
-                  {c.company}
-                </div>
-                {activeCase === i ? (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <p className="text-[13px] text-white/50 font-medium leading-[1.7] mb-4">
+          {/* West — infrastructure already exists */}
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#111]/15">Where infrastructure already exists</span>
+              <div className="flex-1 h-[1px] bg-[#111]/5" />
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {caseComparisons.slice(0, 2).map((c, i) => (
+                <motion.div
+                  key={i}
+                  {...stagger(i)}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                  className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors"
+                >
+                  <div className="flex gap-0">
+                    {/* Image */}
+                    <div className="w-[100px] md:w-[140px] lg:w-[180px] shrink-0">
+                      <img
+                        src={c.image}
+                        alt={c.founder}
+                        className="w-full h-full object-cover min-h-[200px]"
+                      />
+                    </div>
+                    {/* Content */}
+                    <div className="flex-1 p-5 md:p-6 lg:p-8">
+                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                        <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight">
+                          {c.founder}
+                        </h3>
+                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">
+                          {c.context}
+                        </span>
+                      </div>
+                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-4">
+                        {c.company}
+                      </div>
+                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4">
+                        {c.advantage}
+                      </p>
+                      <div className="border-t border-[#111]/5 pt-3">
+                        <p className="text-[13px] font-bold text-[#FF4D00] leading-[1.5]">
+                          {c.takeaway}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Africa — infrastructure must be built first */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">Where infrastructure must be built first</span>
+              <div className="flex-1 h-[1px] bg-[#FF4D00]/10" />
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              {caseComparisons.slice(2).map((c, i) => (
+                <motion.div
+                  key={i + 2}
+                  {...stagger(i + 2)}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                  className="border border-[#FF4D00]/10 bg-[#FF4D00]/[0.02] rounded-sm overflow-hidden hover:border-[#FF4D00]/20 transition-colors group"
+                >
+                  {/* Image header */}
+                  <div className="relative h-[140px] md:h-[160px] overflow-hidden">
+                    <img
+                      src={c.image}
+                      alt={c.founder}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+                    <div className="absolute bottom-3 left-4 right-4">
+                      <h3 className="text-[18px] font-display font-medium tracking-tight text-[#111]">
+                        {c.founder}
+                      </h3>
+                    </div>
+                  </div>
+                  {/* Content */}
+                  <div className="p-5 md:p-6">
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]">
+                        {c.company}
+                      </span>
+                      <span className="text-[9px] font-mono tracking-[0.08em] text-[#111]/20">
+                        {c.context}
+                      </span>
+                    </div>
+                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3">
                       {c.advantage}
                     </p>
-                    <div className="border-t border-white/15 pt-3">
-                      <p className={`text-[13px] font-bold leading-[1.5] ${i === 2 ? "text-white" : "text-[#FF4D00]"}`}>
+                    <div className="border-t border-[#FF4D00]/10 pt-3">
+                      <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5]">
                         {c.takeaway}
                       </p>
                     </div>
-                  </motion.div>
-                ) : (
-                  <p className="text-[12px] text-[#111]/25 font-medium leading-[1.6] line-clamp-2 mt-2">
-                    {c.takeaway}
-                  </p>
-                )}
-              </motion.button>
-            ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -516,10 +577,11 @@ function CaseSection() {
    ══════════════════════════════════════════════════════════════════════════ */
 function OutpostModelSection() {
   const { ref, isInView } = useFade();
+  const [activeCluster, setActiveCluster] = useState<string | null>(null);
 
   return (
     <section id="infra-outpost-model" ref={ref} className="py-3 md:py-4">
-      <div className="w-full max-w-[1400px] mx-auto bg-[#0A0A0A] text-white rounded-sm overflow-hidden">
+      <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
         {/* Header */}
         <div className="px-6 md:px-12 lg:px-20 pt-20 md:pt-32 pb-12 md:pb-16">
           <motion.div
@@ -529,158 +591,261 @@ function OutpostModelSection() {
             <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
               The Outpost Model
             </span>
-            <h2 className="text-[40px] md:text-[60px] lg:text-[80px] font-display font-medium tracking-[-0.05em] leading-[0.85]">
-              Ford. Tesla. xCelero.
+            <h2 className="text-[40px] md:text-[60px] lg:text-[80px] font-display font-medium tracking-[-0.05em] leading-[0.85] text-[#111]">
+              Every leap in output
+              <br />
+              <span className="text-[#111]/12">came from a new method.</span>
             </h2>
-            <p className="text-[15px] text-white/25 font-medium leading-[1.7] max-w-lg mt-6">
-              Each reinvented the method of production. Not the tools — the method.
+            <p className="text-[15px] text-[#111]/35 font-medium leading-[1.7] max-w-lg mt-6">
+              Not better tools. Not more capital. A reinvented method of production.
               The method is what separates 80x output from 10% improvement.
+              And xCelero is a platform — not a single product.
             </p>
           </motion.div>
         </div>
 
-        {/* Timeline — horizontal cards with connecting line */}
-        <div className="px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
-          <div className="relative">
-            <div className="hidden md:block absolute top-8 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-            
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8 relative">
-              {[
-                {
-                  subject: "Ford",
-                  year: "1913",
-                  method: "The Assembly Line",
-                  statement:
-                    "didn't share a workshop. He reinvented the method — the assembly line — and that method was itself the moat. No one could match his output per unit time.",
-                },
-                {
-                  subject: "Tesla",
-                  year: "2018",
-                  method: "Gigapress + Unboxed",
-                  statement:
-                    "didn't parallelize a factory. They invented a new method — Gigapressing, Unboxed assembly — that produces cars per unit time no traditional line can match.",
-                },
-                {
-                  subject: "xCelero",
-                  year: "2024",
-                  method: "Production-Method Architecture",
-                  statement:
-                    "the outpost doesn't share labs. It reinvents the method by which ventures go from idea to working solution. The method IS the moat.",
-                },
-              ].map((p, i) => (
-                <motion.div
-                  key={p.subject}
-                  {...stagger(i)}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                  className="relative"
-                >
-                  {/* Top marker dot */}
-                  <div className="hidden md:flex items-center gap-3 mb-6">
-                    <div className="w-3 h-3 rounded-full bg-[#FF4D00] relative z-10" />
-                    <span className="text-[11px] font-mono font-bold tracking-[0.15em] text-[#FF4D00]">
+        {/* Method innovators — timeline cards */}
+        <div className="px-6 md:px-12 lg:px-20 pb-16 md:pb-20">
+          {/* Timeline connecting line */}
+          <div className="relative mb-8">
+            <div className="hidden md:block absolute top-6 left-0 right-0 h-[1px] bg-[#111]/5" />
+          </div>
+          
+          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {methodInnovators.map((p, i) => (
+              <motion.div
+                key={p.subject}
+                {...stagger(i)}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                className={`relative border rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-all duration-300 ${
+                  p.type === "platform"
+                    ? "border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] md:col-span-1 lg:col-span-2"
+                    : "border-[#111]/5 bg-white"
+                }`}
+              >
+                {/* Image header */}
+                <div className="relative h-[100px] md:h-[80px] lg:h-[100px] overflow-hidden">
+                  <img
+                    src={p.image}
+                    alt={p.subject}
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+                  {/* Year badge */}
+                  <div className="absolute top-2 left-2">
+                    <span className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase bg-white/90 backdrop-blur-sm px-2 py-0.5 text-[#111]">
                       {p.year}
                     </span>
                   </div>
-                  
-                  <div className="border border-white/[0.08] rounded-sm p-8 md:p-10 hover:border-[#FF4D00]/30 transition-colors bg-white/[0.02]">
-                    <div className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-white/20 mb-2 md:hidden">
-                      {p.year}
+                  {/* Platform badge */}
+                  {p.type === "platform" && (
+                    <div className="absolute top-2 right-2">
+                      <span className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase bg-[#FF4D00] text-white px-2 py-0.5">
+                        Platform
+                      </span>
                     </div>
-                    <h3 className="text-[28px] md:text-[34px] font-display font-medium tracking-tight mb-2">
-                      {p.subject}
-                    </h3>
-                    <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/60 mb-4">
-                      {p.method}
-                    </div>
-                    <p className="text-[14px] text-white/30 font-medium leading-[1.7]">
-                      {p.statement}
-                    </p>
+                  )}
+                </div>
+                {/* Content */}
+                <div className="p-4 md:p-5">
+                  <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight mb-1 text-[#111]">
+                    {p.subject}
+                  </h3>
+                  <div className={`text-[9px] font-mono font-bold tracking-[0.1em] uppercase mb-3 ${
+                    p.type === "platform" ? "text-[#FF4D00]" : "text-[#FF4D00]/40"
+                  }`}>
+                    {p.method}
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                  <p className={`text-[12px] font-medium leading-[1.6] ${
+                    p.type === "platform" ? "text-[#111]/50" : "text-[#111]/30"
+                  }`}>
+                    {p.statement}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
+
+          {/* Key distinction callout */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.8 }}
+            className="mt-8 border-l-2 border-[#FF4D00] bg-[#FF4D00]/[0.03] rounded-r-sm p-6 md:p-8"
+          >
+            <p className="text-[14px] md:text-[16px] text-[#111]/50 font-medium leading-[1.7]">
+              Ford made <strong className="text-[#111]">one product</strong> faster. Tesla makes <strong className="text-[#111]">one product</strong> faster. 
+              Bell Labs and xCelero are different — they invented a <strong className="text-[#FF4D00]">method that compounds across every product</strong> simultaneously. 
+              The assembly line produces cars. The research campus produces discoveries. The outpost produces working ventures.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Cross-section image */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 1.2, delay: 0.3 }}
-          className="relative"
-        >
-          <div className="px-6 md:px-12 lg:px-20 mb-3">
-            <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase text-white/15">
-              Cross Section
+        {/* Interactive Cluster Visualization — replaces static image */}
+        <div className="px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
+          <div className="flex items-center gap-4 mb-8">
+            <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase text-[#111]/15">
+              Six clusters. One machine.
+            </span>
+            <div className="flex-1 h-[1px] bg-[#111]/5" />
+            <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">
+              Click to explore
             </span>
           </div>
-          <div className="relative overflow-hidden bg-white/[0.02]">
-            <img
-              src="/infra/outpost-crosssection.png"
-              alt="Outpost Cross-Section"
-              className="w-full max-h-[500px] object-contain mx-auto"
-            />
-          </div>
-          <div className="px-6 md:px-12 lg:px-20 py-4">
-            <p className="text-center text-[12px] text-white/15 font-medium">
-              Six clusters. One machine. Each zone optimized for its type of production.
-            </p>
-          </div>
-        </motion.div>
 
-        {/* 6 Clusters — asymmetric bento grid */}
-        <div className="px-6 md:px-12 lg:px-20 py-16 md:py-24">
-          <div className="flex items-center gap-4 mb-10">
-            <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase text-white/15">
-              The 6 Clusters
-            </span>
-            <div className="flex-1 h-[1px] bg-white/5" />
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {clusterData.map((c, i) => {
-              const Icon = c.icon;
-              return (
-                <motion.div
-                  key={c.id}
-                  {...stagger(i)}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                  className="group relative overflow-hidden rounded-sm border border-white/[0.06] hover:border-[#FF4D00]/25 transition-all duration-300"
-                >
-                  {/* Image header */}
-                  <div className="relative h-[140px] overflow-hidden">
-                    <img
-                      src={c.image}
-                      alt={c.name}
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent" />
-                    <div className="absolute top-4 right-4 text-[48px] font-display font-bold leading-none text-white/[0.04] select-none">
-                      {c.num}
+          <div className="grid lg:grid-cols-12 gap-6">
+            {/* Interactive hexagonal cluster map */}
+            <div className="lg:col-span-7">
+              <div className="relative bg-[#FAFAFA] rounded-sm p-6 md:p-8 min-h-[400px] md:min-h-[500px]">
+                {/* Background grid */}
+                <div className="absolute inset-0 opacity-[0.03] rounded-sm overflow-hidden" style={{
+                  backgroundImage: `linear-gradient(rgba(0,0,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.5) 1px, transparent 1px)`,
+                  backgroundSize: '40px 40px'
+                }} />
+                
+                {/* Cluster nodes */}
+                <div className="relative w-full h-full min-h-[360px] md:min-h-[460px]">
+                  {clusterData.map((c, i) => {
+                    const Icon = c.icon;
+                    // Position clusters in a spatial layout
+                    const positions = [
+                      { top: "5%", left: "25%" },   // Hive - front center
+                      { top: "35%", left: "5%" },    // Foundry - left
+                      { top: "30%", left: "45%" },   // Lab - center
+                      { top: "55%", left: "30%" },   // Commons - center bottom
+                      { top: "60%", left: "60%" },   // Living - right
+                      { top: "10%", left: "60%" },   // Extension - top right
+                    ];
+                    const pos = positions[i];
+                    const isActive = activeCluster === c.id;
+                    
+                    return (
+                      <motion.button
+                        key={c.id}
+                        suppressHydrationWarning
+                        onClick={() => setActiveCluster(isActive ? null : c.id)}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
+                        className={`absolute w-[120px] md:w-[140px] transition-all duration-300 text-left ${
+                          isActive ? "z-20" : "z-10"
+                        }`}
+                        style={{ top: pos.top, left: pos.left }}
+                      >
+                        <div className={`p-3 md:p-4 rounded-sm border transition-all duration-300 ${
+                          isActive
+                            ? "bg-[#111] text-white border-[#FF4D00] shadow-lg scale-110"
+                            : "bg-white border-[#111]/8 hover:border-[#FF4D00]/30 hover:shadow-md"
+                        }`}>
+                          <div className="flex items-center gap-2 mb-1">
+                            <Icon className={`w-4 h-4 ${isActive ? "text-[#FF4D00]" : "text-[#FF4D00]/60"}`} strokeWidth={1.5} />
+                            <span className={`text-[8px] font-mono font-bold tracking-[0.1em] uppercase ${isActive ? "text-[#FF4D00]" : "text-[#111]/20"}`}>
+                              {c.num}
+                            </span>
+                          </div>
+                          <h4 className={`text-[13px] font-display font-medium tracking-tight ${isActive ? "text-white" : "text-[#111]"}`}>
+                            {c.name}
+                          </h4>
+                          <div className={`text-[9px] font-mono tracking-[0.05em] ${isActive ? "text-white/30" : "text-[#111]/20"}`}>
+                            {c.sub}
+                          </div>
+                        </div>
+                      </motion.button>
+                    );
+                  })}
+
+                  {/* Connecting lines between clusters (SVG) */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
+                    <line x1="32%" y1="18%" x2="15%" y2="42%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+                    <line x1="32%" y1="18%" x2="55%" y2="38%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+                    <line x1="15%" y1="48%" x2="38%" y2="62%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+                    <line x1="55%" y1="38%" x2="38%" y2="62%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+                    <line x1="38%" y1="65%" x2="68%" y2="68%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+                    <line x1="68%" y1="20%" x2="55%" y2="38%" stroke="rgba(255,77,0,0.08)" strokeWidth="1" strokeDasharray="4 4" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Cluster detail panel */}
+            <div className="lg:col-span-5">
+              <AnimatePresence mode="wait">
+                {activeCluster ? (
+                  <motion.div
+                    key={activeCluster}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="bg-[#FAFAFA] rounded-sm p-6 md:p-8 min-h-[400px] md:min-h-[500px] flex flex-col"
+                  >
+                    {(() => {
+                      const cluster = clusterData.find(c => c.id === activeCluster);
+                      if (!cluster) return null;
+                      const Icon = cluster.icon;
+                      return (
+                        <>
+                          <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 bg-[#FF4D00] rounded-sm flex items-center justify-center">
+                              <Icon className="w-5 h-5 text-white" strokeWidth={1.5} />
+                            </div>
+                            <div>
+                              <h3 className="text-[22px] font-display font-medium tracking-tight text-[#111]">
+                                {cluster.name}
+                              </h3>
+                              <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]">
+                                Cluster {cluster.num} · {cluster.sub}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div className="relative h-[140px] rounded-sm overflow-hidden mb-6">
+                            <img
+                              src={cluster.image}
+                              alt={cluster.name}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#FAFAFA] via-transparent to-transparent" />
+                          </div>
+
+                          <div className="flex-1">
+                            <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111]/15 mb-3">
+                              Why this configuration
+                            </div>
+                            <p className="text-[14px] text-[#111]/45 font-medium leading-[1.7]">
+                              {cluster.why}
+                            </p>
+                          </div>
+
+                          <button
+                            onClick={() => setActiveCluster(null)}
+                            className="mt-6 text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] hover:text-[#111] transition-colors"
+                          >
+                            ← Back to map
+                          </button>
+                        </>
+                      );
+                    })()}
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="bg-[#FAFAFA] rounded-sm p-6 md:p-8 min-h-[400px] md:min-h-[500px] flex flex-col items-center justify-center text-center"
+                  >
+                    <div className="w-16 h-16 border border-[#111]/5 rounded-full flex items-center justify-center mb-6">
+                      <TreePine className="w-7 h-7 text-[#111]/10" strokeWidth={1} />
                     </div>
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Icon className="w-3 h-3 text-[#FF4D00]" strokeWidth={1.5} />
-                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#FF4D00]">
-                          Cluster {c.num}
-                        </span>
-                      </div>
-                      <h3 className="text-[18px] font-display font-medium tracking-tight">
-                        {c.name}
-                      </h3>
-                    </div>
-                  </div>
-                  {/* Content */}
-                  <div className="p-5 bg-white/[0.015]">
-                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-white/12 mb-2">
-                      {c.sub}
-                    </div>
-                    <p className="text-[11px] text-white/25 font-medium leading-[1.6]">
-                      {c.why}
+                    <p className="text-[14px] text-[#111]/25 font-medium leading-[1.6] max-w-xs">
+                      Click any cluster on the map to explore its spatial logic and configuration.
                     </p>
-                  </div>
-                </motion.div>
-              );
-            })}
+                    <p className="text-[12px] text-[#111]/15 font-medium mt-4">
+                      Each zone is optimized for its type of production.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
@@ -1261,15 +1426,15 @@ function HubsSection() {
 
   return (
     <section id="infra-hubs" ref={ref} className="py-3 md:py-4">
-      <div className="w-full max-w-[1400px] mx-auto bg-[#0A0A0A] text-white rounded-sm overflow-hidden">
+      <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
         {/* Hero image */}
         <div className="relative h-[25vh] md:h-[35vh] overflow-hidden">
           <img
             src="/infra/hubs-network.png"
             alt="Global Hub Network"
-            className="w-full h-full object-cover opacity-25"
+            className="w-full h-full object-cover opacity-40"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-white/20" />
           <div className="absolute bottom-0 left-0 px-6 md:px-12 lg:px-20 pb-8 md:pb-12">
             <motion.div
               {...fadeUp}
@@ -1278,10 +1443,10 @@ function HubsSection() {
               <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
                 Hubs on the Route
               </span>
-              <h2 className="text-[36px] md:text-[52px] font-display font-medium tracking-[-0.04em] leading-[0.9]">
+              <h2 className="text-[36px] md:text-[52px] font-display font-medium tracking-[-0.04em] leading-[0.9] text-[#111]">
                 A union of
                 <br />
-                <span className="text-white/15">cities.</span>
+                <span className="text-[#111]/15">cities.</span>
               </h2>
             </motion.div>
           </div>
@@ -1293,7 +1458,7 @@ function HubsSection() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.2 }}
-            className="flex gap-10 mb-10 pb-8 border-b border-white/[0.06]"
+            className="flex gap-10 mb-10 pb-8 border-b border-[#111]/5"
           >
             {[
               { value: "190+", label: "Hubs" },
@@ -1304,7 +1469,7 @@ function HubsSection() {
                 <div className="text-[24px] font-display font-medium tracking-tighter text-[#FF4D00]">
                   {s.value}
                 </div>
-                <div className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-white/15">
+                <div className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#111]/20">
                   {s.label}
                 </div>
               </div>
@@ -1318,8 +1483,8 @@ function HubsSection() {
               onClick={() => setActiveLeg(null)}
               className={`px-3 py-2 text-[9px] font-mono font-bold tracking-widest uppercase border rounded-sm transition-colors min-h-[36px] ${
                 activeLeg === null
-                  ? "bg-white text-[#111] border-white"
-                  : "bg-transparent text-white/20 border-white/[0.06] hover:border-white/15"
+                  ? "bg-[#111] text-white border-[#111]"
+                  : "bg-transparent text-[#111]/30 border-[#111]/8 hover:border-[#111]/20"
               }`}
             >
               All
@@ -1332,7 +1497,7 @@ function HubsSection() {
                 className={`px-3 py-2 text-[9px] font-mono font-bold tracking-widest uppercase border rounded-sm transition-colors min-h-[36px] ${
                   activeLeg === leg.id
                     ? "text-white border-transparent"
-                    : "bg-transparent text-white/20 border-white/[0.06] hover:border-white/15"
+                    : "bg-transparent text-[#111]/30 border-[#111]/8 hover:border-[#111]/20"
                 }`}
                 style={
                   activeLeg === leg.id
@@ -1349,7 +1514,7 @@ function HubsSection() {
           <div className="space-y-8 max-h-[500px] overflow-y-auto pr-2">
             {visibleHubs.map(({ leg, cities }) => (
               <div key={leg.id}>
-                <div className="flex items-center gap-3 mb-4 pb-2 border-b border-white/[0.04]">
+                <div className="flex items-center gap-3 mb-4 pb-2 border-b border-[#111]/5">
                   <span
                     className="w-2 h-2 rounded-full flex-shrink-0"
                     style={{ backgroundColor: leg.color }}
@@ -1357,7 +1522,7 @@ function HubsSection() {
                   <h3 className="text-[15px] font-display font-medium tracking-tight">
                     Leg {leg.legNumber}: {leg.name}
                   </h3>
-                  <span className="text-[9px] font-mono text-white/15 tracking-widest uppercase ml-auto">
+                  <span className="text-[9px] font-mono text-[#111]/20 tracking-widest uppercase ml-auto">
                     {leg.hubCount} hubs · {leg.countries.length} countries
                   </span>
                 </div>
@@ -1365,7 +1530,7 @@ function HubsSection() {
                   {cities.map((city) => (
                     <div
                       key={city.id}
-                      className="border border-white/[0.04] rounded-sm p-3 hover:border-white/10 transition-colors group bg-white/[0.01]"
+                      className="border border-[#111]/5 rounded-sm p-3 hover:border-[#FF4D00]/20 transition-colors group bg-[#FAFAFA]"
                     >
                       <div className="flex items-center gap-1.5 mb-0.5">
                         <MapPin className="w-2.5 h-2.5 text-[#FF4D00]" />
@@ -1373,7 +1538,7 @@ function HubsSection() {
                           {city.name}
                         </h4>
                       </div>
-                      <p className="text-[10px] text-white/20 font-medium leading-[1.4]">
+                      <p className="text-[10px] text-[#111]/30 font-medium leading-[1.4]">
                         {city.description}
                       </p>
                     </div>
@@ -1387,7 +1552,7 @@ function HubsSection() {
           <div className="mt-14 text-center">
             <Link
               to="/routes"
-              className="group inline-flex items-center gap-3 px-8 py-3.5 bg-white text-[#111] text-[10px] font-bold tracking-[0.2em] uppercase rounded-sm hover:bg-[#FF4D00] hover:text-white transition-colors"
+              className="group inline-flex items-center gap-3 px-8 py-3.5 bg-[#111] text-white text-[10px] font-bold tracking-[0.2em] uppercase rounded-sm hover:bg-[#FF4D00] transition-colors"
             >
               Explore the Full Route
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
