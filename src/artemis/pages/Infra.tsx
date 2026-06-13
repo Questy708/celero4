@@ -432,20 +432,22 @@ function HeroSection() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   CARD CAROUSEL — Shows 2 cards, auto-advances with pause
+   CARD CAROUSEL — Shows 3 cards per slide, auto-advances with pause
    ══════════════════════════════════════════════════════════════════════════ */
 function CardCarousel<T>({
   items,
   renderItem,
   interval = 5000,
+  perSlide = 3,
 }: {
   items: T[];
   renderItem: (item: T, index: number) => React.ReactNode;
   interval?: number;
+  perSlide?: number;
 }) {
   const [slide, setSlide] = useState(0);
   const [paused, setPaused] = useState(false);
-  const totalSlides = Math.ceil(items.length / 2);
+  const totalSlides = Math.ceil(items.length / perSlide);
 
   useEffect(() => {
     if (paused) return;
@@ -467,18 +469,20 @@ function CardCarousel<T>({
           className="flex transition-transform duration-[600ms] ease-[0.22,1,0.36,1]"
           style={{ transform: `translateX(-${slide * 100}%)` }}
         >
-          {/* Chunk items into pairs, each pair = one slide */}
+          {/* Chunk items into groups, each group = one slide */}
           {Array.from({ length: totalSlides }).map((_, si) => (
-            <div key={si} className="w-full shrink-0 flex gap-4">
-              {items.slice(si * 2, si * 2 + 2).map((item, i) => (
-                <div key={i} className="flex-1 min-w-0">
-                  {renderItem(item, si * 2 + i)}
+            <div key={si} className="w-full shrink-0 grid grid-cols-3 gap-4">
+              {items.slice(si * perSlide, si * perSlide + perSlide).map((item, i) => (
+                <div key={i} className="min-w-0">
+                  {renderItem(item, si * perSlide + i)}
                 </div>
               ))}
-              {/* If odd number on last slide, add empty spacer */}
-              {si === totalSlides - 1 && items.length % 2 !== 0 && (
-                <div className="flex-1 min-w-0" />
-              )}
+              {/* Fill empty slots on last slide */}
+              {si === totalSlides - 1 && items.length % perSlide !== 0 &&
+                Array.from({ length: perSlide - (items.length % perSlide) }).map((_, j) => (
+                  <div key={`spacer-${j}`} className="min-w-0" />
+                ))
+              }
             </div>
           ))}
         </div>
@@ -559,21 +563,19 @@ function CaseSection() {
               items={infrastructureExists}
               interval={6000}
               renderItem={(item) => (
-                <div className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white">
-                  <div className="flex gap-0">
-                    <div className="w-[120px] md:w-[160px] lg:w-[180px] shrink-0">
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover min-h-[220px]" style={{ objectPosition: 'center 25%' }} />
+                <div className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex flex-col h-full">
+                  <div className="relative h-[140px] shrink-0">
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
+                  </div>
+                  <div className="flex-1 p-4 md:p-5">
+                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                      <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
+                      <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
                     </div>
-                    <div className="flex-1 p-5 md:p-6">
-                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                        <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight">{item.name}</h3>
-                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
-                      </div>
-                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-3">{item.company}</div>
-                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4">{item.advantage}</p>
-                      <div className="border-t border-[#111]/5 pt-3">
-                        <p className="text-[13px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
-                      </div>
+                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-2">{item.company}</div>
+                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-4">{item.advantage}</p>
+                    <div className="border-t border-[#111]/5 pt-2 mt-auto">
+                      <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
                     </div>
                   </div>
                 </div>
@@ -600,21 +602,19 @@ function CaseSection() {
               items={marketCreatingInnovations}
               interval={6000}
               renderItem={(item) => (
-                <div className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors">
-                  <div className="flex gap-0">
-                    <div className="w-[120px] md:w-[160px] lg:w-[180px] shrink-0">
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover min-h-[220px]" style={{ objectPosition: 'center 25%' }} />
+                <div className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors flex flex-col h-full">
+                  <div className="relative h-[140px] shrink-0">
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
+                  </div>
+                  <div className="flex-1 p-4 md:p-5">
+                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                      <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
+                      <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
                     </div>
-                    <div className="flex-1 p-5 md:p-6">
-                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                        <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight">{item.name}</h3>
-                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
-                      </div>
-                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/70 mb-3">{item.company}</div>
-                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4">{item.advantage}</p>
-                      <div className="border-t border-[#FF4D00]/10 pt-3">
-                        <p className="text-[13px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
-                      </div>
+                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/70 mb-2">{item.company}</div>
+                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-4">{item.advantage}</p>
+                    <div className="border-t border-[#FF4D00]/10 pt-2 mt-auto">
+                      <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
                     </div>
                   </div>
                 </div>
@@ -641,21 +641,19 @@ function CaseSection() {
               items={infrastructureMustBeBuilt}
               interval={6000}
               renderItem={(item) => (
-                <div className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors">
-                  <div className="flex gap-0">
-                    <div className="w-[120px] md:w-[160px] lg:w-[180px] shrink-0">
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover min-h-[220px]" style={{ objectPosition: 'center 25%' }} />
+                <div className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors flex flex-col h-full">
+                  <div className="relative h-[140px] shrink-0">
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
+                  </div>
+                  <div className="flex-1 p-4 md:p-5">
+                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                      <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
+                      <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#991B1B]/40">{item.context}</span>
                     </div>
-                    <div className="flex-1 p-5 md:p-6">
-                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                        <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight">{item.name}</h3>
-                        <span className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#991B1B]/40">{item.context}</span>
-                      </div>
-                      <div className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]/50 mb-3">{item.company}</div>
-                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7] mb-4">{item.advantage}</p>
-                      <div className="border-t border-[#991B1B]/10 pt-3">
-                        <p className="text-[13px] font-bold text-[#991B1B] leading-[1.5]">{item.takeaway}</p>
-                      </div>
+                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]/50 mb-2">{item.company}</div>
+                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-4">{item.advantage}</p>
+                    <div className="border-t border-[#991B1B]/10 pt-2 mt-auto">
+                      <p className="text-[12px] font-bold text-[#991B1B] leading-[1.5]">{item.takeaway}</p>
                     </div>
                   </div>
                 </div>
