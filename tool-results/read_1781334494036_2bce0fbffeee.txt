@@ -1,0 +1,690 @@
+     1→     1→✓ Done
+     2→     2→- navigation
+     3→     3→  - link "X XCELERO LABS" [ref=e2]
+     4→     4→  - button "Company" [ref=e23]
+     5→     5→  - button "Platform" [ref=e24]
+     6→     6→  - button "Network" [ref=e25]
+     7→     7→  - button "Search" [ref=e3]
+     8→     8→  - link "Sign In" [ref=e4]
+     9→     9→  - link "Join" [ref=e5]
+    10→    10→- main
+    11→    11→  - navigation "Section navigation" [ref=e6]
+    12→    12→    - link "01" [ref=e26]
+    13→    13→    - link "02" [ref=e27]
+    14→    14→    - link "03" [ref=e28]
+    15→    15→    - link "04" [ref=e29]
+    16→    16→    - link "05" [ref=e30]
+    17→    17→    - link "06" [ref=e31]
+    18→    18→    - link "07" [ref=e32]
+    19→    19→    - link "08" [ref=e33]
+    20→    20→    - link "09" [ref=e34]
+    21→    21→    - link "10" [ref=e35]
+    22→    22→  - generic
+    23→    23→    - generic
+    24→    24→    - generic
+    25→    25→      - heading "The method is the moat." [level=1, ref=e166]
+    26→    26→  - StaticText "THE CASE FOR INFRASTRUCTURE"
+    27→    27→  - heading "Infrastructure is the invisible prerequisite." [level=2, ref=e36]
+    28→    28→    - StaticText "Infrastructure is the"
+    29→    29→    - LineBreak "\n"
+    30→    30→    - StaticText "invisible prerequisite."
+    31→    31→  - blockquote
+    32→    32→    - paragraph
+    33→    33→  - StaticText "WHERE INFRASTRUCTURE ALREADY EXISTS"
+    34→    34→  - paragraph
+    35→    35→    - StaticText "The world's most successful ventures were built on ground that was already paved — financial systems, legal frameworks, supply chains, and talent pipelines all existed before the first line of code was written or the first product assembled."
+    36→    36→  - generic
+    37→    37→    - image "Jeff Bezos"
+    38→    38→  - heading "Jeff Bezos" [level=3, ref=e37]
+    39→    39→  - StaticText "USA, 1994"
+    40→    40→  - StaticText "AMAZON"
+    41→    41→  - paragraph
+    42→    42→    - StaticText "He didn't need to build a banking system — credit cards and ACH already existed. He didn't need to build delivery infrastructure — FedEx and UPS already covered every address. The entire financial stack was mature, trusted, and ubiquitous."
+    43→    43→  - paragraph
+    44→    44→    - StaticText "The infrastructure was invisible because it was already there."
+    45→    45→  - generic
+    46→    46→    - image "Elon Musk"
+    47→    47→  - heading "Elon Musk" [level=3, ref=e38]
+    48→    48→  - StaticText "USA, 2002"
+    49→    49→  - StaticText "TESLA / SPACEX"
+    50→    50→  - paragraph
+    51→    51→    - StaticText "He could recruit from Stanford and MIT. File patents in a legal system that enforced them. Raise capital on Sand Hill Road. The roads were already paved. The grid was already stable. The regulatory framework was codified and navigable."
+    52→    52→  - paragraph
+    53→    53→    - StaticText "Every system the venture needed was already operational."
+    54→    54→  - generic
+    55→    55→    - image "Steve Jobs"
+    56→    56→  - heading "Steve Jobs" [level=3, ref=e39]
+    57→    57→  - StaticText "USA, 1976"
+    58→    58→  - StaticText "APPLE"
+    59→    59→  - paragraph
+    60→    60→    - StaticText "A mature semiconductor supply chain (Fairchild, Intel) provided the chips. Consumer credit systems enabled purchases. IP law protected inventions. Retail distribution networks already reached every household."
+    61→    61→  - paragraph
+    62→    62→    - StaticText "A mature supply chain, IP law, and consumer credit made the personal computer inevitable — someone just had to will it into existence."
+    63→    63→  - generic
+    64→    64→    - image "Bill Gates"
+    65→    65→  - heading "Bill Gates" [level=3, ref=e40]
+    66→    66→  - StaticText "USA, 1975"
+    67→    67→  - StaticText "MICROSOFT"
+    68→    68→  - paragraph
+    69→    69→    - StaticText "The IBM-compatible ecosystem created a standard hardware platform. Software copyright law was established. Corporate IT budgets were growing exponentially. The distribution channel (computer stores) already existed."
+    70→    70→  - paragraph
+    71→    71→    - StaticText "The IBM-compatible ecosystem, software copyright law, and corporate IT budgets already existed — Gates simply sold software into a ready market."
+    72→    72→  - generic
+    73→    73→    - image "Mark Zuckerberg"
+    74→    74→  - heading "Mark Zuckerberg" [level=3, ref=e41]
+    75→    75→  - StaticText "USA, 2004"
+    76→    76→  - StaticText "META"
+    77→    77→  - paragraph
+    78→    78→    - StaticText "Broadband internet had reached critical mass on university campuses. Digital advertising infrastructure (Google AdWords) was already mature. The social web was emerging with ready-made protocols and standards."
+    79→    79→  - paragraph
+    80→    80→    - StaticText "Broadband internet, university networks, and digital advertising infrastructure were already in place — Facebook just rode the wave."
+    81→    81→  - generic
+    82→    82→    - image "Larry Page"
+    83→    83→  - heading "Larry Page" [level=3, ref=e42]
+    84→    84→  - StaticText "USA, 1998"
+    85→    85→  - StaticText "GOOGLE"
+    86→    86→  - paragraph
+    87→    87→    - StaticText "The web was already indexed and growing exponentially. The internet backbone was built with taxpayer investment. Venture capital on Sand Hill Road was mature. The online advertising model was being proven by others."
+    88→    88→  - paragraph
+    89→    89→    - StaticText "The web was already indexed, the internet backbone built, venture capital mature — Google organized a world that was already connected."
+    90→    90→  - generic
+    91→    91→    - image "Sam Altman"
+    92→    92→  - heading "Sam Altman" [level=3, ref=e43]
+    93→    93→  - StaticText "USA, 2015"
+    94→    94→  - StaticText "OPENAI"
+    95→    95→  - paragraph
+    96→    96→    - StaticText "Decades of GPU development by NVIDIA provided the compute. Cloud infrastructure (AWS, Azure) made scaling trivial. Research universities produced the talent. The arXiv preprint server enabled open knowledge sharing."
+    97→    97→  - paragraph
+    98→    98→    - StaticText "Decades of GPU development, cloud compute, and research infrastructure — AI didn't emerge from nothing. It stood on the shoulders of an entire ecosystem."
+    99→    99→  - generic
+   100→   100→    - image "Reed Hastings"
+   101→   101→  - heading "Reed Hastings" [level=3, ref=e44]
+   102→   102→  - StaticText "USA, 1997"
+   103→   103→  - StaticText "NETFLIX"
+   104→   104→  - paragraph
+   105→   105→    - StaticText "The USPS delivered DVDs reliably to every address. Then broadband internet reached 60%+ of US homes. Streaming protocols (HLS, DASH) were standardized. Studio licensing frameworks already existed for content distribution."
+   106→   106→  - paragraph
+   107→   107→    - StaticText "The USPS delivered DVDs. Then broadband streamed video. Netflix pivoted between two fully-built infrastructures."
+   108→   108→  - generic
+   109→   109→    - image "Brian Chesky"
+   110→   110→  - heading "Brian Chesky" [level=3, ref=e45]
+   111→   111→  - StaticText "USA, 2008"
+   112→   112→  - StaticText "AIRBNB"
+   113→   113→  - paragraph
+   114→   114→    - StaticText "Online payments (Stripe, PayPal) handled transactions. The social web provided trust infrastructure through reviews and profiles. Smartphone adoption enabled location-based services. The sharing economy narrative was already mainstream."
+   115→   115→  - paragraph
+   116→   116→    - StaticText "Online payments, trust infrastructure (reviews), and the social web made strangers hosting strangers possible — none of it had to be built."
+   117→   117→  - generic
+   118→   118→    - image "Jack Dorsey"
+   119→   119→  - heading "Jack Dorsey" [level=3, ref=e46]
+   120→   120→  - StaticText "USA, 2006"
+   121→   121→  - StaticText "BLOCK / TWITTER"
+   122→   122→  - paragraph
+   123→   123→    - StaticText "SMS gateways connected every phone. Smartphone adoption was accelerating. App Store distribution reached millions. Social media habits were already forming. The mobile internet was a ready platform."
+   124→   124→  - paragraph
+   125→   125→    - StaticText "SMS gateways, smartphone adoption, and app store distribution — the pipes were already laid."
+   126→   126→  - StaticText "MARKET-CREATING INNOVATIONS"
+   127→   127→  - paragraph
+   128→   128→    - StaticText "From The Prosperity Paradox — these innovators didn't find an existing market and optimize it. They created markets from nothing — building the supply chain, the demand, and the infrastructure all at once, making prosperity possible where none existed before."
+   129→   129→  - image "Mo Ibrahim"
+   130→   130→  - heading "Mo Ibrahim" [level=3, ref=e47]
+   131→   131→  - StaticText "AFRICA, 1998"
+   132→   132→  - StaticText "CELTEL"
+   133→   133→  - paragraph
+   134→   134→    - StaticText "Left his executive role at BT to build a pan-African mobile network from nothing. No telecom towers existed. No regulatory frameworks for mobile licensing. No fiber backbone. He built Celtel across 14 countries — creating the market that made the infrastructure necessary."
+   135→   135→  - paragraph
+   136→   136→    - StaticText "Didn't ride infrastructure — he created the market that made infrastructure necessary."
+   137→   137→  - image "Strive Masiyiwa"
+   138→   138→  - heading "Strive Masiyiwa" [level=3, ref=e48]
+   139→   139→  - StaticText "ZIMBABWE, 1998"
+   140→   140→  - StaticText "ECONET WIRELESS"
+   141→   141→  - paragraph
+   142→   142→    - StaticText "Fought a 5-year legal battle against his own government to win the right to launch mobile telephony. There was no mobile market — not because demand didn't exist, but because the state monopoly refused to let it. He forced the market into existence through the courts."
+   143→   143→  - paragraph
+   144→   144→    - StaticText "The market didn't exist — he forced it into existence."
+   145→   145→  - image "Aliko Dangote"
+   146→   146→  - heading "Aliko Dangote" [level=3, ref=e49]
+   147→   147→  - StaticText "NIGERIA, 1981"
+   148→   148→  - StaticText "DANGOTE GROUP"
+   149→   149→  - paragraph
+   150→   150→    - StaticText "Built manufacturing where none existed — cement plants when Nigeria imported all its cement, flour mills when there were no local milling operations, sugar refineries when the entire supply chain was foreign. Not optimizing existing supply chains, but creating them from scratch."
+   151→   151→  - paragraph
+   152→   152→    - StaticText "Not by optimizing existing supply chains, but by creating the supply chain itself."
+   153→   153→  - image "Nick Hughes"
+   154→   154→  - heading "Nick Hughes" [level=3, ref=e50]
+   155→   155→  - StaticText "KENYA, 2007"
+   156→   156→  - StaticText "M-PESA / VODAFONE"
+   157→   157→  - paragraph
+   158→   158→    - StaticText "Didn't wait for banking infrastructure. Most Kenyans had no bank account, no branch within 50km, no credit history. He created financial infrastructure on top of mobile phones — a market that didn't exist became a $50B+ ecosystem serving millions."
+   159→   159→  - paragraph
+   160→   160→    - StaticText "Didn't wait for banking infrastructure. Created it on top of mobile — a $50B+ ecosystem from nothing."
+   161→   161→  - image "Tolaram Group"
+   162→   162→  - heading "Tolaram Group" [level=3, ref=e51]
+   163→   163→  - StaticText "NIGERIA, 1988"
+   164→   164→  - StaticText "INDOMIE NOODLES"
+   165→   165→  - paragraph
+   166→   166→    - StaticText "No instant noodle market existed in Nigeria. No wheat supply chain. No flavor formulation for local palates. No distribution network beyond city centers. They created the market, then built the supply chain, manufacturing, distribution, and demand from absolute zero."
+   167→   167→  - paragraph
+   168→   168→    - StaticText "They didn't find a market — they created one, then built everything from zero."
+   169→   169→  - StaticText "WHERE INFRASTRUCTURE MUST BE BUILT FIRST"
+   170→   170→  - paragraph
+   171→   171→    - StaticText "These ventures had the funding, the talent, and the technology — but the ground beneath them didn't exist. Each missing piece of infrastructure became a separate company to build, and no single venture could build them all. The product was ready. The world was not."
+   172→   172→  - image "54gene"
+   173→   173→  - heading "54gene" [level=3, ref=e52]
+   174→   174→  - StaticText "NIGERIA, 2019 — SHUT DOWN 2024"
+   175→   175→  - StaticText "BIOTECH / GENOMICS"
+   176→   176→  - paragraph
+   177→   177→    - StaticText "Raised $45M to build Africa's first large-scale biobank. But cold-chain infrastructure was unreliable. Lab equipment had to be imported at 3x cost. No local reagent supply chain. Talent emigrated. The grid failed daily. Each of these was a separate infrastructure problem no single venture could solve."
+   178→   178→  - paragraph
+   179→   179→    - StaticText "$45M in funding couldn't overcome the infrastructure deficit. The science was sound. The ground beneath it wasn't."
+   180→   180→  - image "Sendy"
+   181→   181→  - heading "Sendy" [level=3, ref=e53]
+   182→   182→  - StaticText "KENYA, 2014 — SHUT DOWN 2023"
+   183→   183→  - StaticText "LOGISTICS / DELIVERY"
+   184→   184→  - paragraph
+   185→   185→    - StaticText "Raised $20M to build an on-demand delivery platform. But last-mile roads were unpaved. Address systems were informal — 'turn left at the blue kiosk.' No standardized logistics infrastructure existed. They had to build the roads, the addressing system, and the delivery app — all at once."
+   186→   186→  - paragraph
+   187→   187→    - StaticText "In the West, Uber builds on Google Maps and paved roads. In Africa, you build the map, the road, and the ride."
+   188→   188→  - image "Dash"
+   189→   189→  - heading "Dash" [level=3, ref=e54]
+   190→   190→  - StaticText "GHANA, 2019 — SHUT DOWN 2023"
+   191→   191→  - StaticText "FINTECH / PAYMENTS"
+   192→   192→  - paragraph
+   193→   193→    - StaticText "Raised $86M to connect mobile money wallets across Africa. But banking rails didn't interoperate. Regulatory frameworks varied by country and shifted without notice. No shared KYC infrastructure. Each market required rebuilding the financial plumbing from scratch."
+   194→   194→  - paragraph
+   195→   195→    - StaticText "$86M and they still couldn't build what Visa takes for granted. Infrastructure isn't optional — it's the prerequisite."
+   196→   196→  - image "Gro Intelligence"
+   197→   197→  - heading "Gro Intelligence" [level=3, ref=e55]
+   198→   198→  - StaticText "KENYA / USA, 2014 — LAID OFF 80% 2023"
+   199→   199→  - StaticText "AGRITECH / DATA"
+   200→   200→  - paragraph
+   201→   201→    - StaticText "Built world-class climate and agricultural analytics used by the World Bank and UN. But couldn't get African agricultural data because digitized soil records didn't exist, weather stations were sparse, and market prices were verbal — not digital. The data infrastructure gap made the product incomplete."
+   202→   202→  - paragraph
+   203→   203→    - StaticText "World-class analytics, but the data infrastructure didn't exist to feed it."
+   204→   204→  - image "Wave"
+   205→   205→  - heading "Wave" [level=3, ref=e56]
+   206→   206→  - StaticText "SENEGAL, 2018 — MASS LAYOFFS 2023"
+   207→   207→  - StaticText "FINTECH / MOBILE MONEY"
+   208→   208→  - paragraph
+   209→   209→    - StaticText "Raised $200M — the largest Series A in African history. But regulatory fragmentation across 8 countries meant building 8 separate compliance stacks instead of one. No shared KYC, no unified licensing, no cross-border settlement rails."
+   210→   210→  - paragraph
+   211→   211→    - StaticText "$200M raised and 8 separate compliance stacks built — because the regulatory infrastructure doesn't unify."
+   212→   212→  - image "Wakanow"
+   213→   213→  - heading "Wakanow" [level=3, ref=e57]
+   214→   214→  - StaticText "NIGERIA, 2008 — RESTRUCTURED 2020"
+   215→   215→  - StaticText "TRAVEL TECH"
+   216→   216→  - paragraph
+   217→   217→    - StaticText "Tried to build an online travel agency without reliable payment gateways, digital ID systems, or airline API integrations. Each missing infrastructure piece became a separate company they had to build — payments, identity verification, and content aggregation — all before selling a single ticket."
+   218→   218→  - paragraph
+   219→   219→    - StaticText "Each missing infrastructure piece became a separate company to build."
+   220→   220→  - paragraph
+   221→   221→    - StaticText "This is why xCelero exists."
+   222→   222→  - paragraph
+   223→   223→    - StaticText "54gene couldn't find a working cold chain. Sendy couldn't find a paved road. Dash couldn't find an inter operable banking rail. Each venture faced the same problem: the infrastructure gap is too wide for any single company to bridge."
+   224→   224→  - paragraph
+   225→   225→    - StaticText "xCelero solves this by building shared production infrastructure — foundries with CNC machines and 5-axis mills running across 30 ventures' schedules, labs with bioreactors that never sit idle, GPU clusters processing 40 ventures' training jobs, component libraries where one venture's tested part becomes every other venture's starting point. The method compounds: when Venture A solves cold-chain logistics in Nairobi, Venture B in Accra inherits the playbook — not the problem."
+   226→   226→  - paragraph
+   227→   227→    - StaticText "Where Bezos had FedEx and Musk had Sand Hill Road, xCelero ventures have the Outpost — the shared infrastructure layer that makes the impossible baseline possible."
+   228→   228→  - StaticText "THE OUTPOST MODEL"
+   229→   229→  - heading "Every leap in output came from a new method." [level=2, ref=e58]
+   230→   230→    - StaticText "Every leap in output"
+   231→   231→    - LineBreak "\n"
+   232→   232→    - StaticText "came from a new method."
+   233→   233→  - paragraph
+   234→   234→    - StaticText "Not better tools. Not more capital. A reinvented method of production. The method is what separates 80x output from 10% improvement. And xCelero is a platform — not a single product."
+   235→   235→  - generic
+   236→   236→    - generic
+   237→   237→    - heading "Ford" [level=3, ref=e112]
+   238→   238→    - StaticText "THE ASSEMBLY LINE"
+   239→   239→    - paragraph
+   240→   240→  - generic
+   241→   241→    - generic
+   242→   242→    - heading "Toyota" [level=3, ref=e113]
+   243→   243→    - StaticText "LEAN MANUFACTURING"
+   244→   244→    - paragraph
+   245→   245→  - generic
+   246→   246→    - generic
+   247→   247→    - heading "Bell Labs" [level=3, ref=e114]
+   248→   248→    - StaticText "COMPOUND RESEARCH"
+   249→   249→    - paragraph
+   250→   250→  - generic
+   251→   251→    - generic
+   252→   252→    - heading "Intel" [level=3, ref=e115]
+   253→   253→    - StaticText "MOORE'S LAW AS METHOD"
+   254→   254→    - paragraph
+   255→   255→  - generic
+   256→   256→    - generic
+   257→   257→    - heading "Tesla" [level=3, ref=e116]
+   258→   258→    - StaticText "GIGAPRESS + UNBOXED"
+   259→   259→    - paragraph
+   260→   260→  - generic
+   261→   261→    - generic
+   262→   262→    - heading "xCelero" [level=3, ref=e117]
+   263→   263→    - StaticText "PRODUCTION-METHOD ARCHITECTURE"
+   264→   264→    - paragraph
+   265→   265→  - paragraph
+   266→   266→    - StaticText "Ford made "
+   267→   267→    - strong
+   268→   268→    - StaticText " faster. Tesla makes "
+   269→   269→    - strong
+   270→   270→    - StaticText " faster. Bell Labs and xCelero are different — they invented a "
+   271→   271→    - strong
+   272→   272→    - StaticText " simultaneously. The assembly line produces cars. The research campus produces discoveries. The outpost produces working ventures."
+   273→   273→  - StaticText "SIX CLUSTERS. ONE MACHINE."
+   274→   274→  - generic
+   275→   275→    - button "01 The Hive Co-Working + Software" [ref=e118]
+   276→   276→      - heading "The Hive" [level=4, ref=e167]
+   277→   277→    - button "02 The Foundry Hardware Production" [ref=e119]
+   278→   278→      - heading "The Foundry" [level=4, ref=e168]
+   279→   279→    - button "03 The Lab Science Production" [ref=e120]
+   280→   280→      - heading "The Lab" [level=4, ref=e169]
+   281→   281→    - button "04 The Commons Convergence" [ref=e121]
+   282→   282→      - heading "The Commons" [level=4, ref=e170]
+   283→   283→    - button "05 The Living Rest + Recovery" [ref=e122]
+   284→   284→      - heading "The Living" [level=4, ref=e171]
+   285→   285→    - button "06 The Extension Outdoor Production" [ref=e123]
+   286→   286→      - heading "The Extension" [level=4, ref=e172]
+   287→   287→  - paragraph
+   288→   288→    - StaticText "Select a cluster above to explore its configuration."
+   289→   289→  - StaticText "UNDER ONE ROOF"
+   290→   290→  - heading "The Outpost, level by level." [level=2, ref=e59]
+   291→   291→    - StaticText "The Outpost,"
+   292→   292→    - LineBreak "\n"
+   293→   293→    - StaticText "level by level."
+   294→   294→  - button "GROUND The Membrane" [ref=e60]
+   295→   295→    - StaticText "GROUND"
+   296→   296→    - StaticText "The Membrane"
+   297→   297→  - button "LEVEL 1 The Foundry" [ref=e61]
+   298→   298→    - StaticText "LEVEL 1"
+   299→   299→    - StaticText "The Foundry"
+   300→   300→  - button "LEVEL 2 The Lab" [ref=e62]
+   301→   301→    - StaticText "LEVEL 2"
+   302→   302→    - StaticText "The Lab"
+   303→   303→  - button "LEVEL 3 The Studio + Co-Working" [ref=e63]
+   304→   304→    - StaticText "LEVEL 3"
+   305→   305→    - StaticText "The Studio + Co-Working"
+   306→   306→  - button "LEVEL 4 The Commons" [ref=e64]
+   307→   307→    - StaticText "LEVEL 4"
+   308→   308→    - StaticText "The Commons"
+   309→   309→  - button "LEVEL 5 The Living" [ref=e65]
+   310→   310→    - StaticText "LEVEL 5"
+   311→   311→    - StaticText "The Living"
+   312→   312→  - generic
+   313→   313→    - image "The Membrane"
+   314→   314→    - generic
+   315→   315→      - heading "The Membrane" [level=3, ref=e173]
+   316→   316→  - heading "Logistics Throat" [level=4, ref=e66]
+   317→   317→  - paragraph
+   318→   318→    - StaticText "Loading docks, freight staging, material intake. Every venture's raw materials arrive here and route upward. No venture manages its own receiving."
+   319→   319→  - heading "Partner Interface" [level=4, ref=e67]
+   320→   320→  - paragraph
+   321→   321→    - StaticText "Glass-walled rooms along the street. Investors, anchor partners, government agencies — they don't go upstairs. Ventures come down."
+   322→   322→  - heading "Public Co-working Café" [level=4, ref=e68]
+   323→   323→  - paragraph
+   324→   324→    - StaticText "Open seating, strong WiFi, no badge required. Anyone can work here. This is where the city meets the outpost. Talent leaks in."
+   325→   325→  - heading "Route Transit Node" [level=4, ref=e69]
+   326→   326→  - paragraph
+   327→   327→    - StaticText "Schedules, cohort coordination."
+   328→   328→  - generic
+   329→   329→    - image "Campus Ring"
+   330→   330→    - StaticText "THE CAMPUS RING"
+   331→   331→    - heading "What can't fit under the roof." [level=2, ref=e174]
+   332→   332→  - heading "Energy Yard" [level=4, ref=e70]
+   333→   333→  - generic
+   334→   334→    - StaticText "SERVES ENERGY"
+   335→   335→  - paragraph
+   336→   336→    - StaticText "Solar arrays, battery storage, microgrid control."
+   337→   337→  - heading "Agri Plots" [level=4, ref=e71]
+   338→   338→  - generic
+   339→   339→    - StaticText "SERVES AGRITECH"
+   340→   340→  - paragraph
+   341→   341→    - StaticText "Vertical farming rigs, sensor-equipped field rows, soil testing."
+   342→   342→  - heading "Drone Corridor" [level=4, ref=e72]
+   343→   343→  - generic
+   344→   344→    - StaticText "SERVES MOBILITY"
+   345→   345→  - paragraph
+   346→   346→    - StaticText "Designated airspace, launch/recovery pad, obstacle courses."
+   347→   347→  - heading "Water Bay" [level=4, ref=e73]
+   348→   348→  - generic
+   349→   349→    - StaticText "SERVES WATER"
+   350→   350→  - paragraph
+   351→   351→    - StaticText "Filtration, desalination, atmospheric harvesting, quality analysis."
+   352→   352→  - heading "Construction Zone" [level=4, ref=e74]
+   353→   353→  - generic
+   354→   354→    - StaticText "SERVES BUILT ENV"
+   355→   355→  - paragraph
+   356→   356→    - StaticText "Prefab assembly, modular building testing, materials exposure."
+   357→   357→  - heading "Logistics Yard" [level=4, ref=e75]
+   358→   358→  - generic
+   359→   359→    - StaticText "SERVES LOGISTICS"
+   360→   360→  - paragraph
+   361→   361→    - StaticText "Freight staging, last-mile simulation, AV navigation courses."
+   362→   362→  - heading "Proving Ground" [level=4, ref=e76]
+   363→   363→  - generic
+   364→   364→    - StaticText "SERVES ANY"
+   365→   365→  - paragraph
+   366→   366→    - StaticText "UV, salt spray, dust, rain — real durability conditions."
+   367→   367→  - StaticText "8 DOMAINS"
+   368→   368→  - heading "Independent innovation, compound output." [level=2, ref=e77]
+   369→   369→    - StaticText "Independent innovation,"
+   370→   370→    - LineBreak "\n"
+   371→   371→    - StaticText "compound output."
+   372→   372→  - heading "Robotics" [level=3, ref=e78]
+   373→   373→  - paragraph
+   374→   374→    - StaticText "Autonomous systems for manufacturing, logistics, and hazardous environments."
+   375→   375→  - heading "Connected Systems" [level=3, ref=e79]
+   376→   376→  - paragraph
+   377→   377→    - StaticText "IoT, mesh networks, and real-time sensor infrastructure."
+   378→   378→  - heading "Artificial Intelligence" [level=3, ref=e80]
+   379→   379→  - paragraph
+   380→   380→    - StaticText "Edge AI, multilingual LLMs, and decision platforms."
+   381→   381→  - heading "Material Science" [level=3, ref=e81]
+   382→   382→  - paragraph
+   383→   383→    - StaticText "Mycelium composites, bio-plastics, and novel semiconductors."
+   384→   384→  - heading "Blockchain" [level=3, ref=e82]
+   385→   385→  - paragraph
+   386→   386→    - StaticText "Decentralized identity, traceability ledgers, and trustless settlement."
+   387→   387→  - heading "Additive Mfg" [level=3, ref=e83]
+   388→   388→  - paragraph
+   389→   389→    - StaticText "3D printing, CNC, and modular micro-factories."
+   390→   390→  - heading "Quantum Computing" [level=3, ref=e84]
+   391→   391→  - paragraph
+   392→   392→    - StaticText "Quantum sensing and unbreakable encryption."
+   393→   393→  - heading "Computer Vision" [level=3, ref=e85]
+   394→   394→  - paragraph
+   395→   395→    - StaticText "Real-time diagnostics, satellite analytics, autonomous navigation."
+   396→   396→  - StaticText "THE FLOW"
+   397→   397→  - heading "How ventures move through space." [level=2, ref=e86]
+   398→   398→    - StaticText "How ventures move"
+   399→   399→    - LineBreak "\n"
+   400→   400→    - StaticText "through space."
+   401→   401→  - generic
+   402→   402→    - StaticText "Lightweight"
+   403→   403→    - paragraph
+   404→   404→    - paragraph
+   405→   405→      - StaticText "Studio + Commons. Never touches Foundry or Lab. Physical footprint: a desk."
+   406→   406→  - generic
+   407→   407→    - StaticText "Mid-weight"
+   408→   408→    - paragraph
+   409→   409→    - paragraph
+   410→   410→  - generic
+   411→   411→    - StaticText "Deep-tech"
+   412→   412→    - paragraph
+   413→   413→    - paragraph
+   414→   414→  - StaticText "THE MOAT"
+   415→   415→  - heading "Why no one can copy this." [level=2, ref=e87]
+   416→   416→    - StaticText "Why no one can"
+   417→   417→    - LineBreak "\n"
+   418→   418→    - StaticText "copy this."
+   419→   419→  - blockquote
+   420→   420→    - StaticText "“The method isn't obvious until someone invents it. Ford's competitors had lathes. They didn't have the assembly line.”"
+   421→   421→  - heading "The Traditional Model" [level=3, ref=e88]
+   422→   422→  - StaticText "1"
+   423→   423→  - heading "Knowledge dies." [level=4, ref=e89]
+   424→   424→    - StaticText "Knowledge dies."
+   425→   425→  - paragraph
+   426→   426→    - StaticText "Each venture starts at zero and crawls forward alone."
+   427→   427→  - StaticText "2"
+   428→   428→  - heading "Equipment idles." [level=4, ref=e90]
+   429→   429→    - StaticText "Equipment idles."
+   430→   430→  - paragraph
+   431→   431→    - StaticText "One venture can't keep a machine busy. Hundreds of hours of idle equipment per day."
+   432→   432→  - StaticText "3"
+   433→   433→  - heading "Capital duplicates." [level=4, ref=e91]
+   434→   434→    - StaticText "Capital duplicates."
+   435→   435→  - paragraph
+   436→   436→    - StaticText "Each venture buys its own CNC, its own bioreactor. Millions in duplicated CapEx."
+   437→   437→  - paragraph
+   438→   438→    - StaticText "One venture, one of everything, zero compounding."
+   439→   439→  - button "KNOWLEDGE COMPOUNDS" [ref=e92]
+   440→   440→    - StaticText "KNOWLEDGE COMPOUNDS"
+   441→   441→  - button "EQUIPMENT NEVER IDLES" [ref=e93]
+   442→   442→    - StaticText "EQUIPMENT NEVER IDLES"
+   443→   443→  - button "CAPITAL DOESN'T DUPLICATE" [ref=e94]
+   444→   444→    - StaticText "CAPITAL DOESN'T DUPLICATE"
+   445→   445→  - button "THE METHOD IS THE PRODUCT" [ref=e95]
+   446→   446→    - StaticText "THE METHOD IS THE PRODUCT"
+   447→   447→  - button "WHY THIS CHANGES EVERYTHING" [ref=e96]
+   448→   448→    - StaticText "WHY THIS CHANGES EVERYTHING"
+   449→   449→  - StaticText "FOUNDRY"
+   450→   450→  - paragraph
+   451→   451→    - StaticText "When Venture A tests a new alloy and it fails at 200°C, that failure goes into the Component Library. Venture B avoids the alloy. It starts from Venture A's endpoint."
+   452→   452→  - StaticText "LAB"
+   453→   453→  - paragraph
+   454→   454→    - StaticText "When Venture A develops an assay scaffold, Venture B adapts it in days, not months. It builds from Venture A's working baseline."
+   455→   455→  - StaticText "HIVE"
+   456→   456→  - paragraph
+   457→   457→    - StaticText "When Venture A navigates telecom licensing in Tanzania, Venture B follows that Playbook. 47 ventures have done it before. The 48th doesn't rediscover anything."
+   458→   458→  - StaticText "01"
+   459→   459→  - StaticText ". "
+   460→   460→  - StaticText "KNOWLEDGE COMPOUNDS"
+   461→   461→  - paragraph
+   462→   462→    - StaticText "The compounding of knowledge across ventures is the primary moat. You can copy the buildings. You can buy the same equipment. But you cannot copy 5,000 ventures' accumulated failures, adaptations, and Playbooks."
+   463→   463→  - generic
+   464→   464→    - image "Global Hub Network"
+   465→   465→    - StaticText "HUBS ON THE ROUTE"
+   466→   466→    - heading "A union of cities." [level=2, ref=e175]
+   467→   467→  - StaticText "190+"
+   468→   468→  - StaticText "HUBS"
+   469→   469→  - StaticText "39+"
+   470→   470→  - StaticText "COUNTRIES"
+   471→   471→  - StaticText "6"
+   472→   472→  - StaticText "LEGS"
+   473→   473→  - button "ALL" [ref=e97]
+   474→   474→  - button "1. GULF" [ref=e98]
+   475→   475→    - StaticText "1. GULF"
+   476→   476→  - button "2. SAHEL" [ref=e99]
+   477→   477→    - StaticText "2. SAHEL"
+   478→   478→  - button "3. EAST" [ref=e100]
+   479→   479→    - StaticText "3. EAST"
+   480→   480→  - button "4. CENTRAL" [ref=e101]
+   481→   481→    - StaticText "4. CENTRAL"
+   482→   482→  - button "5. SOUTHERN" [ref=e102]
+   483→   483→    - StaticText "5. SOUTHERN"
+   484→   484→  - button "6. NORTH" [ref=e103]
+   485→   485→    - StaticText "6. NORTH"
+   486→   486→  - generic
+   487→   487→    - heading "Leg 1: Gulf of Guinea Arc" [level=3, ref=e124]
+   488→   488→      - StaticText "Leg 1: Gulf of Guinea Arc"
+   489→   489→    - StaticText "49"
+   490→   490→    - StaticText " HUBS · "
+   491→   491→    - StaticText "5"
+   492→   492→    - StaticText " COUNTRIES"
+   493→   493→    - heading "LAGOS" [level=4, ref=e125]
+   494→   494→    - paragraph
+   495→   495→      - StaticText "Africa's commercial nerve center: 20M people, limitless velocity"
+   496→   496→    - heading "ACCRA" [level=4, ref=e126]
+   497→   497→    - paragraph
+   498→   498→    - heading "ABIDJAN" [level=4, ref=e127]
+   499→   499→    - paragraph
+   500→   500→      - StaticText "Francophone hub: financial services and cocoa logistics"
+   501→   501→    - heading "DAKAR" [level=4, ref=e128]
+   502→   502→    - paragraph
+   503→   503→      - StaticText "Westernmost point: maritime gateway and digital arts capital"
+   504→   504→    - heading "DOUALA" [level=4, ref=e129]
+   505→   505→    - paragraph
+   506→   506→      - StaticText "Central African port entry: bilingual trade corridor"
+   507→   507→    - heading "Leg 2: Sahel Band" [level=3, ref=e130]
+   508→   508→      - StaticText "Leg 2: Sahel Band"
+   509→   509→    - StaticText "22"
+   510→   510→    - StaticText " HUBS · "
+   511→   511→    - StaticText "5"
+   512→   512→    - StaticText " COUNTRIES"
+   513→   513→    - heading "BAMAKO" [level=4, ref=e131]
+   514→   514→    - paragraph
+   515→   515→      - StaticText "Sahel's administrative anchor: music and gold"
+   516→   516→    - heading "OUAGADOUGOU" [level=4, ref=e132]
+   517→   517→    - paragraph
+   518→   518→      - StaticText "Burkinabé cultural capital: artisan commerce and resistance"
+   519→   519→    - heading "NIAMEY" [level=4, ref=e133]
+   520→   520→    - paragraph
+   521→   521→      - StaticText "Niger River gateway: uranium and pastoral trade"
+   522→   522→    - heading "N'DJAMENA" [level=4, ref=e134]
+   523→   523→    - paragraph
+   524→   524→      - StaticText "Chad's crossroads: humanitarian logistics hub"
+   525→   525→    - heading "TIMBUKTU" [level=4, ref=e135]
+   526→   526→    - paragraph
+   527→   527→      - StaticText "The legendary city of knowledge: manuscripts and memory"
+   528→   528→    - heading "Leg 3: East African Corridor" [level=3, ref=e136]
+   529→   529→      - StaticText "Leg 3: East African Corridor"
+   530→   530→    - StaticText "24"
+   531→   531→    - StaticText " HUBS · "
+   532→   532→    - StaticText "6"
+   533→   533→    - StaticText " COUNTRIES"
+   534→   534→    - heading "NAIROBI" [level=4, ref=e137]
+   535→   535→    - paragraph
+   536→   536→      - StaticText "East Africa's tech capital: M-Pesa, iHub, Silicon Savannah"
+   537→   537→    - heading "KIGALI" [level=4, ref=e138]
+   538→   538→    - paragraph
+   539→   539→      - StaticText "The clean governance model: governance innovation and ease-of-doing-business"
+   540→   540→    - heading "DAR ES SALAAM" [level=4, ref=e139]
+   541→   541→    - paragraph
+   542→   542→      - StaticText "Indian Ocean port: freight gateway to the interior"
+   543→   543→    - heading "KAMPALA" [level=4, ref=e140]
+   544→   544→    - paragraph
+   545→   545→      - StaticText "Lake Victoria hub: mobile money and agricultural trade"
+   546→   546→    - heading "MOMBASA" [level=4, ref=e141]
+   547→   547→    - paragraph
+   548→   548→      - StaticText "Ancient port city: the Northern Corridor's maritime terminus"
+   549→   549→    - heading "Leg 4: Central African Heartland" [level=3, ref=e142]
+   550→   550→      - StaticText "Leg 4: Central African Heartland"
+   551→   551→    - StaticText "19"
+   552→   552→    - StaticText " HUBS · "
+   553→   553→    - StaticText "5"
+   554→   554→    - StaticText " COUNTRIES"
+   555→   555→    - heading "KINSHASA" [level=4, ref=e143]
+   556→   556→    - paragraph
+   557→   557→      - StaticText "17 million people: the largest francophone city on Earth"
+   558→   558→    - heading "LUBUMBASHI" [level=4, ref=e144]
+   559→   559→    - paragraph
+   560→   560→      - StaticText "Copperbelt capital: mineral processing and export"
+   561→   561→    - heading "DOUALA" [level=4, ref=e145]
+   562→   562→    - paragraph
+   563→   563→      - StaticText "Atlantic port: the River Stack's maritime gateway"
+   564→   564→    - heading "BRAZZAVILLE" [level=4, ref=e146]
+   565→   565→    - paragraph
+   566→   566→      - StaticText "Pool Malebo: twin city to Kinshasa across the river"
+   567→   567→    - heading "YAOUNDÉ" [level=4, ref=e147]
+   568→   568→    - paragraph
+   569→   569→      - StaticText "Cameroon's administrative capital: bilingual bridge"
+   570→   570→    - heading "Leg 5: Southern Arc" [level=3, ref=e148]
+   571→   571→      - StaticText "Leg 5: Southern Arc"
+   572→   572→    - StaticText "18"
+   573→   573→    - StaticText " HUBS · "
+   574→   574→    - StaticText "6"
+   575→   575→    - StaticText " COUNTRIES"
+   576→   576→    - heading "HARARE" [level=4, ref=e149]
+   577→   577→    - paragraph
+   578→   578→      - StaticText "Zimbabwe's capital: agricultural trade and tech emergence"
+   579→   579→    - heading "LUSAKA" [level=4, ref=e150]
+   580→   580→    - paragraph
+   581→   581→      - StaticText "Zambia's commercial center: Copperbelt logistics hub"
+   582→   582→    - heading "LUANDA" [level=4, ref=e151]
+   583→   583→    - paragraph
+   584→   584→      - StaticText "Angola's oil capital: Portuguese-speaking gateway"
+   585→   585→    - heading "LIVINGSTONE" [level=4, ref=e152]
+   586→   586→    - paragraph
+   587→   587→      - StaticText "Victoria Falls: tourism and energy infrastructure"
+   588→   588→    - heading "BULAWAYO" [level=4, ref=e153]
+   589→   589→    - paragraph
+   590→   590→      - StaticText "Zimbabwe's second city: rail heritage and industrial base"
+   591→   591→    - heading "Leg 6: North Africa & Global Gateways" [level=3, ref=e154]
+   592→   592→      - StaticText "Leg 6: North Africa & Global Gateways"
+   593→   593→    - StaticText "80"
+   594→   594→    - StaticText " HUBS · "
+   595→   595→    - StaticText "5"
+   596→   596→    - StaticText " COUNTRIES"
+   597→   597→    - heading "CAIRO" [level=4, ref=e155]
+   598→   598→    - paragraph
+   599→   599→      - StaticText "20 million people: Africa's largest city and energy corridor"
+   600→   600→    - heading "CASABLANCA" [level=4, ref=e156]
+   601→   601→    - paragraph
+   602→   602→      - StaticText "Morocco's economic pillar: maritime and financial gateway"
+   603→   603→    - heading "TUNIS" [level=4, ref=e157]
+   604→   604→    - paragraph
+   605→   605→      - StaticText "Carthage's heir: Mediterranean trade and digital governance"
+   606→   606→    - heading "DUBAI" [level=4, ref=e158]
+   607→   607→    - paragraph
+   608→   608→      - StaticText "Global capital hub: diaspora investment and logistics"
+   609→   609→    - heading "LONDON" [level=4, ref=e159]
+   610→   610→    - paragraph
+   611→   611→      - StaticText "Financial gateway: capital markets and regulatory bridge"
+   612→   612→  - link "EXPLORE THE FULL ROUTE" [ref=e160]
+   613→   613→  - StaticText "THE CIVILIZATION"
+   614→   614→  - heading "The xCelero Scale." [level=2, ref=e104]
+   615→   615→    - StaticText "The xCelero"
+   616→   616→    - LineBreak "\n"
+   617→   617→    - StaticText "Scale."
+   618→   618→  - heading "The xCelero Scale measures civilization not by energy, but by working solutions per unit time per outpost." [level=3, ref=e105]
+   619→   619→    - StaticText "The xCelero Scale measures civilization not by energy, but by working solutions per unit time per outpost."
+   620→   620→  - paragraph
+   621→   621→    - StaticText "The Kardashev Scale measures by energy output. One dimension. Myopic. The real bottleneck isn't energy — it's the rate at which ideas become working solutions. 10 years for a drug, 18 months for a robot, 2 years for a hardware product, and 90% of ventures die trying."
+   622→   622→  - StaticText "P"
+   623→   623→  - StaticText "PROBLEM"
+   624→   624→  - paragraph
+   625→   625→    - StaticText "10 years for a drug. 18 months for a robot. 2 years for a hardware product. And 90% of ventures die trying. The production method is linear, isolated, and non-compounding."
+   626→   626→  - StaticText "S"
+   627→   627→  - StaticText "SOLUTION"
+   628→   628→  - paragraph
+   629→   629→    - StaticText "xCelero reinvents the production method."
+   630→   630→  - StaticText "Build Line"
+   631→   631→  - paragraph
+   632→   632→    - StaticText "Hardware prototypes per unit time no standalone workshop can match."
+   633→   633→  - StaticText "Discovery Line"
+   634→   634→  - paragraph
+   635→   635→    - StaticText "Validated findings per unit time no isolated lab can match."
+   636→   636→  - StaticText "Ship Line"
+   637→   637→  - paragraph
+   638→   638→    - StaticText "Working software per unit time no standalone team can match."
+   639→   639→  - StaticText "Power Line"
+   640→   640→  - paragraph
+   641→   641→    - StaticText "Energy products validated per unit time no single test rig can match."
+   642→   642→  - generic
+   643→   643→    - generic
+   644→   644→  - generic
+   645→   645→    - generic
+   646→   646→  - paragraph
+   647→   647→    - StaticText "The outpost is the unit cell. The method is the moat. Replicated 190 times across 39 countries, this isn't a venture platform. It's a new method of invention itself."
+   648→   648→  - StaticText "FIELD NOTES"
+   649→   649→  - heading "Dispatches from the field" [level=2, ref=e106]
+   650→   650→  - link "ALL DISPATCHES" [ref=e107]
+   651→   651→  - link "Self-Sustaining Energy: The Case for Next-Gen Microgrids in the Global South ENERGY | Dr. Amina Touré Self-Sustaining Energy: The Case for Next-Gen Microgrids in the Global South Why decentralized energy grids are not just a climate imperative, but a self-reliant necessity for leapfrogging legacy infrastructure in regions that cannot afford to wait." [ref=e108]
+   652→   652→    - generic
+   653→   653→      - image "Self-Sustaining Energy: The Case for Next-Gen Microgrids in the Global South"
+   654→   654→    - generic
+   655→   655→      - heading "Self-Sustaining Energy: The Case for Next-Gen Microgrids in the Global South" [level=3, ref=e176]
+   656→   656→  - link "Algorithmic Agriculture and the Future of Food Security FOOD SYSTEMS | Elias Vance · February 22, 2025 Algorithmic Agriculture and the Future of Food Security How edge computing, real-time planetary monitoring, and independent compute nodes are creating hyper-resilient crop cycles that can feed the next billion without depleting the earth." [ref=e109]
+   657→   657→    - heading "Algorithmic Agriculture and the Future of Food Security" [level=3, ref=e161]
+   658→   658→  - link "The XEmbassy Blueprint: Distributed Manufacturing at Scale INFRASTRUCTURE | xCelero Systems Team · March 10, 2025 The XEmbassy Blueprint: Distributed Manufacturing at Scale Unpacking the architecture behind our physical manufacturing nodes and why we believe the future of deep-tech production is local, modular, and radically proximate." [ref=e110]
+   659→   659→    - image "The XEmbassy Blueprint: Distributed Manufacturing at Scale"
+   660→   660→    - heading "The XEmbassy Blueprint: Distributed Manufacturing at Scale" [level=3, ref=e162]
+   661→   661→  - link "Why Venture Capital Has Failed Africa, And What Comes Next CAPITAL | Mara Okonkwo · April 05, 2025 Why Venture Capital Has Failed Africa, And What Comes Next A structural critique of traditional VC models in emerging markets and the blueprint for capital architectures that actually work, evergreen funds, blended finance, and non-dilutive capital desks." [ref=e111]
+   662→   662→    - heading "Why Venture Capital Has Failed Africa, And What Comes Next" [level=3, ref=e163]
+   663→   663→- contentinfo
+   664→   664→  - link "XCELERO ACCELERATOR From thesis to operating company in 24 months. High-intensity venture building with funding, mentorship, and Route infrastructure built in." [ref=e7]
+   665→   665→    - generic
+   666→   666→      - StaticText "XCELERO ACCELERATOR"
+   667→   667→      - heading "From thesis to operating company in 24 months." [level=2, ref=e164]
+   668→   668→      - paragraph
+   669→   669→  - link "XCELERO CAPITAL Invest in critical technology from $500. Six vehicles, one thesis: back the technology the next century needs, in the markets that need it most." [ref=e8]
+   670→   670→    - generic
+   671→   671→      - StaticText "XCELERO CAPITAL"
+   672→   672→      - heading "Invest in critical technology from $500." [level=2, ref=e165]
+   673→   673→      - paragraph
+   674→   674→        - StaticText "Six vehicles, one thesis: back the technology the next century needs, in the markets that need it most."
+   675→   675→  - link "About" [ref=e9]
+   676→   676→  - link "Companies" [ref=e10]
+   677→   677→  - link "Careers" [ref=e11]
+   678→   678→  - link "How We Work" [ref=e12]
+   679→   679→  - link "News" [ref=e13]
+   680→   680→  - link "Overview" [ref=e14]
+   681→   681→  - link "Fellowship" [ref=e15]
+   682→   682→  - link "Hansa Hubs" [ref=e16]
+   683→   683→  - link "LinkedIn" [ref=e17]
+   684→   684→  - link "X" [ref=e18]
+   685→   685→  - link "YouTube" [ref=e19]
+   686→   686→  - link "Terms of Use" [ref=e20]
+   687→   687→  - link "Privacy" [ref=e21]
+   688→   688→  - link "Admin" [ref=e22]
+   689→   689→- region "Notifications (F8)" [ref=e1]
+   690→   690→- button "Open Next.js Dev Tools" [expanded=false, ref=e177]

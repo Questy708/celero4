@@ -1,0 +1,1790 @@
+     1→"use client";
+     2→
+     3→import { useRef, useState, useEffect, useCallback } from "react";
+     4→import { motion, useInView, AnimatePresence } from "framer-motion";
+     5→import {
+     6→  ArrowRight,
+     7→  Cpu,
+     8→  Wrench,
+     9→  FlaskConical,
+    10→  Users,
+    11→  Bed,
+    12→  TreePine,
+    13→  Zap,
+    14→  Wheat,
+    15→  Plane,
+    16→  Droplets,
+    17→  Building2,
+    18→  Truck,
+    19→  ShieldCheck,
+    20→  Monitor,
+    21→  BookOpen,
+    22→  Layers,
+    23→  Box,
+    24→  CircuitBoard,
+    25→  Brain,
+    26→  Factory,
+    27→  Cog,
+    28→  Target,
+    29→  TrendingUp,
+    30→  DoorOpen,
+    31→  MapPin,
+    32→  Atom,
+    33→  Eye,
+    34→  Link2,
+    35→  ChevronRight,
+    36→  ChevronDown,
+    37→  type LucideIcon,
+    38→} from "lucide-react";
+    39→import { Link } from "@/artemis/router";
+    40→import { ReviewSection } from "@/artemis/components/ReviewSection";
+    41→import { routeLegs, MAP_LOCATIONS } from "@/artemis/data/routes";
+    42→
+    43→/* ══════════════════════════════════════════════════════════════════════════
+    44→   DATA
+    45→   ══════════════════════════════════════════════════════════════════════════ */
+    46→
+    47→const levels = [
+    48→  {
+    49→    id: "membrane", number: "GROUND", name: "The Membrane", subtitle: "Where the outpost meets the world", icon: DoorOpen, image: "/infra/membrane-ground.png", method: null as string | null,
+    50→    items: [
+    51→      { title: "Logistics Throat", desc: "Loading docks, freight staging, material intake. Every venture's raw materials arrive here and route upward. No venture manages its own receiving." },
+    52→      { title: "Partner Interface", desc: "Glass-walled rooms along the street. Investors, anchor partners, government agencies — they don't go upstairs. Ventures come down." },
+    53→      { title: "Public Co-working Café", desc: "Open seating, strong WiFi, no badge required. Anyone can work here. This is where the city meets the outpost. Talent leaks in." },
+    54→      { title: "Route Transit Node", desc: "Schedules, cohort coordination." },
+    55→    ],
+    56→  },
+    57→  {
+    58→    id: "foundry", number: "LEVEL 1", name: "The Foundry", subtitle: "Where hardware gets built — faster than any standalone workshop", icon: Wrench, image: "/infra/foundry-interior.png",
+    59→    method: "Traditional hardware ventures design from scratch, source individually, prototype sequentially, test one configuration at a time. The Foundry reinvents this as a Build Line — shared component libraries eliminate redesign, parallel integration eliminates sequential waiting, shared test rigs eliminate the one-venture-one-rig bottleneck.",
+    60→    items: [
+    61→      { title: "Heavy Bays", desc: "Energy, manufacturing, space, mobility. Reconfigurable test rigs. Overhead crane, three-phase power, fume extraction. Floor rated 500+ kg/sq m, 5m+ ceilings. Adjacent to loading docks.", subitems: ["Reconfigurable test rigs — same bay, different venture, different fixture", "Overhead crane, three-phase power, fume extraction", "Floor rated 500+ kg/sq m, 5m+ ceilings", "Adjacent to loading docks — heavy materials roll in, not ride elevators"] },
+    62→      { title: "Mid Bays", desc: "Agritech, healthtech, logistics hardware. Quick-change workstations: CNC, 3D printing, laser cutting in cells, not rows. Submit design file at 9am, pick up finished part by 5pm.", subitems: ["Quick-change workstations: CNC, 3D printing, laser cutting in cells", "Submit design file at 9am, pick up finished part by 5pm", "Environmental test chambers", "Small-scale pilot production rigs"] },
+    63→      { title: "Light Bays", desc: "IoT, robotics electronics, connected systems. Electronics assembly: pick-and-place, reflow, testing. Robotics integration: floor space for movement, safety barriers.", subitems: ["Electronics assembly: pick-and-place, reflow, testing", "Robotics integration: floor space for movement, safety barriers", "Sensor calibration"] },
+    64→      { title: "The Shared Island", desc: "Center of the Foundry. Not owned by any venture. Industrial metal 3D printers, 5-axis CNC, waterjet / plasma cutters, coordinate measuring machines. The outpost's Gigapresses." },
+    65→      { title: "The Component Library", desc: "Standardized actuators, sensors, controllers, motors — characterized, tested, documented. A robotics venture doesn't design a motor from scratch. It pulls from the library. When Venture A tests and adds a new component, Venture B uses it next week." },
+    66→    ],
+    67→  },
+    68→  {
+    69→    id: "lab", number: "LEVEL 2", name: "The Lab", subtitle: "Where science produces validated findings — faster than any standalone lab", icon: FlaskConical, image: "/infra/lab-interior.png",
+    70→    method: "Traditional science ventures build isolated labs, run one experiment at a time, and knowledge dies in company walls. The Lab reinvents this as stations in a discovery pipeline — where equipment runs 24/7 across multiple ventures' schedules, findings compound across the portfolio, and no bench sits idle.",
+    71→    note: "Separated from the Foundry by an airlock transition — for environmental control, not security. Gowning, storage, decontamination buffer.",
+    72→    items: [
+    73→      { title: "Wet Zone", desc: "Biotech, life sciences, pharma, industrial bio. BSL-1/2 cabinets, PCR, centrifuges, spectrophotometers — shared, scheduled. Fermentation suites: bioreactors running across ventures' batches. Cold chain: -80°C freezers, 4°C walk-ins, liquid nitrogen.", subitems: ["BSL-1/2 cabinets, PCR, centrifuges, spectrophotometers — shared, scheduled", "Fermentation suites: bioreactors running across ventures' batches", "Cold chain: -80°C freezers, 4°C walk-ins, liquid nitrogen", "Chemical storage, fume hoods, autoclave"] },
+    74→      { title: "Clean Zone", desc: "Semiconductor, advanced materials, precision optics. ISO Class 7-8 clean rooms. Gowning airlock. Shared lithography, etching, deposition. Metrology: electron microscope, surface analysis.", subitems: ["ISO Class 7-8 clean rooms", "Gowning airlock", "Shared lithography, etching, deposition", "Metrology: electron microscope, surface analysis"] },
+    75→      { title: "Test Zone", desc: "Energy, climate, environmental. Grid simulation: programmable loads, inverter test benches. Battery testing: charge/discharge cycling, thermal containment. Environmental chambers: extreme temp, humidity, salt spray.", subitems: ["Grid simulation: programmable loads, inverter test benches", "Battery testing: charge/discharge cycling, thermal containment", "Environmental chambers: extreme temp, humidity, salt spray", "Solar simulation"] },
+    76→    ],
+    77→    principles: [
+    78→      { title: "The Shared Bench Principle", desc: "No permanent lab benches. Assigned by project phase. A ProtoCo books a wet lab bench for 2 weeks for PCR validation. When it passes Gate review and moves to fermentation, it releases the PCR bench and books the bioreactor. Space flows to whoever needs it now." },
+    79→      { title: "The Compounding Principle", desc: "When Venture A develops an assay scaffold for target class X, Venture B working on the same class adapts it — not from scratch. Dead ends are never repeated. The pipeline produces validated findings per unit time that no isolated lab can match." },
+    80→    ],
+    81→  },
+    82→  {
+    83→    id: "studio", number: "LEVEL 3", name: "The Studio + Co-Working", subtitle: "Where software ships — faster than any standalone team", icon: Monitor, image: "/infra/studio-interior.png",
+    84→    method: "Traditional software ventures spend months building infrastructure — auth, payments, notifications, CI/CD, deployment — before writing a single line of product code. The Studio reinvents this as a Ship Line — pre-built rails that ventures plug into on Day 1, so they ship product from week one, not month six.",
+    85→    items: [
+    86→      { title: "Co-working Neighborhoods", desc: "Not cubicles. Not hot desks. Neighborhoods — clusters of 4-8 desks around shared worktables, with adjacent breakout rooms and whiteboard walls. Your team sits together. Your neighbors are a different venture in a different domain. Collision by design." },
+    87→      { title: "Venture Neighborhoods", desc: "4-8 desks per venture. Your territory." },
+    88→      { title: "Solo Desks", desc: "For mentors-in-residence, visiting Route travelers, independent operators." },
+    89→      { title: "Phone Booths", desc: "Soundproofed capsules for calls, deep focus." },
+    90→      { title: "Breakout Rooms", desc: "4-6 people, whiteboards, screens. Bookable." },
+    91→      { title: "Open Co-working", desc: "Larger shared area with flexible seating." },
+    92→      { title: "Domain-Adjacent Neighborhoods", desc: "AI/ML neighborhood — next to the GPU cluster room. Fiber connection. Fintech/marketplace neighborhood — next to the regulatory intelligence terminal. DevOps/infra neighborhood — next to the server room. Venture design neighborhood — next to user testing rooms with eye-tracking." },
+    93→      { title: "The Compute Node", desc: "The Studio's Gigapress. GPU cluster: on-premise AI training, simulation, rendering. Pre-built application scaffolds: auth, identity, payments, notifications, data pipelines — already integrated, already tested across 39 countries. A fintech venture doesn't build KYC — it plugs into the outpost's KYC module. Shared CI/CD: 40+ ventures' code deployed through the same optimized pipeline." },
+    94→    ],
+    95→    bottomLine: "A venture starts with 60% of its non-differentiating infrastructure already running. It ships to 39 countries on Day 1 because the deployment infrastructure already exists.",
+    96→  },
+    97→  {
+    98→    id: "commons", number: "LEVEL 4", name: "The Commons", subtitle: "Where parallel work converges into companies", icon: Users, image: "/infra/commons-interior.png", method: null as string | null,
+    99→    items: [
+   100→      { title: "Demo Theater", desc: "200 seats, broadcast capability. Gate reviews. Anchor partner demos. Pitch practice." },
+   101→      { title: "Investor Rooms", desc: "Private, screened, data room access." },
+   102→      { title: "The Archive", desc: "Every venture's operational Playbook, searchable by domain, stage, failure mode. Venture #5,000 doesn't repeat #100's mistakes." },
+   103→      { title: "Deal Rooms", desc: "Studios partnerships, Route Accords, cross-border settlement design." },
+   104→      { title: "Community Kitchen + Dining", desc: "ProtoCitizens cook together. Route Commons Feasts happen here." },
+   105→      { title: "Xcitizen Lounge", desc: "Where Archetypes find each other. Where the Hustler meets the Builder." },
+   106→    ],
+   107→    spatialLogic: "The software founder comes up from the Studio for lunch. The biotech founder comes down from the Lab for a meeting. The manufacturing founder comes up from the Foundry for a Gate review. Collision is architecturally forced. This is Bell Labs' cafeteria, made into an entire floor.",
+   108→  },
+   109→  {
+   110→    id: "living", number: "LEVEL 5", name: "The Living", subtitle: "Rest + Recovery", icon: Bed, image: "/infra/commons-interior.png", method: null as string | null,
+   111→    items: [
+   112→      { title: "Residential Pods", desc: "Visiting founders, Route travelers, ProtoCitizens in the Crucible." },
+   113→      { title: "Night Lab", desc: "24/7 access to Studio and Lab subsets. Some breakthroughs happen at 2am." },
+   114→      { title: "Wellness", desc: "Gym, meditation, quiet rooms." },
+   115→      { title: "Rooftop Green Space", desc: "Fresh air, sky, distance from the machine." },
+   116→    ],
+   117→  },
+   118→];
+   119→
+   120→const campusRing = [
+   121→  { name: "Energy Yard", icon: Zap, desc: "Solar arrays, battery storage, microgrid control.", serves: "Energy" },
+   122→  { name: "Agri Plots", icon: Wheat, desc: "Vertical farming rigs, sensor-equipped field rows, soil testing.", serves: "Agritech" },
+   123→  { name: "Drone Corridor", icon: Plane, desc: "Designated airspace, launch/recovery pad, obstacle courses.", serves: "Mobility" },
+   124→  { name: "Water Bay", icon: Droplets, desc: "Filtration, desalination, atmospheric harvesting, quality analysis.", serves: "Water" },
+   125→  { name: "Construction Zone", icon: Building2, desc: "Prefab assembly, modular building testing, materials exposure.", serves: "Built env" },
+   126→  { name: "Logistics Yard", icon: Truck, desc: "Freight staging, last-mile simulation, AV navigation courses.", serves: "Logistics" },
+   127→  { name: "Proving Ground", icon: ShieldCheck, desc: "UV, salt spray, dust, rain — real durability conditions.", serves: "Any" },
+   128→];
+   129→
+   130→const clusterData = [
+   131→  { id: "hive", num: "01", name: "The Hive", sub: "Co-Working + Software", icon: Monitor, image: "/infra/studio-interior.png", why: "The biggest cluster by area. Least environmentally controlled — desks and WiFi don't need fume hoods. Placed at the front of campus, closest to the city. The café spills into it. The membrane between Hive and city is thin by design." },
+   132→  { id: "foundry", num: "02", name: "The Foundry", sub: "Hardware Production", icon: Wrench, image: "/infra/foundry-interior.png", why: "Needs high ceilings, heavy floor loads, fume extraction, crane access, loading dock adjacency. Separate building with its own HVAC, its own structural system. Trucks back up to it. It's loud. That's what it's for." },
+   133→  { id: "lab", num: "03", name: "The Lab", sub: "Science Production", icon: FlaskConical, image: "/infra/lab-interior.png", why: "Needs environmental isolation — positive/negative pressure, HEPA filtration, chemical waste handling, vibration isolation. Can't share HVAC with the Foundry. The transition from Foundry to Lab is an airlock — not a stairwell." },
+   134→  { id: "commons", num: "04", name: "The Commons", sub: "Convergence", icon: Users, image: "/infra/commons-interior.png", why: "The convergence point. Placed at the CENTER, equidistant from Hive, Foundry, and Lab. Every venture passes through here daily. Collision isn't hoped for — it's architecturally forced." },
+   135→  { id: "living", num: "05", name: "The Living", sub: "Rest + Recovery", icon: Bed, image: "/infra/commons-interior.png", why: "Adjacent to Hive and Lab — not separated by parking lots, but by a walkway. Close enough to feel connected. Far enough to have silence." },
+   136→  { id: "extension", num: "06", name: "The Extension", sub: "Outdoor Production", icon: TreePine, image: "/infra/campus-ring.png", why: "Production zones that happen to be outdoors — as essential to their domain as the Foundry is to hardware. Radiates outward from the campus." },
+   137→];
+   138→
+   139→const moatPoints = [
+   140→  { number: "01", title: "Knowledge Compounds", icon: BookOpen, examples: [
+   141→    { domain: "Foundry", text: "When Venture A tests a new alloy and it fails at 200°C, that failure goes into the Component Library. Venture B avoids the alloy. It starts from Venture A's endpoint." },
+   142→    { domain: "Lab", text: "When Venture A develops an assay scaffold, Venture B adapts it in days, not months. It builds from Venture A's working baseline." },
+   143→    { domain: "Hive", text: "When Venture A navigates telecom licensing in Tanzania, Venture B follows that Playbook. 47 ventures have done it before. The 48th doesn't rediscover anything." },
+   144→  ], insight: "The compounding of knowledge across ventures is the primary moat. You can copy the buildings. You can buy the same equipment. But you cannot copy 5,000 ventures' accumulated failures, adaptations, and Playbooks." },
+   145→  { number: "02", title: "Equipment Never Idles", icon: Cog, examples: [
+   146→    { domain: "Bioreactor", text: "A shared bioreactor running across 15 ventures' batches has near-zero downtime. When Venture A's fermentation finishes, Venture B's starts." },
+   147→    { domain: "CNC Machine", text: "A shared CNC machine scheduled across 30 ventures' fabrication jobs has near-zero idle time. The queue is always full." },
+   148→    { domain: "GPU Cluster", text: "A shared GPU cluster processing 40 ventures' training jobs has near-zero idle compute. The GPUs are always running." },
+   149→  ], insight: "Equipment utilization approaches 90%+ because 100 ventures collectively can keep machines busy. This isn't just cost savings — it's a fundamentally different production rate." },
+   150→  { number: "03", title: "Capital Doesn't Duplicate", icon: Layers, examples: [
+   151→    { domain: "CNC CapEx", text: "100 ventures sharing 5 CNC machines vs. each buying their own: $1M vs. $20M in CapEx. Same output. 1/20th the capital." },
+   152→  ], insight: "The savings aren't marginal — they're orders of magnitude. The same capital, deployed at portfolio scale, produces infrastructure no single venture could ever afford." },
+   153→  { number: "04", title: "The Method IS the Product", icon: Target, examples: [
+   154→    { domain: "Ford", text: "Ford's competitors had lathes, drills, and workers. They could have built an assembly line. But they didn't — because the method isn't obvious until someone invents it." },
+   155→    { domain: "Tesla", text: "Tesla's competitors have robots and stamping presses. But the Gigapress alone isn't the moat — it's the Unboxed method that makes it worth having." },
+   156→  ], insight: "xCelero's competitors can build co-working spaces with labs. But the equipment isn't the moat. The method is the moat. You'd need to copy the compounding — and compounding only works at portfolio scale, over time." },
+   157→  { number: "05", title: "Why This Changes Everything", icon: TrendingUp, examples: [], insight: "Linear vs. compound isn't an incremental improvement. It's a phase change. Ford didn't make cars 10% faster. He made them 80x faster. xCelero changes the survival rate from 10% to 75% by reinventing the method of production." },
+   158→];
+   159→
+   160→const coreTechnologies = [
+   161→  { name: "Robotics", icon: CircuitBoard, desc: "Autonomous systems for manufacturing, logistics, and hazardous environments." },
+   162→  { name: "Connected Systems", icon: Link2, desc: "IoT, mesh networks, and real-time sensor infrastructure." },
+   163→  { name: "Artificial Intelligence", icon: Brain, desc: "Edge AI, multilingual LLMs, and decision platforms." },
+   164→  { name: "Material Science", icon: Box, desc: "Mycelium composites, bio-plastics, and novel semiconductors." },
+   165→  { name: "Blockchain", icon: Cpu, desc: "Decentralized identity, traceability ledgers, and trustless settlement." },
+   166→  { name: "Additive Mfg", icon: Factory, desc: "3D printing, CNC, and modular micro-factories." },
+   167→  { name: "Quantum Computing", icon: Atom, desc: "Quantum sensing and unbreakable encryption." },
+   168→  { name: "Computer Vision", icon: Eye, desc: "Real-time diagnostics, satellite analytics, autonomous navigation." },
+   169→];
+   170→
+   171→const infrastructureExists = [
+   172→  { name: "Jeff Bezos", company: "Amazon", context: "USA, 1994", image: "https://sfile.chatglm.cn/images-ppt/7b685c8e5fa4.png", advantage: "He didn't need to build a banking system — credit cards and ACH already existed. He didn't need to build delivery infrastructure — FedEx and UPS already covered every address. The entire financial stack was mature, trusted, and ubiquitous.", takeaway: "The infrastructure was invisible because it was already there." },
+   173→  { name: "Elon Musk", company: "Tesla / SpaceX", context: "USA, 2002", image: "https://sfile.chatglm.cn/images-ppt/49edeabd4822.png", advantage: "He could recruit from Stanford and MIT. File patents in a legal system that enforced them. Raise capital on Sand Hill Road. The roads were already paved. The grid was already stable. The regulatory framework was codified and navigable.", takeaway: "Every system the venture needed was already operational." },
+   174→  { name: "Steve Jobs", company: "Apple", context: "USA, 1976", image: "https://sfile.chatglm.cn/images-ppt/3a6b08ad5ff7.jpg", advantage: "A mature semiconductor supply chain (Fairchild, Intel) provided the chips. Consumer credit systems enabled purchases. IP law protected inventions. Retail distribution networks already reached every household.", takeaway: "A mature supply chain, IP law, and consumer credit made the personal computer inevitable — someone just had to will it into existence." },
+   175→  { name: "Bill Gates", company: "Microsoft", context: "USA, 1975", image: "https://sfile.chatglm.cn/images-ppt/f494473a39af.jpg", advantage: "The IBM-compatible ecosystem created a standard hardware platform. Software copyright law was established. Corporate IT budgets were growing exponentially. The distribution channel (computer stores) already existed.", takeaway: "The IBM-compatible ecosystem, software copyright law, and corporate IT budgets already existed — Gates simply sold software into a ready market." },
+   176→  { name: "Mark Zuckerberg", company: "Meta", context: "USA, 2004", image: "https://sfile.chatglm.cn/images-ppt/abca3bebd6e8.jpg", advantage: "Broadband internet had reached critical mass on university campuses. Digital advertising infrastructure (Google AdWords) was already mature. The social web was emerging with ready-made protocols and standards.", takeaway: "Broadband internet, university networks, and digital advertising infrastructure were already in place — Facebook just rode the wave." },
+   177→  { name: "Larry Page", company: "Google", context: "USA, 1998", image: "https://sfile.chatglm.cn/images-ppt/021296defa4c.jpg", advantage: "The web was already indexed and growing exponentially. The internet backbone was built with taxpayer investment. Venture capital on Sand Hill Road was mature. The online advertising model was being proven by others.", takeaway: "The web was already indexed, the internet backbone built, venture capital mature — Google organized a world that was already connected." },
+   178→  { name: "Sam Altman", company: "OpenAI", context: "USA, 2015", image: "https://sfile.chatglm.cn/images-ppt/96a0c975ae3b.jpg", advantage: "Decades of GPU development by NVIDIA provided the compute. Cloud infrastructure (AWS, Azure) made scaling trivial. Research universities produced the talent. The arXiv preprint server enabled open knowledge sharing.", takeaway: "Decades of GPU development, cloud compute, and research infrastructure — AI didn't emerge from nothing. It stood on the shoulders of an entire ecosystem." },
+   179→  { name: "Reed Hastings", company: "Netflix", context: "USA, 1997", image: "https://sfile.chatglm.cn/images-ppt/9206de4bef48.png", advantage: "The USPS delivered DVDs reliably to every address. Then broadband internet reached 60%+ of US homes. Streaming protocols (HLS, DASH) were standardized. Studio licensing frameworks already existed for content distribution.", takeaway: "The USPS delivered DVDs. Then broadband streamed video. Netflix pivoted between two fully-built infrastructures." },
+   180→  { name: "Brian Chesky", company: "Airbnb", context: "USA, 2008", image: "https://sfile.chatglm.cn/images-ppt/c098af53c694.jpg", advantage: "Online payments (Stripe, PayPal) handled transactions. The social web provided trust infrastructure through reviews and profiles. Smartphone adoption enabled location-based services. The sharing economy narrative was already mainstream.", takeaway: "Online payments, trust infrastructure (reviews), and the social web made strangers hosting strangers possible — none of it had to be built." },
+   181→  { name: "Jack Dorsey", company: "Block / Twitter", context: "USA, 2006", image: "https://sfile.chatglm.cn/images-ppt/6ea98e985491.jpg", advantage: "SMS gateways connected every phone. Smartphone adoption was accelerating. App Store distribution reached millions. Social media habits were already forming. The mobile internet was a ready platform.", takeaway: "SMS gateways, smartphone adoption, and app store distribution — the pipes were already laid." },
+   182→];
+   183→
+   184→const marketCreatingInnovations = [
+   185→  { name: "Mo Ibrahim", company: "Celtel", context: "Africa, 1998", image: "https://sfile.chatglm.cn/images-ppt/726dbaf7425b.jpg", advantage: "Left his executive role at BT to build a pan-African mobile network from nothing. No telecom towers existed. No regulatory frameworks for mobile licensing. No fiber backbone. He built Celtel across 14 countries — creating the market that made the infrastructure necessary.", takeaway: "Didn't ride infrastructure — he created the market that made infrastructure necessary." },
+   186→  { name: "Strive Masiyiwa", company: "Econet Wireless", context: "Zimbabwe, 1998", image: "https://sfile.chatglm.cn/images-ppt/0a9393119b4d.jpg", advantage: "Fought a 5-year legal battle against his own government to win the right to launch mobile telephony. There was no mobile market — not because demand didn't exist, but because the state monopoly refused to let it. He forced the market into existence through the courts.", takeaway: "The market didn't exist — he forced it into existence." },
+   187→  { name: "Aliko Dangote", company: "Dangote Group", context: "Nigeria, 1981", image: "https://sfile.chatglm.cn/images-ppt/7e0360f41c75.jpg", advantage: "Built manufacturing where none existed — cement plants when Nigeria imported all its cement, flour mills when there were no local milling operations, sugar refineries when the entire supply chain was foreign. Not optimizing existing supply chains, but creating them from scratch.", takeaway: "Not by optimizing existing supply chains, but by creating the supply chain itself." },
+   188→  { name: "Nick Hughes", company: "M-Pesa / Vodafone", context: "Kenya, 2007", image: "https://sfile.chatglm.cn/images-ppt/1f95f65515b3.jpg", advantage: "Didn't wait for banking infrastructure. Most Kenyans had no bank account, no branch within 50km, no credit history. He created financial infrastructure on top of mobile phones — a market that didn't exist became a $50B+ ecosystem serving millions.", takeaway: "Didn't wait for banking infrastructure. Created it on top of mobile — a $50B+ ecosystem from nothing." },
+   189→  { name: "Tolaram Group", company: "Indomie Noodles", context: "Nigeria, 1988", image: "https://sfile.chatglm.cn/images-ppt/f9b1ba3a6d9e.jpg", advantage: "No instant noodle market existed in Nigeria. No wheat supply chain. No flavor formulation for local palates. No distribution network beyond city centers. They created the market, then built the supply chain, manufacturing, distribution, and demand from absolute zero.", takeaway: "They didn't find a market — they created one, then built everything from zero." },
+   190→];
+   191→
+   192→const infrastructureMustBeBuilt = [
+   193→  { name: "54gene", company: "Biotech / Genomics", context: "Nigeria, 2019 — Shut down 2024", image: "https://sfile.chatglm.cn/images-ppt/75c2b00edce1.jpg", advantage: "Raised $45M to build Africa's first large-scale biobank. But cold-chain infrastructure was unreliable. Lab equipment had to be imported at 3x cost. No local reagent supply chain. Talent emigrated. The grid failed daily. Each of these was a separate infrastructure problem no single venture could solve.", takeaway: "$45M in funding couldn't overcome the infrastructure deficit. The science was sound. The ground beneath it wasn't." },
+   194→  { name: "Sendy", company: "Logistics / Delivery", context: "Kenya, 2014 — Shut down 2023", image: "https://sfile.chatglm.cn/images-ppt/1ba21c0ff0e1.jpg", advantage: "Raised $20M to build an on-demand delivery platform. But last-mile roads were unpaved. Address systems were informal — 'turn left at the blue kiosk.' No standardized logistics infrastructure existed. They had to build the roads, the addressing system, and the delivery app — all at once.", takeaway: "In the West, Uber builds on Google Maps and paved roads. In Africa, you build the map, the road, and the ride." },
+   195→  { name: "Dash", company: "Fintech / Payments", context: "Ghana, 2019 — Shut down 2023", image: "https://sfile.chatglm.cn/images-ppt/510589276692.jpg", advantage: "Raised $86M to connect mobile money wallets across Africa. But banking rails didn't interoperate. Regulatory frameworks varied by country and shifted without notice. No shared KYC infrastructure. Each market required rebuilding the financial plumbing from scratch.", takeaway: "$86M and they still couldn't build what Visa takes for granted. Infrastructure isn't optional — it's the prerequisite." },
+   196→  { name: "Gro Intelligence", company: "Agritech / Data", context: "Kenya / USA, 2014 — Laid off 80% 2023", image: "https://sfile.chatglm.cn/images-ppt/ed9b4d8c6d25.jpg", advantage: "Built world-class climate and agricultural analytics used by the World Bank and UN. But couldn't get African agricultural data because digitized soil records didn't exist, weather stations were sparse, and market prices were verbal — not digital. The data infrastructure gap made the product incomplete.", takeaway: "World-class analytics, but the data infrastructure didn't exist to feed it." },
+   197→  { name: "Wave", company: "Fintech / Mobile Money", context: "Senegal, 2018 — Mass layoffs 2023", image: "https://sfile.chatglm.cn/images-ppt/787133591cce.jpg", advantage: "Raised $200M — the largest Series A in African history. But regulatory fragmentation across 8 countries meant building 8 separate compliance stacks instead of one. No shared KYC, no unified licensing, no cross-border settlement rails.", takeaway: "$200M raised and 8 separate compliance stacks built — because the regulatory infrastructure doesn't unify." },
+   198→  { name: "Wakanow", company: "Travel Tech", context: "Nigeria, 2008 — Restructured 2020", image: "https://sfile.chatglm.cn/images-ppt/510589276692.jpg", advantage: "Tried to build an online travel agency without reliable payment gateways, digital ID systems, or airline API integrations. Each missing infrastructure piece became a separate company they had to build — payments, identity verification, and content aggregation — all before selling a single ticket.", takeaway: "Each missing infrastructure piece became a separate company to build." },
+   199→];
+   200→
+   201→const methodInnovators = [
+   202→  { subject: "Ford", year: "1913", method: "The Assembly Line", image: "https://sfile.chatglm.cn/images-ppt/3ffa4d06784c.jpg", statement: "didn't share a workshop. He reinvented the method — the assembly line — and that method was itself the moat. No one could match his output per unit time.", type: "single" as const },
+   203→  { subject: "Toyota", year: "1950s", method: "Lean Manufacturing", image: "https://sfile.chatglm.cn/images-ppt/5f5aac38a596.jpg", statement: "didn't just build cars faster. Taiichi Ohno invented a method — lean production — where waste is eliminated, inventory minimized, and every worker stops the line. Toyota's method became the global standard.", type: "single" as const },
+   204→  { subject: "Bell Labs", year: "1940s–70s", method: "Compound Research", image: "https://sfile.chatglm.cn/images-ppt/be8c75f29160.jpg", statement: "didn't just fund smart people. They invented a method — the research campus — where physicists sat next to engineers, where the transistor, the laser, Unix, and information theory all emerged from the same cafeteria. The method produced 9 Nobel Prizes.", type: "platform" as const },
+   205→  { subject: "Intel", year: "1968", method: "Moore's Law as Method", image: "/infra/outpost-campus.png", statement: "didn't just make chips. Gordon Moore's observation — that transistor count doubles every two years — became a self-fulfilling production method. Every Intel factory was designed to make the next law-breaking chip. The method drove the industry.", type: "single" as const },
+   206→  { subject: "Tesla", year: "2018", method: "Gigapress + Unboxed", image: "/infra/foundry-interior.png", statement: "didn't parallelize a factory. They invented a new method — Gigapressing, Unboxed assembly — that produces cars per unit time no traditional line can match.", type: "single" as const },
+   207→  { subject: "xCelero", year: "2024", method: "Production-Method Architecture", image: "/infra/outpost-campus.png", statement: "doesn't share labs. It reinvents the method by which ventures go from idea to working solution. 5,000+ ventures, 190+ hubs, one compound production method. Ford made one product faster. xCelero makes every product faster — because the method compounds.", type: "platform" as const },
+   208→];
+   209→
+   210→const ventureFlows = [
+   211→  { type: "Lightweight", examples: "SaaS, fintech, marketplace", path: "Studio + Commons. Never touches Foundry or Lab. Physical footprint: a desk.", icon: Monitor },
+   212→  { type: "Mid-weight", examples: "Agritech, healthtech, logistics", path: "Software team in Studio, hardware prototyping in Foundry, testing in Lab + Campus Ring. Multiple levels in parallel.", icon: Cog },
+   213→  { type: "Deep-tech", examples: "Energy, biotech, semiconductors, space", path: "Touches every level + campus. Science in Lab, hardware in Foundry, software in Studio, all converging at Commons.", icon: Atom },
+   214→];
+   215→
+   216→/* ══════════════════════════════════════════════════════════════════════════
+   217→   SECTION IDS (for side nav)
+   218→   ══════════════════════════════════════════════════════════════════════════ */
+   219→const sectionIds = [
+   220→  "infra-hero",
+   221→  "infra-case",
+   222→  "infra-outpost-model",
+   223→  "infra-levels",
+   224→  "infra-campus-ring",
+   225→  "infra-core-tech",
+   226→  "infra-flow",
+   227→  "infra-moat",
+   228→  "infra-hubs",
+   229→  "infra-civilization",
+   230→];
+   231→
+   232→/* ══════════════════════════════════════════════════════════════════════════
+   233→   ANIMATION HELPERS
+   234→   ══════════════════════════════════════════════════════════════════════════ */
+   235→
+   236→const fadeUp = {
+   237→  initial: { opacity: 0, y: 40 } as const,
+   238→  animate: { opacity: 1, y: 0 } as const,
+   239→  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+   240→};
+   241→const stagger = (i: number) => ({
+   242→  initial: { opacity: 0, y: 30 } as const,
+   243→  animate: { opacity: 1, y: 0 } as const,
+   244→  transition: { duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] as const },
+   245→});
+   246→
+   247→function useFade() {
+   248→  const ref = useRef<HTMLDivElement>(null);
+   249→  const isInView = useInView(ref, { once: true, margin: "-60px" });
+   250→  return { ref, isInView };
+   251→}
+   252→
+   253→/* ══════════════════════════════════════════════════════════════════════════
+   254→   STICKY SIDE NAV — Minimal dots
+   255→   ══════════════════════════════════════════════════════════════════════════ */
+   256→function StickySideNav({ activeIndex }: { activeIndex: number }) {
+   257→  return (
+   258→    <nav className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-50 flex-col gap-3 items-end" aria-label="Section navigation">
+   259→      {sectionIds.map((id, i) => (
+   260→        <a
+   261→          key={id}
+   262→          href={`#${id}`}
+   263→          className="group flex items-center gap-3"
+   264→          onClick={(e) => {
+   265→            e.preventDefault();
+   266→            document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+   267→          }}
+   268→        >
+   269→          <span className="text-[10px] font-mono font-bold tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-white bg-[#111]/90 backdrop-blur px-2 py-1 rounded">
+   270→            {String(i + 1).padStart(2, "0")}
+   271→          </span>
+   272→          <span
+   273→            className={`block rounded-full transition-all duration-300 ${
+   274→              activeIndex === i
+   275→                ? "w-3 h-3 bg-[#FF4D00]"
+   276→                : "w-2 h-2 bg-black/20 group-hover:bg-black/40"
+   277→            }`}
+   278→          />
+   279→        </a>
+   280→      ))}
+   281→    </nav>
+   282→  );
+   283→}
+   284→
+   285→/* ══════════════════════════════════════════════════════════════════════════
+   286→   INFRA PAGE
+   287→   ══════════════════════════════════════════════════════════════════════════ */
+   288→export function Infra() {
+   289→  const [activeSection, setActiveSection] = useState(0);
+   290→
+   291→  useEffect(() => {
+   292→    const observer = new IntersectionObserver(
+   293→      (entries) => {
+   294→        entries.forEach((entry) => {
+   295→          if (entry.isIntersecting) {
+   296→            const idx = sectionIds.indexOf(entry.target.id);
+   297→            if (idx !== -1) setActiveSection(idx);
+   298→          }
+   299→        });
+   300→      },
+   301→      { threshold: 0.3, rootMargin: "-10% 0px -10% 0px" }
+   302→    );
+   303→    sectionIds.forEach((id) => {
+   304→      const el = document.getElementById(id);
+   305→      if (el) observer.observe(el);
+   306→    });
+   307→    return () => observer.disconnect();
+   308→  }, []);
+   309→
+   310→  return (
+   311→    <div className="bg-[#F5F5F0] text-[#111]">
+   312→      <StickySideNav activeIndex={activeSection} />
+   313→      <HeroSection />
+   314→      <CaseSection />
+   315→      <OutpostModelSection />
+   316→      <LevelsSection />
+   317→      <CampusRingSection />
+   318→      <CoreTechSection />
+   319→      <FlowSection />
+   320→      <MoatSection />
+   321→      <HubsSection />
+   322→      <CivilizationSection />
+   323→      <ReviewSection />
+   324→    </div>
+   325→  );
+   326→}
+   327→
+   328→/* ══════════════════════════════════════════════════════════════════════════
+   329→   01. HERO — Full-bleed cinematic with split layout
+   330→   ══════════════════════════════════════════════════════════════════════════ */
+   331→function HeroSection() {
+   332→  const { ref, isInView } = useFade();
+   333→  return (
+   334→    <section id="infra-hero" ref={ref} className="py-0">
+   335→      <div className="w-full max-w-[1400px] mx-auto bg-[#0A0A0A] text-white rounded-sm overflow-hidden">
+   336→        <div className="relative min-h-screen flex items-center">
+   337→          {/* Background image with parallax feel */}
+   338→          <div className="absolute inset-0">
+   339→            <img
+   340→              src="/infra/outpost-campus.png"
+   341→              alt=""
+   342→              className="w-full h-full object-cover opacity-20"
+   343→            />
+   344→            <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/90 to-[#0A0A0A]/50" />
+   345→            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/40" />
+   346→            {/* Grid overlay */}
+   347→            <div className="absolute inset-0 opacity-[0.04]" style={{
+   348→              backgroundImage: `linear-gradient(rgba(255,77,0,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,77,0,0.4) 1px, transparent 1px)`,
+   349→              backgroundSize: '120px 120px'
+   350→            }} />
+   351→          </div>
+   352→
+   353→          {/* Content */}
+   354→          <div className="relative w-full px-6 md:px-12 lg:px-20 py-32 md:py-40">
+   355→            <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-end">
+   356→              {/* Left: Main title */}
+   357→              <div className="lg:col-span-8">
+   358→                <motion.div
+   359→                  {...fadeUp}
+   360→                  animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+   361→                >
+   362→                  <div className="flex items-center gap-3 mb-10">
+   363→                    <div className="w-8 h-[2px] bg-[#FF4D00]" />
+   364→                    <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-white/30">
+   365→                      Production-Method Architecture
+   366→                    </span>
+   367→                  </div>
+   368→                  
+   369→                  <h1 className="text-[48px] sm:text-[64px] md:text-[88px] lg:text-[110px] font-display font-medium tracking-[-0.05em] leading-[0.85] mb-8">
+   370→                    The method
+   371→                    <br />
+   372→                    <span className="text-[#FF4D00]">is the moat.</span>
+   373→                  </h1>
+   374→                  <p className="text-[15px] md:text-[17px] leading-[1.8] text-white/30 font-medium max-w-xl">
+   375→                    Not shared infrastructure. A reinvented method of production.
+   376→                    The spatial arrangement exists to serve that method. The
+   377→                    method IS the moat.
+   378→                  </p>
+   379→                </motion.div>
+   380→              </div>
+   381→
+   382→              {/* Right: Stats column */}
+   383→              <div className="lg:col-span-4">
+   384→                <motion.div
+   385→                  initial={{ opacity: 0, y: 30 }}
+   386→                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+   387→                  transition={{ duration: 0.8, delay: 0.4 }}
+   388→                  className="space-y-0 border-t border-white/10"
+   389→                >
+   390→                  {[
+   391→                    { value: "10,000", label: "ventures" },
+   392→                    { value: "190+", label: "hubs" },
+   393→                    { value: "39+", label: "countries" },
+   394→                    { value: "5", label: "layers" },
+   395→                    { value: "13", label: "domains" },
+   396→                  ].map((s, i) => (
+   397→                    <div
+   398→                      key={s.label}
+   399→                      className={`flex items-baseline justify-between py-4 ${i > 0 ? "border-t border-white/[0.06]" : ""}`}
+   400→                    >
+   401→                      <span className="text-[28px] md:text-[36px] font-display font-medium tracking-tighter text-white/90 leading-none">
+   402→                        {s.value}
+   403→                      </span>
+   404→                      <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-white/15">
+   405→                        {s.label}
+   406→                      </span>
+   407→                    </div>
+   408→                  ))}
+   409→                </motion.div>
+   410→              </div>
+   411→            </div>
+   412→
+   413→            {/* Scroll indicator */}
+   414→            <motion.div
+   415→              initial={{ opacity: 0 }}
+   416→              animate={isInView ? { opacity: 1 } : {}}
+   417→              transition={{ delay: 1 }}
+   418→              className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+   419→            >
+   420→              <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase text-white/15">Scroll</span>
+   421→              <motion.div
+   422→                animate={{ y: [0, 8, 0] }}
+   423→                transition={{ duration: 1.5, repeat: Infinity }}
+   424→                className="w-[1px] h-8 bg-gradient-to-b from-white/20 to-transparent"
+   425→              />
+   426→            </motion.div>
+   427→          </div>
+   428→        </div>
+   429→      </div>
+   430→    </section>
+   431→  );
+   432→}
+   433→
+   434→/* ══════════════════════════════════════════════════════════════════════════
+   435→   CARD GRID — Static grid with staggered reveal, no sliding
+   436→   ══════════════════════════════════════════════════════════════════════════ */
+   437→function CardGrid<T>({
+   438→  items,
+   439→  renderItem,
+   440→}: {
+   441→  items: T[];
+   442→  renderItem: (item: T, index: number) => React.ReactNode;
+   443→}) {
+   444→  return (
+   445→    <div className="px-6 md:px-12 lg:px-20">
+   446→      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+   447→        {items.map((item, i) => (
+   448→          <motion.div
+   449→            key={i}
+   450→            initial={{ opacity: 0, y: 20 }}
+   451→            whileInView={{ opacity: 1, y: 0 }}
+   452→            viewport={{ once: true, margin: "-40px" }}
+   453→            transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+   454→          >
+   455→            {renderItem(item, i)}
+   456→          </motion.div>
+   457→        ))}
+   458→      </div>
+   459→    </div>
+   460→  );
+   461→}
+   462→
+   463→/* ══════════════════════════════════════════════════════════════════════════
+   464→   02. CASE FOR INFRASTRUCTURE — Editorial manifesto
+   465→   ══════════════════════════════════════════════════════════════════════════ */
+   466→function CaseSection() {
+   467→  const { ref, isInView } = useFade();
+   468→
+   469→  return (
+   470→    <section id="infra-case" ref={ref} className="py-3 md:py-4">
+   471→      <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
+   472→        {/* Pull quote */}
+   473→        <div className="px-6 md:px-12 lg:px-20 pt-20 md:pt-32 pb-12 md:pb-16">
+   474→          <motion.div
+   475→            {...fadeUp}
+   476→            animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+   477→          >
+   478→            <div className="max-w-4xl">
+   479→              <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-8 block">
+   480→                The Case for Infrastructure
+   481→              </span>
+   482→              <h2 className="text-[32px] md:text-[48px] lg:text-[64px] font-display font-medium tracking-[-0.04em] leading-[0.95] mb-8">
+   483→                Infrastructure is the
+   484→                <br />
+   485→                <span className="text-[#111]/15">invisible prerequisite.</span>
+   486→              </h2>
+   487→              <blockquote className="border-l-2 border-[#FF4D00] pl-6 md:pl-8">
+   488→                <p className="text-[18px] md:text-[22px] font-display font-medium italic leading-[1.4] text-[#111]/40">
+   489→                  &ldquo;Before you build the product, you must first build the ground it stands on.&rdquo;
+   490→                </p>
+   491→              </blockquote>
+   492→            </div>
+   493→          </motion.div>
+   494→        </div>
+   495→
+   496→        {/* Three carousel groups */}
+   497→        <div className="pb-16 md:pb-20 space-y-12">
+   498→          {/* Group 1: Where infrastructure already exists */}
+   499→          <motion.div
+   500→            initial={{ opacity: 0, y: 30 }}
+   501→            animate={isInView ? { opacity: 1, y: 0 } : {}}
+   502→            transition={{ delay: 0.2, duration: 0.6 }}
+   503→          >
+   504→            <div className="px-6 md:px-12 lg:px-20 mb-4">
+   505→              <div className="flex items-center gap-3 mb-2">
+   506→                <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#111]/15">Where infrastructure already exists</span>
+   507→                <div className="flex-1 h-[1px] bg-[#111]/5" />
+   508→              </div>
+   509→              <p className="text-[13px] text-[#111]/30 font-medium leading-[1.6] max-w-2xl">
+   510→                The world&apos;s most successful ventures were built on ground that was already paved — financial systems, legal frameworks, supply chains, and talent pipelines all existed before the first line of code was written or the first product assembled.
+   511→              </p>
+   512→            </div>
+   513→            <CardGrid
+   514→              items={infrastructureExists}
+   515→              renderItem={(item) => (
+   516→                <div className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex flex-col h-full">
+   517→                  <div className="relative h-[140px] shrink-0">
+   518→                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
+   519→                  </div>
+   520→                  <div className="flex-1 p-4 md:p-5">
+   521→                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
+   522→                      <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
+   523→                      <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
+   524→                    </div>
+   525→                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-2">{item.company}</div>
+   526→                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-4">{item.advantage}</p>
+   527→                    <div className="border-t border-[#111]/5 pt-2 mt-auto">
+   528→                      <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
+   529→                    </div>
+   530→                  </div>
+   531→                </div>
+   532→              )}
+   533→            />
+   534→          </motion.div>
+   535→
+   536→          {/* Group 2: Market-Creating Innovations */}
+   537→          <motion.div
+   538→            initial={{ opacity: 0, y: 30 }}
+   539→            animate={isInView ? { opacity: 1, y: 0 } : {}}
+   540→            transition={{ delay: 0.4, duration: 0.6 }}
+   541→          >
+   542→            <div className="px-6 md:px-12 lg:px-20 mb-4">
+   543→              <div className="flex items-center gap-3 mb-2">
+   544→                <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">Market-Creating Innovations</span>
+   545→                <div className="flex-1 h-[1px] bg-[#FF4D00]/10" />
+   546→              </div>
+   547→              <p className="text-[13px] text-[#111]/30 font-medium leading-[1.6] max-w-2xl">
+   548→                From <span className="text-[#111]/50 font-bold">The Prosperity Paradox</span> — these innovators didn&apos;t find an existing market and optimize it. They created markets from nothing — building the supply chain, the demand, and the infrastructure all at once, making prosperity possible where none existed before.
+   549→              </p>
+   550→            </div>
+   551→            <CardGrid
+   552→              items={marketCreatingInnovations}
+   553→              renderItem={(item) => (
+   554→                <div className="border border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-colors flex flex-col h-full">
+   555→                  <div className="relative h-[140px] shrink-0">
+   556→                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
+   557→                  </div>
+   558→                  <div className="flex-1 p-4 md:p-5">
+   559→                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
+   560→                      <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
+   561→                      <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
+   562→                    </div>
+   563→                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/70 mb-2">{item.company}</div>
+   564→                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-4">{item.advantage}</p>
+   565→                    <div className="border-t border-[#FF4D00]/10 pt-2 mt-auto">
+   566→                      <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
+   567→                    </div>
+   568→                  </div>
+   569→                </div>
+   570→              )}
+   571→            />
+   572→          </motion.div>
+   573→
+   574→          {/* Group 3: Where infrastructure must be built first */}
+   575→          <motion.div
+   576→            initial={{ opacity: 0, y: 30 }}
+   577→            animate={isInView ? { opacity: 1, y: 0 } : {}}
+   578→            transition={{ delay: 0.6, duration: 0.6 }}
+   579→          >
+   580→            <div className="px-6 md:px-12 lg:px-20 mb-4">
+   581→              <div className="flex items-center gap-3 mb-2">
+   582→                <span className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#991B1B]">Where infrastructure must be built first</span>
+   583→                <div className="flex-1 h-[1px] bg-[#991B1B]/10" />
+   584→              </div>
+   585→              <p className="text-[13px] text-[#111]/30 font-medium leading-[1.6] max-w-2xl">
+   586→                These ventures had the funding, the talent, and the technology — but the ground beneath them didn&apos;t exist. Each missing piece of infrastructure became a separate company to build, and no single venture could build them all. The product was ready. The world was not.
+   587→              </p>
+   588→            </div>
+   589→            <CardGrid
+   590→              items={infrastructureMustBeBuilt}
+   591→              renderItem={(item) => (
+   592→                <div className="border border-[#991B1B]/10 bg-[#991B1B]/[0.02] rounded-sm overflow-hidden hover:border-[#991B1B]/20 transition-colors flex flex-col h-full">
+   593→                  <div className="relative h-[140px] shrink-0">
+   594→                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
+   595→                  </div>
+   596→                  <div className="flex-1 p-4 md:p-5">
+   597→                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
+   598→                      <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
+   599→                      <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#991B1B]/40">{item.context}</span>
+   600→                    </div>
+   601→                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#991B1B]/50 mb-2">{item.company}</div>
+   602→                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-4">{item.advantage}</p>
+   603→                    <div className="border-t border-[#991B1B]/10 pt-2 mt-auto">
+   604→                      <p className="text-[12px] font-bold text-[#991B1B] leading-[1.5]">{item.takeaway}</p>
+   605→                    </div>
+   606→                  </div>
+   607→                </div>
+   608→              )}
+   609→            />
+   610→          </motion.div>
+   611→        </div>
+   612→
+   613→        {/* Bottom callout */}
+   614→        <motion.div
+   615→          initial={{ opacity: 0 }}
+   616→          animate={isInView ? { opacity: 1 } : {}}
+   617→          transition={{ delay: 0.6 }}
+   618→          className="px-6 md:px-12 lg:px-20 py-12 md:py-16 bg-[#FAFAFA] border-t border-[#111]/5"
+   619→        >
+   620→          <div className="max-w-3xl">
+   621→            <p className="text-[22px] md:text-[28px] font-display font-medium tracking-tight text-[#111] mb-3">
+   622→              This is why xCelero exists.
+   623→            </p>
+   624→            <p className="text-[14px] text-[#111]/35 font-medium leading-[1.7] mb-4">
+   625→              54gene couldn&apos;t find a working cold chain. Sendy couldn&apos;t find
+   626→              a paved road. Dash couldn&apos;t find an inter operable banking rail. Each
+   627→              venture faced the same problem: the infrastructure gap is too wide for
+   628→              any single company to bridge.
+   629→            </p>
+   630→            <p className="text-[14px] text-[#111]/35 font-medium leading-[1.7] mb-4">
+   631→              xCelero solves this by building shared production infrastructure —
+   632→              foundries with CNC machines and 5-axis mills running across 30 ventures&apos;
+   633→              schedules, labs with bioreactors that never sit idle, GPU clusters
+   634→              processing 40 ventures&apos; training jobs, component libraries where
+   635→              one venture&apos;s tested part becomes every other venture&apos;s
+   636→              starting point. The method compounds: when Venture A solves cold-chain
+   637→              logistics in Nairobi, Venture B in Accra inherits the playbook — not
+   638→              the problem.
+   639→            </p>
+   640→            <p className="text-[14px] text-[#111]/35 font-medium leading-[1.7]">
+   641→              Where Bezos had FedEx and Musk had Sand Hill Road, xCelero ventures
+   642→              have the Outpost — the shared infrastructure layer that makes the
+   643→              impossible baseline possible.
+   644→            </p>
+   645→          </div>
+   646→        </motion.div>
+   647→      </div>
+   648→    </section>
+   649→  );
+   650→}
+   651→
+   652→/* ══════════════════════════════════════════════════════════════════════════
+   653→   03. OUTPOST MODEL — Horizontal timeline + clusters
+   654→   ══════════════════════════════════════════════════════════════════════════ */
+   655→function OutpostModelSection() {
+   656→  const { ref, isInView } = useFade();
+   657→  const [activeCluster, setActiveCluster] = useState<string | null>(null);
+   658→
+   659→  return (
+   660→    <section id="infra-outpost-model" ref={ref} className="py-3 md:py-4">
+   661→      <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
+   662→        {/* Header */}
+   663→        <div className="px-6 md:px-12 lg:px-20 pt-20 md:pt-32 pb-12 md:pb-16">
+   664→          <motion.div
+   665→            {...fadeUp}
+   666→            animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+   667→          >
+   668→            <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
+   669→              The Outpost Model
+   670→            </span>
+   671→            <h2 className="text-[40px] md:text-[60px] lg:text-[80px] font-display font-medium tracking-[-0.05em] leading-[0.85] text-[#111]">
+   672→              Every leap in output
+   673→              <br />
+   674→              <span className="text-[#111]/12">came from a new method.</span>
+   675→            </h2>
+   676→            <p className="text-[15px] text-[#111]/35 font-medium leading-[1.7] max-w-lg mt-6">
+   677→              Not better tools. Not more capital. A reinvented method of production.
+   678→              The method is what separates 80x output from 10% improvement.
+   679→              And xCelero is a platform — not a single product.
+   680→            </p>
+   681→          </motion.div>
+   682→        </div>
+   683→
+   684→        {/* Method innovators — timeline cards */}
+   685→        <div className="px-6 md:px-12 lg:px-20 pb-16 md:pb-20">
+   686→          {/* Timeline connecting line */}
+   687→          <div className="relative mb-8">
+   688→            <div className="hidden md:block absolute top-6 left-0 right-0 h-[1px] bg-[#111]/5" />
+   689→          </div>
+   690→          
+   691→          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
+   692→            {methodInnovators.map((p, i) => (
+   693→              <motion.div
+   694→                key={p.subject}
+   695→                {...stagger(i)}
+   696→                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+   697→                className={`relative border rounded-sm overflow-hidden hover:border-[#FF4D00]/25 transition-all duration-300 ${
+   698→                  p.type === "platform"
+   699→                    ? "border-[#FF4D00]/15 bg-[#FF4D00]/[0.03] md:col-span-1 lg:col-span-2"
+   700→                    : "border-[#111]/5 bg-white"
+   701→                }`}
+   702→              >
+   703→                {/* Image header */}
+   704→                <div className="relative h-[100px] md:h-[80px] lg:h-[100px] overflow-hidden">
+   705→                  <img
+   706→                    src={p.image}
+   707→                    alt={p.subject}
+   708→                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+   709→                  />
+   710→                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+   711→                  {/* Year badge */}
+   712→                  <div className="absolute top-2 left-2">
+   713→                    <span className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase bg-white/90 backdrop-blur-sm px-2 py-0.5 text-[#111]">
+   714→                      {p.year}
+   715→                    </span>
+   716→                  </div>
+   717→                  {/* Platform badge */}
+   718→                  {p.type === "platform" && (
+   719→                    <div className="absolute top-2 right-2">
+   720→                      <span className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase bg-[#FF4D00] text-white px-2 py-0.5">
+   721→                        Platform
+   722→                      </span>
+   723→                    </div>
+   724→                  )}
+   725→                </div>
+   726→                {/* Content */}
+   727→                <div className="p-4 md:p-5">
+   728→                  <h3 className="text-[18px] md:text-[20px] font-display font-medium tracking-tight mb-1 text-[#111]">
+   729→                    {p.subject}
+   730→                  </h3>
+   731→                  <div className={`text-[9px] font-mono font-bold tracking-[0.1em] uppercase mb-3 ${
+   732→                    p.type === "platform" ? "text-[#FF4D00]" : "text-[#FF4D00]/40"
+   733→                  }`}>
+   734→                    {p.method}
+   735→                  </div>
+   736→                  <p className={`text-[12px] font-medium leading-[1.6] ${
+   737→                    p.type === "platform" ? "text-[#111]/50" : "text-[#111]/30"
+   738→                  }`}>
+   739→                    {p.statement}
+   740→                  </p>
+   741→                </div>
+   742→              </motion.div>
+   743→            ))}
+   744→          </div>
+   745→
+   746→          {/* Key distinction callout */}
+   747→          <motion.div
+   748→            initial={{ opacity: 0 }}
+   749→            animate={isInView ? { opacity: 1 } : {}}
+   750→            transition={{ delay: 0.8 }}
+   751→            className="mt-8 border-l-2 border-[#FF4D00] bg-[#FF4D00]/[0.03] rounded-r-sm p-6 md:p-8"
+   752→          >
+   753→            <p className="text-[14px] md:text-[16px] text-[#111]/50 font-medium leading-[1.7]">
+   754→              Ford made <strong className="text-[#111]">one product</strong> faster. Tesla makes <strong className="text-[#111]">one product</strong> faster. 
+   755→              Bell Labs and xCelero are different — they invented a <strong className="text-[#FF4D00]">method that compounds across every product</strong> simultaneously. 
+   756→              The assembly line produces cars. The research campus produces discoveries. The outpost produces working ventures.
+   757→            </p>
+   758→          </motion.div>
+   759→        </div>
+   760→
+   761→        {/* Six Clusters — Horizontal Machine Strip */}
+   762→        <div className="px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
+   763→          <div className="flex items-center gap-4 mb-8">
+   764→            <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase text-[#111]/15">
+   765→              Six clusters. One machine.
+   766→            </span>
+   767→            <div className="flex-1 h-[1px] bg-[#111]/5" />
+   768→          </div>
+   769→
+   770→          {/* The Machine — 6 horizontal segments that form one strip */}
+   771→          <div className="relative">
+   772→            {/* Continuous machine bar */}
+   773→            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-0">
+   774→              {clusterData.map((c, i) => {
+   775→                const Icon = c.icon;
+   776→                const isActive = activeCluster === c.id;
+   777→                return (
+   778→                  <motion.button
+   779→                    key={c.id}
+   780→                    suppressHydrationWarning
+   781→                    onClick={() => setActiveCluster(isActive ? null : c.id)}
+   782→                    initial={{ opacity: 0, y: 20 }}
+   783→                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+   784→                    transition={{ delay: 0.1 + i * 0.07, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+   785→                    className={`relative group text-left overflow-hidden transition-all duration-500 ${
+   786→                      isActive
+   787→                        ? "bg-[#111] text-white ring-2 ring-[#FF4D00] ring-inset z-10"
+   788→                        : "bg-[#111] text-white hover:bg-[#1a1a1a]"
+   789→                    }`}
+   790→                  >
+   791→                    {/* Top accent line — always orange, brighter when active */}
+   792→                    <div className={`h-[3px] transition-all duration-500 ${
+   793→                      isActive ? "bg-[#FF4D00]" : "bg-[#FF4D00]/30 group-hover:bg-[#FF4D00]/60"
+   794→                    }`} />
+   795→                    
+   796→                    <div className="p-4 md:p-5 lg:p-4 xl:p-5">
+   797→                      <div className="flex items-center gap-2 mb-3">
+   798→                        <div className={`w-8 h-8 rounded-sm flex items-center justify-center transition-all duration-500 ${
+   799→                          isActive ? "bg-[#FF4D00]" : "bg-white/5 group-hover:bg-white/10"
+   800→                        }`}>
+   801→                          <Icon className={`w-4 h-4 transition-colors duration-300 ${
+   802→                            isActive ? "text-white" : "text-[#FF4D00]/50 group-hover:text-[#FF4D00]"
+   803→                          }`} strokeWidth={1.5} />
+   804→                        </div>
+   805→                        <span className={`text-[8px] font-mono font-bold tracking-[0.15em] transition-colors duration-300 ${
+   806→                          isActive ? "text-[#FF4D00]" : "text-white/15 group-hover:text-white/30"
+   807→                        }`}>
+   808→                          {c.num}
+   809→                        </span>
+   810→                      </div>
+   811→                      <h4 className="text-[14px] md:text-[15px] font-display font-medium tracking-tight mb-1 leading-tight">
+   812→                        {c.name}
+   813→                      </h4>
+   814→                      <p className={`text-[9px] font-mono tracking-[0.05em] leading-[1.4] transition-colors duration-300 ${
+   815→                        isActive ? "text-white/40" : "text-white/20 group-hover:text-white/35"
+   816→                      }`}>
+   817→                        {c.sub}
+   818→                      </p>
+   819→                    </div>
+   820→
+   821→                    {/* Active indicator arrow */}
+   822→                    {isActive && (
+   823→                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full z-20">
+   824→                        <div className="w-3 h-3 bg-[#FF4D00] rotate-45 -translate-y-1.5" />
+   825→                      </div>
+   826→                    )}
+   827→                  </motion.button>
+   828→                );
+   829→              })}
+   830→            </div>
+   831→
+   832→            {/* Animated flow line beneath the strip */}
+   833→            <div className="h-[2px] bg-[#111] mt-0 relative overflow-hidden">
+   834→              <div 
+   835→                className="absolute inset-y-0 left-0 bg-[#FF4D00]/40"
+   836→                style={{
+   837→                  width: '30%',
+   838→                  animation: 'flowRight 4s linear infinite',
+   839→                }}
+   840→              />
+   841→            </div>
+   842→          </div>
+   843→
+   844→          {/* Detail panel below the strip */}
+   845→          <AnimatePresence mode="wait">
+   846→            {activeCluster ? (
+   847→              <motion.div
+   848→                key={activeCluster}
+   849→                initial={{ opacity: 0, y: -10 }}
+   850→                animate={{ opacity: 1, y: 0 }}
+   851→                exit={{ opacity: 0, y: -10 }}
+   852→                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+   853→                className="mt-6 bg-[#FAFAFA] border border-[#111]/5 rounded-sm overflow-hidden"
+   854→              >
+   855→                {(() => {
+   856→                  const cluster = clusterData.find(c => c.id === activeCluster);
+   857→                  if (!cluster) return null;
+   858→                  const Icon = cluster.icon;
+   859→                  return (
+   860→                    <div className="grid md:grid-cols-12 gap-0">
+   861→                      {/* Left: image */}
+   862→                      <div className="md:col-span-4 relative">
+   863→                        <div className="relative h-[200px] md:h-full md:min-h-[280px] overflow-hidden">
+   864→                          <img
+   865→                            src={cluster.image}
+   866→                            alt={cluster.name}
+   867→                            className="w-full h-full object-cover"
+   868→                            style={{ objectPosition: 'center 30%' }}
+   869→                          />
+   870→                          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#FAFAFA]/20 md:bg-gradient-to-r md:from-transparent md:to-[#FAFAFA]" />
+   871→                        </div>
+   872→                      </div>
+   873→                      {/* Right: content */}
+   874→                      <div className="md:col-span-8 p-6 md:p-8">
+   875→                        <div className="flex items-center gap-3 mb-4">
+   876→                          <div className="w-9 h-9 bg-[#FF4D00] rounded-sm flex items-center justify-center">
+   877→                            <Icon className="w-4 h-4 text-white" strokeWidth={1.5} />
+   878→                          </div>
+   879→                          <div>
+   880→                            <h3 className="text-[20px] md:text-[24px] font-display font-medium tracking-tight text-[#111]">
+   881→                              {cluster.name}
+   882→                            </h3>
+   883→                            <span className="text-[10px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]">
+   884→                              Cluster {cluster.num} · {cluster.sub}
+   885→                            </span>
+   886→                          </div>
+   887→                        </div>
+   888→                        <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111]/15 mb-2">
+   889→                          Why this configuration
+   890→                        </div>
+   891→                        <p className="text-[14px] md:text-[15px] text-[#111]/50 font-medium leading-[1.7] mb-6">
+   892→                          {cluster.why}
+   893→                        </p>
+   894→                        <button
+   895→                          onClick={() => setActiveCluster(null)}
+   896→                          className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] hover:text-[#111] transition-colors"
+   897→                        >
+   898→                          Close
+   899→                        </button>
+   900→                      </div>
+   901→                    </div>
+   902→                  );
+   903→                })()}
+   904→              </motion.div>
+   905→            ) : (
+   906→              <motion.div
+   907→                initial={{ opacity: 0 }}
+   908→                animate={{ opacity: 1 }}
+   909→                transition={{ duration: 0.4 }}
+   910→                className="mt-6 text-center py-8"
+   911→              >
+   912→                <p className="text-[13px] text-[#111]/20 font-medium">
+   913→                  Select a cluster above to explore its configuration.
+   914→                </p>
+   915→              </motion.div>
+   916→            )}
+   917→          </AnimatePresence>
+   918→        </div>
+   919→      </div>
+   920→    </section>
+   921→  );
+   922→}
+   923→
+   924→/* ══════════════════════════════════════════════════════════════════════════
+   925→   04. THE OUTPOST: LEVEL BY LEVEL — Vertical floor selector
+   926→   ══════════════════════════════════════════════════════════════════════════ */
+   927→function LevelsSection() {
+   928→  const { ref, isInView } = useFade();
+   929→  const [activeLevel, setActiveLevel] = useState("membrane");
+   930→  const active = levels.find((l) => l.id === activeLevel)!;
+   931→
+   932→  return (
+   933→    <section id="infra-levels" ref={ref} className="py-3 md:py-4">
+   934→      <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
+   935→        {/* Header */}
+   936→        <div className="px-6 md:px-12 lg:px-20 pt-20 md:pt-32 pb-0">
+   937→          <motion.div
+   938→            {...fadeUp}
+   939→            animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+   940→          >
+   941→            <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
+   942→              Under One Roof
+   943→            </span>
+   944→            <h2 className="text-[40px] md:text-[60px] lg:text-[80px] font-display font-medium tracking-[-0.05em] leading-[0.85] text-[#111] mb-12">
+   945→              The Outpost,
+   946→              <br />
+   947→              <span className="text-[#111]/12">level by level.</span>
+   948→            </h2>
+   949→          </motion.div>
+   950→
+   951→          {/* Vertical floor tabs — horizontal on mobile, vertical sidebar on desktop */}
+   952→          <div className="flex gap-0 overflow-x-auto border-b border-[#111]/8 scrollbar-none -mx-6 md:-mx-12 lg:-mx-20 px-6 md:px-12 lg:px-20">
+   953→            {levels.map((level) => {
+   954→              const Icon = level.icon;
+   955→              return (
+   956→                <button
+   957→                  key={level.id}
+   958→                  suppressHydrationWarning
+   959→                  onClick={() => setActiveLevel(level.id)}
+   960→                  className={`flex items-center gap-2.5 px-5 py-4 text-left whitespace-nowrap border-b-2 transition-all min-h-[48px] flex-shrink-0 ${
+   961→                    activeLevel === level.id
+   962→                      ? "border-[#FF4D00] text-[#111]"
+   963→                      : "border-transparent text-[#111]/25 hover:text-[#111]/50"
+   964→                  }`}
+   965→                >
+   966→                  <Icon
+   967→                    className={`w-4 h-4 flex-shrink-0 ${
+   968→                      activeLevel === level.id ? "text-[#FF4D00]" : "text-[#111]/15"
+   969→                    }`}
+   970→                    strokeWidth={1.5}
+   971→                  />
+   972→                  <div>
+   973→                    <div className={`text-[8px] font-mono font-bold tracking-[0.1em] uppercase ${
+   974→                      activeLevel === level.id ? "text-[#FF4D00]" : "text-[#111]/15"
+   975→                    }`}>
+   976→                      {level.number}
+   977→                    </div>
+   978→                    <div className="text-[13px] font-display font-medium tracking-tight">
+   979→                      {level.name}
+   980→                    </div>
+   981→                  </div>
+   982→                </button>
+   983→              );
+   984→            })}
+   985→          </div>
+   986→        </div>
+   987→
+   988→        {/* Content area */}
+   989→        <div className="px-6 md:px-12 lg:px-20 py-12 md:py-16">
+   990→          <AnimatePresence mode="wait">
+   991→            <motion.div
+   992→              key={activeLevel}
+   993→              initial={{ opacity: 0, y: 20 }}
+   994→              animate={{ opacity: 1, y: 0 }}
+   995→              exit={{ opacity: 0, y: -20 }}
+   996→              transition={{ duration: 0.3 }}
+   997→            >
+   998→              <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
+   999→                {/* Left: image */}
+  1000→                <div className="lg:col-span-5">
+  1001→                  <div className="relative overflow-hidden rounded-sm min-h-[280px] lg:min-h-[450px] lg:sticky lg:top-24">
+  1002→                    <img
+  1003→                      src={active.image}
+  1004→                      alt={active.name}
+  1005→                      className="absolute inset-0 w-full h-full object-cover"
+  1006→                    />
+  1007→                    <div className="absolute inset-0 bg-gradient-to-t from-[#111]/80 via-[#111]/20 to-transparent" />
+  1008→                    <div className="absolute bottom-0 left-0 p-6 md:p-8">
+  1009→                      <div className="text-[9px] font-mono font-bold tracking-[0.15em] text-[#FF4D00] mb-1">
+  1010→                        {active.number}
+  1011→                      </div>
+  1012→                      <h3 className="text-[28px] md:text-[36px] font-display font-medium tracking-[-0.02em] leading-[1] mb-2 text-white">
+  1013→                        {active.name}
+  1014→                      </h3>
+  1015→                      <p className="text-[13px] text-white/40 font-medium italic">
+  1016→                        {active.subtitle}
+  1017→                      </p>
+  1018→                    </div>
+  1019→                  </div>
+  1020→                </div>
+  1021→
+  1022→                {/* Right: content */}
+  1023→                <div className="lg:col-span-7">
+  1024→                  {/* Method highlight */}
+  1025→                  {active.method && (
+  1026→                    <div className="border-l-2 border-[#FF4D00] pl-6 mb-8">
+  1027→                      <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] mb-3">
+  1028→                        The Method
+  1029→                      </div>
+  1030→                      <p className="text-[14px] text-[#111]/50 font-medium leading-[1.7]">
+  1031→                        {active.method}
+  1032→                      </p>
+  1033→                    </div>
+  1034→                  )}
+  1035→
+  1036→                  {/* Airlock note */}
+  1037→                  {"note" in active && active.note && (
+  1038→                    <div className="bg-[#FAFAFA] rounded-sm p-5 mb-8">
+  1039→                      <p className="text-[12px] text-[#111]/35 font-medium leading-[1.6]">
+  1040→                        {active.note as string}
+  1041→                      </p>
+  1042→                    </div>
+  1043→                  )}
+  1044→
+  1045→                  {/* Items */}
+  1046→                  <div className="space-y-0">
+  1047→                    {active.items.map((item, i) => (
+  1048→                      <div
+  1049→                        key={i}
+  1050→                        className="border-b border-[#111]/6 py-5 last:border-b-0"
+  1051→                      >
+  1052→                        <h4 className="text-[13px] font-bold tracking-tight text-[#111]/70 mb-1.5">
+  1053→                          {item.title}
+  1054→                        </h4>
+  1055→                        <p className="text-[13px] text-[#111]/35 font-medium leading-[1.6]">
+  1056→                          {item.desc}
+  1057→                        </p>
+  1058→                        {"subitems" in item && item.subitems && (
+  1059→                          <ul className="mt-2 space-y-1">
+  1060→                            {(item.subitems as string[]).map((si, j) => (
+  1061→                              <li
+  1062→                                key={j}
+  1063→                                className="text-[11px] text-[#111]/25 font-medium leading-[1.5] pl-3 border-l border-[#FF4D00]/20"
+  1064→                              >
+  1065→                                {si}
+  1066→                              </li>
+  1067→                            ))}
+  1068→                          </ul>
+  1069→                        )}
+  1070→                      </div>
+  1071→                    ))}
+  1072→                  </div>
+  1073→
+  1074→                  {/* Lab principles */}
+  1075→                  {"principles" in active && active.principles && (
+  1076→                    <div className="grid sm:grid-cols-2 gap-3 mt-8">
+  1077→                      {(active.principles as { title: string; desc: string }[]).map((p, i) => (
+  1078→                        <div key={i} className="bg-[#FAFAFA] rounded-sm p-5">
+  1079→                          <h4 className="text-[12px] font-bold text-[#FF4D00] mb-2">
+  1080→                            {p.title}
+  1081→                          </h4>
+  1082→                          <p className="text-[11px] text-[#111]/30 font-medium leading-[1.6]">
+  1083→                            {p.desc}
+  1084→                          </p>
+  1085→                        </div>
+  1086→                      ))}
+  1087→                    </div>
+  1088→                  )}
+  1089→
+  1090→                  {/* Studio bottom line */}
+  1091→                  {"bottomLine" in active && active.bottomLine && (
+  1092→                    <div className="border-l-2 border-[#FF4D00] pl-6 mt-8">
+  1093→                      <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00] mb-2">
+  1094→                        The Bottom Line
+  1095→                      </div>
+  1096→                      <p className="text-[14px] text-[#111]/45 font-medium leading-[1.7]">
+  1097→                        {active.bottomLine as string}
+  1098→                      </p>
+  1099→                    </div>
+  1100→                  )}
+  1101→
+  1102→                  {/* Commons spatial logic */}
+  1103→                  {"spatialLogic" in active && active.spatialLogic && (
+  1104→                    <div className="bg-[#FAFAFA] rounded-sm p-6 mt-8">
+  1105→                      <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111]/12 mb-2">
+  1106→                        The Spatial Logic
+  1107→                      </div>
+  1108→                      <p className="text-[13px] text-[#111]/40 font-medium leading-[1.7]">
+  1109→                        {active.spatialLogic as string}
+  1110→                      </p>
+  1111→                    </div>
+  1112→                  )}
+  1113→                </div>
+  1114→              </div>
+  1115→            </motion.div>
+  1116→          </AnimatePresence>
+  1117→        </div>
+  1118→      </div>
+  1119→    </section>
+  1120→  );
+  1121→}
+  1122→
+  1123→/* ══════════════════════════════════════════════════════════════════════════
+  1124→   05. CAMPUS RING — Cinematic panoramic
+  1125→   ══════════════════════════════════════════════════════════════════════════ */
+  1126→function CampusRingSection() {
+  1127→  const { ref, isInView } = useFade();
+  1128→  return (
+  1129→    <section id="infra-campus-ring" ref={ref} className="py-3 md:py-4">
+  1130→      <div className="w-full max-w-[1400px] mx-auto bg-[#0A0A0A] text-white rounded-sm overflow-hidden">
+  1131→        {/* Full-width image */}
+  1132→        <div className="relative h-[40vh] md:h-[55vh] overflow-hidden">
+  1133→          <img
+  1134→            src="/infra/campus-ring.png"
+  1135→            alt="Campus Ring"
+  1136→            className="w-full h-full object-cover"
+  1137→          />
+  1138→          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-[#0A0A0A]/20" />
+  1139→          <div className="absolute bottom-0 left-0 px-6 md:px-12 lg:px-20 pb-10 md:pb-16 w-full">
+  1140→            <motion.div
+  1141→              {...fadeUp}
+  1142→              animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+  1143→            >
+  1144→              <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
+  1145→                The Campus Ring
+  1146→              </span>
+  1147→              <h2 className="text-[36px] md:text-[56px] lg:text-[72px] font-display font-medium tracking-[-0.04em] leading-[0.9] max-w-2xl">
+  1148→                What can&apos;t fit
+  1149→                <br />
+  1150→                <span className="text-white/15">under the roof.</span>
+  1151→              </h2>
+  1152→            </motion.div>
+  1153→          </div>
+  1154→        </div>
+  1155→
+  1156→        {/* Zone cards — horizontal scroll on mobile, grid on desktop */}
+  1157→        <div className="px-6 md:px-12 lg:px-20 py-16 md:py-24">
+  1158→          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+  1159→            {campusRing.map((zone, i) => {
+  1160→              const Icon = zone.icon;
+  1161→              return (
+  1162→                <motion.div
+  1163→                  key={zone.name}
+  1164→                  {...stagger(i)}
+  1165→                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+  1166→                  className="border border-white/[0.06] rounded-sm p-6 hover:border-[#FF4D00]/25 transition-all duration-300 group bg-white/[0.015]"
+  1167→                >
+  1168→                  <div className="flex items-center gap-3 mb-4">
+  1169→                    <div className="w-10 h-10 border border-white/[0.08] rounded-sm flex items-center justify-center group-hover:border-[#FF4D00]/30 transition-colors flex-shrink-0">
+  1170→                      <Icon className="w-4.5 h-4.5 text-[#FF4D00]" strokeWidth={1.5} />
+  1171→                    </div>
+  1172→                    <div>
+  1173→                      <h4 className="text-[14px] font-bold tracking-tight">{zone.name}</h4>
+  1174→                      <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/40">
+  1175→                        serves {zone.serves}
+  1176→                      </div>
+  1177→                    </div>
+  1178→                  </div>
+  1179→                  <p className="text-[12px] text-white/25 font-medium leading-[1.5]">
+  1180→                    {zone.desc}
+  1181→                  </p>
+  1182→                </motion.div>
+  1183→              );
+  1184→            })}
+  1185→          </div>
+  1186→        </div>
+  1187→      </div>
+  1188→    </section>
+  1189→  );
+  1190→}
+  1191→
+  1192→/* ══════════════════════════════════════════════════════════════════════════
+  1193→   06. CORE TECHNOLOGIES — Bento grid
+  1194→   ══════════════════════════════════════════════════════════════════════════ */
+  1195→function CoreTechSection() {
+  1196→  const { ref, isInView } = useFade();
+  1197→  return (
+  1198→    <section id="infra-core-tech" ref={ref} className="py-3 md:py-4">
+  1199→      <div className="w-full max-w-[1400px] mx-auto bg-[#FAFAFA] text-[#111] rounded-sm overflow-hidden">
+  1200→        <div className="px-6 md:px-12 lg:px-20 py-20 md:py-32">
+  1201→          {/* Header — left aligned */}
+  1202→          <motion.div
+  1203→            {...fadeUp}
+  1204→            animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+  1205→            className="mb-16 md:mb-20"
+  1206→          >
+  1207→            <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
+  1208→              8 Domains
+  1209→            </span>
+  1210→            <h2 className="text-[36px] md:text-[52px] lg:text-[68px] font-display font-medium tracking-[-0.03em] leading-[0.9] text-[#111]">
+  1211→              Independent innovation,
+  1212→              <br />
+  1213→              <span className="text-[#111]/12">compound output.</span>
+  1214→            </h2>
+  1215→          </motion.div>
+  1216→
+  1217→          {/* Tech grid — 4 columns, uniform cards */}
+  1218→          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+  1219→            {coreTechnologies.map((tech, i) => {
+  1220→              const Icon = tech.icon;
+  1221→              return (
+  1222→                <motion.div
+  1223→                  key={tech.name}
+  1224→                  {...stagger(i)}
+  1225→                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+  1226→                  className="bg-white border border-[#111]/5 rounded-sm p-6 hover:border-[#FF4D00]/20 transition-all group"
+  1227→                >
+  1228→                  <div className="w-10 h-10 bg-[#111]/[0.03] rounded-sm flex items-center justify-center mb-4 group-hover:bg-[#FF4D00]/5 transition-colors">
+  1229→                    <Icon className="w-5 h-5 text-[#FF4D00]" strokeWidth={1.5} />
+  1230→                  </div>
+  1231→                  <h3 className="text-[14px] font-display font-medium tracking-tight text-[#111] mb-1.5">
+  1232→                    {tech.name}
+  1233→                  </h3>
+  1234→                  <p className="text-[11px] text-[#111]/30 font-medium leading-[1.5]">
+  1235→                    {tech.desc}
+  1236→                  </p>
+  1237→                </motion.div>
+  1238→              );
+  1239→            })}
+  1240→          </div>
+  1241→        </div>
+  1242→      </div>
+  1243→    </section>
+  1244→  );
+  1245→}
+  1246→
+  1247→/* ══════════════════════════════════════════════════════════════════════════
+  1248→   07. THE FLOW — Pipeline visualization
+  1249→   ══════════════════════════════════════════════════════════════════════════ */
+  1250→function FlowSection() {
+  1251→  const { ref, isInView } = useFade();
+  1252→  return (
+  1253→    <section id="infra-flow" ref={ref} className="py-3 md:py-4">
+  1254→      <div className="w-full max-w-[1400px] mx-auto bg-[#0A0A0A] text-white rounded-sm overflow-hidden">
+  1255→        <div className="px-6 md:px-12 lg:px-20 py-20 md:py-32">
+  1256→          {/* Header */}
+  1257→          <motion.div
+  1258→            {...fadeUp}
+  1259→            animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+  1260→            className="mb-16 md:mb-24"
+  1261→          >
+  1262→            <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
+  1263→              The Flow
+  1264→            </span>
+  1265→            <h2 className="text-[40px] md:text-[60px] lg:text-[80px] font-display font-medium tracking-[-0.05em] leading-[0.85]">
+  1266→              How ventures move
+  1267→              <br />
+  1268→              <span className="text-white/15">through space.</span>
+  1269→            </h2>
+  1270→          </motion.div>
+  1271→
+  1272→          {/* Flow cards — 3 columns with weight indicators */}
+  1273→          <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-3 md:gap-4">
+  1274→            {ventureFlows.map((flow, i) => {
+  1275→              const Icon = flow.icon;
+  1276→              return (
+  1277→                <motion.div
+  1278→                  key={flow.type}
+  1279→                  {...stagger(i)}
+  1280→                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+  1281→                  className="relative border border-white/[0.06] rounded-sm p-8 md:p-10 group hover:border-[#FF4D00]/25 transition-colors bg-white/[0.015]"
+  1282→                >
+  1283→                  {/* Weight bar */}
+  1284→                  <div className="flex gap-1 mb-6">
+  1285→                    {[0,1,2].map((dot) => (
+  1286→                      <div
+  1287→                        key={dot}
+  1288→                        className={`w-8 h-1 rounded-full ${
+  1289→                          dot <= i ? "bg-[#FF4D00]" : "bg-white/[0.06]"
+  1290→                        }`}
+  1291→                      />
+  1292→                    ))}
+  1293→                  </div>
+  1294→
+  1295→                  <div className="flex items-center gap-3 mb-6">
+  1296→                    <div className="w-10 h-10 border border-white/[0.08] rounded-sm flex items-center justify-center group-hover:border-[#FF4D00]/30 transition-colors">
+  1297→                      <Icon className="w-5 h-5 text-[#FF4D00]" strokeWidth={1.5} />
+  1298→                    </div>
+  1299→                    <div>
+  1300→                      <span className="text-[13px] font-display font-medium tracking-tight block">
+  1301→                        {flow.type}
+  1302→                      </span>
+  1303→                      <p className="text-[9px] font-mono tracking-[0.08em] uppercase text-white/15 mt-0.5">
+  1304→                        {flow.examples}
+  1305→                      </p>
+  1306→                    </div>
+  1307→                  </div>
+  1308→                  <p className="text-[14px] text-white/30 font-medium leading-[1.7]">
+  1309→                    {flow.path}
+  1310→                  </p>
+  1311→                  
+  1312→                  {/* Arrow connector between cards */}
+  1313→                  {i < 2 && (
+  1314→                    <div className="hidden md:flex absolute -right-2 top-1/2 -translate-y-1/2 z-10 w-4 h-4 bg-[#0A0A0A] items-center justify-center">
+  1315→                      <ChevronRight className="w-3 h-3 text-white/10" />
+  1316→                    </div>
+  1317→                  )}
+  1318→                </motion.div>
+  1319→              );
+  1320→            })}
+  1321→          </div>
+  1322→        </div>
+  1323→      </div>
+  1324→    </section>
+  1325→  );
+  1326→}
+  1327→
+  1328→/* ══════════════════════════════════════════════════════════════════════════
+  1329→   08. THE MOAT — Argument structure
+  1330→   ══════════════════════════════════════════════════════════════════════════ */
+  1331→function MoatSection() {
+  1332→  const { ref, isInView } = useFade();
+  1333→  const [activeMoat, setActiveMoat] = useState("01");
+  1334→  const active = moatPoints.find((m) => m.number === activeMoat)!;
+  1335→
+  1336→  return (
+  1337→    <section id="infra-moat" ref={ref} className="py-3 md:py-4">
+  1338→      <div className="w-full max-w-[1400px] mx-auto space-y-3 md:space-y-4">
+  1339→        {/* LIGHT PART — critique */}
+  1340→        <div className="bg-white text-[#111] rounded-sm overflow-hidden">
+  1341→          <div className="grid lg:grid-cols-2">
+  1342→            {/* Left: thesis */}
+  1343→            <div className="px-6 md:px-12 lg:px-20 py-20 md:py-28 flex flex-col justify-center">
+  1344→              <motion.div
+  1345→                {...fadeUp}
+  1346→                animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+  1347→              >
+  1348→                <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-6 block">
+  1349→                  The Moat
+  1350→                </span>
+  1351→                <h2 className="text-[36px] md:text-[52px] lg:text-[64px] font-display font-medium tracking-[-0.04em] leading-[0.9] text-[#111] mb-8">
+  1352→                  Why no one can
+  1353→                  <br />
+  1354→                  <span className="text-[#111]/12">copy this.</span>
+  1355→                </h2>
+  1356→                <blockquote className="text-[18px] md:text-[22px] font-display font-medium italic tracking-[-0.02em] leading-[1.3] text-[#111]/30 max-w-md">
+  1357→                  &ldquo;The method isn&apos;t obvious until someone invents it.
+  1358→                  Ford&apos;s competitors had lathes. They didn&apos;t have the
+  1359→                  assembly line.&rdquo;
+  1360→                </blockquote>
+  1361→              </motion.div>
+  1362→            </div>
+  1363→
+  1364→            {/* Right: traditional model critique */}
+  1365→            <div className="px-6 md:px-12 lg:px-20 py-20 md:py-28 flex flex-col justify-center bg-[#FAFAFA]">
+  1366→              <motion.div
+  1367→                initial={{ opacity: 0 }}
+  1368→                animate={isInView ? { opacity: 1 } : {}}
+  1369→                transition={{ delay: 0.2 }}
+  1370→              >
+  1371→                <h3 className="text-[18px] font-display font-medium tracking-tight text-[#111] mb-8">
+  1372→                  The Traditional Model
+  1373→                </h3>
+  1374→                <div className="space-y-6">
+  1375→                  {[
+  1376→                    { title: "Knowledge dies", desc: "Each venture starts at zero and crawls forward alone." },
+  1377→                    { title: "Equipment idles", desc: "One venture can't keep a machine busy. Hundreds of hours of idle equipment per day." },
+  1378→                    { title: "Capital duplicates", desc: "Each venture buys its own CNC, its own bioreactor. Millions in duplicated CapEx." },
+  1379→                  ].map((item, i) => (
+  1380→                    <div key={i} className="flex gap-4">
+  1381→                      <div className="w-8 h-8 bg-[#111]/[0.04] rounded-sm flex items-center justify-center flex-shrink-0 mt-0.5">
+  1382→                        <span className="text-[10px] font-mono font-bold text-[#111]/20">{i + 1}</span>
+  1383→                      </div>
+  1384→                      <div>
+  1385→                        <h4 className="text-[14px] font-bold text-[#111]/60 mb-1">
+  1386→                          {item.title}.
+  1387→                        </h4>
+  1388→                        <p className="text-[13px] text-[#111]/30 font-medium leading-[1.6]">
+  1389→                          {item.desc}
+  1390→                        </p>
+  1391→                      </div>
+  1392→                    </div>
+  1393→                  ))}
+  1394→                </div>
+  1395→                <div className="mt-8 pt-6 border-t border-[#111]/5">
+  1396→                  <p className="text-[14px] font-bold text-[#111]/25">
+  1397→                    One venture, one of everything, zero compounding.
+  1398→                  </p>
+  1399→                </div>
+  1400→              </motion.div>
+  1401→            </div>
+  1402→          </div>
+  1403→        </div>
+  1404→
+  1405→        {/* DARK PART — moat tabs */}
+  1406→        <div className="bg-[#0A0A0A] text-white rounded-sm overflow-hidden">
+  1407→          <div className="px-6 md:px-12 lg:px-20 py-16 md:py-24">
+  1408→            {/* Moat navigation — horizontal pills */}
+  1409→            <div className="flex flex-wrap gap-2 mb-12">
+  1410→              {moatPoints.map((point) => {
+  1411→                const Icon = point.icon;
+  1412→                return (
+  1413→                  <button
+  1414→                    key={point.number}
+  1415→                    suppressHydrationWarning
+  1416→                    onClick={() => setActiveMoat(point.number)}
+  1417→                    className={`flex items-center gap-2 px-4 py-2.5 text-[10px] font-mono font-bold tracking-[0.1em] uppercase border rounded-sm transition-all min-h-[40px] ${
+  1418→                      activeMoat === point.number
+  1419→                        ? "bg-[#FF4D00] text-white border-[#FF4D00]"
+  1420→                        : "bg-transparent text-white/20 border-white/[0.06] hover:border-white/15"
+  1421→                    }`}
+  1422→                  >
+  1423→                    <Icon className="w-3 h-3" strokeWidth={1.5} />
+  1424→                    <span className="hidden md:inline">{point.title}</span>
+  1425→                    <span className="md:hidden">{point.number}</span>
+  1426→                  </button>
+  1427→                );
+  1428→              })}
+  1429→            </div>
+  1430→
+  1431→            {/* Active moat content */}
+  1432→            <AnimatePresence mode="wait">
+  1433→              <motion.div
+  1434→                key={activeMoat}
+  1435→                initial={{ opacity: 0, y: 20 }}
+  1436→                animate={{ opacity: 1, y: 0 }}
+  1437→                exit={{ opacity: 0, y: -20 }}
+  1438→                transition={{ duration: 0.3 }}
+  1439→              >
+  1440→                {active.examples.length > 0 && (
+  1441→                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
+  1442→                    {active.examples.map((ex, i) => (
+  1443→                      <div
+  1444→                        key={i}
+  1445→                        className="border border-white/[0.06] rounded-sm p-5 bg-white/[0.015]"
+  1446→                      >
+  1447→                        <div className="text-[9px] font-mono font-bold tracking-[0.12em] uppercase text-[#FF4D00] mb-2">
+  1448→                          {ex.domain}
+  1449→                        </div>
+  1450→                        <p className="text-[12px] text-white/30 font-medium leading-[1.6]">
+  1451→                          {ex.text}
+  1452→                        </p>
+  1453→                      </div>
+  1454→                    ))}
+  1455→                  </div>
+  1456→                )}
+  1457→                {/* Full-width insight */}
+  1458→                <div className="border-l-2 border-[#FF4D00] bg-[#FF4D00]/[0.03] rounded-r-sm p-8 md:p-10">
+  1459→                  <div className="flex items-center gap-3 mb-4">
+  1460→                    {(() => {
+  1461→                      const Icon = active.icon;
+  1462→                      return <Icon className="w-4 h-4 text-[#FF4D00]" strokeWidth={1.5} />;
+  1463→                    })()}
+  1464→                    <span className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00]">
+  1465→                      {active.number}. {active.title}
+  1466→                    </span>
+  1467→                  </div>
+  1468→                  <p className="text-[14px] md:text-[16px] text-white/40 font-medium leading-[1.8]">
+  1469→                    {active.insight}
+  1470→                  </p>
+  1471→                </div>
+  1472→              </motion.div>
+  1473→            </AnimatePresence>
+  1474→          </div>
+  1475→        </div>
+  1476→      </div>
+  1477→    </section>
+  1478→  );
+  1479→}
+  1480→
+  1481→/* ══════════════════════════════════════════════════════════════════════════
+  1482→   09. HUBS ON THE ROUTE — Network map
+  1483→   ══════════════════════════════════════════════════════════════════════════ */
+  1484→function HubsSection() {
+  1485→  const { ref, isInView } = useFade();
+  1486→  const [activeLeg, setActiveLeg] = useState<string | null>(null);
+  1487→  const hubsByLeg = routeLegs.map((leg) => ({
+  1488→    leg,
+  1489→    cities: MAP_LOCATIONS.filter((loc) => loc.legId === leg.id),
+  1490→  }));
+  1491→  const visibleHubs = activeLeg
+  1492→    ? hubsByLeg.filter((h) => h.leg.id === activeLeg)
+  1493→    : hubsByLeg;
+  1494→
+  1495→  return (
+  1496→    <section id="infra-hubs" ref={ref} className="py-3 md:py-4">
+  1497→      <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
+  1498→        {/* Hero image */}
+  1499→        <div className="relative h-[25vh] md:h-[35vh] overflow-hidden">
+  1500→          <img
+  1501→            src="/infra/hubs-network.png"
+  1502→            alt="Global Hub Network"
+  1503→            className="w-full h-full object-cover opacity-40"
+  1504→          />
+  1505→          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-white/20" />
+  1506→          <div className="absolute bottom-0 left-0 px-6 md:px-12 lg:px-20 pb-8 md:pb-12">
+  1507→            <motion.div
+  1508→              {...fadeUp}
+  1509→              animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+  1510→            >
+  1511→              <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-4 block">
+  1512→                Hubs on the Route
+  1513→              </span>
+  1514→              <h2 className="text-[36px] md:text-[52px] font-display font-medium tracking-[-0.04em] leading-[0.9] text-[#111]">
+  1515→                A union of
+  1516→                <br />
+  1517→                <span className="text-[#111]/15">cities.</span>
+  1518→              </h2>
+  1519→            </motion.div>
+  1520→          </div>
+  1521→        </div>
+  1522→
+  1523→        <div className="px-6 md:px-12 lg:px-20 py-12 md:py-20">
+  1524→          {/* Stats row */}
+  1525→          <motion.div
+  1526→            initial={{ opacity: 0 }}
+  1527→            animate={isInView ? { opacity: 1 } : {}}
+  1528→            transition={{ delay: 0.2 }}
+  1529→            className="flex gap-10 mb-10 pb-8 border-b border-[#111]/5"
+  1530→          >
+  1531→            {[
+  1532→              { value: "190+", label: "Hubs" },
+  1533→              { value: "39+", label: "Countries" },
+  1534→              { value: "6", label: "Legs" },
+  1535→            ].map((s) => (
+  1536→              <div key={s.label}>
+  1537→                <div className="text-[24px] font-display font-medium tracking-tighter text-[#FF4D00]">
+  1538→                  {s.value}
+  1539→                </div>
+  1540→                <div className="text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-[#111]/20">
+  1541→                  {s.label}
+  1542→                </div>
+  1543→              </div>
+  1544→            ))}
+  1545→          </motion.div>
+  1546→
+  1547→          {/* Leg filter pills */}
+  1548→          <div className="flex flex-wrap gap-2 mb-10">
+  1549→            <button
+  1550→              suppressHydrationWarning
+  1551→              onClick={() => setActiveLeg(null)}
+  1552→              className={`px-3 py-2 text-[9px] font-mono font-bold tracking-widest uppercase border rounded-sm transition-colors min-h-[36px] ${
+  1553→                activeLeg === null
+  1554→                  ? "bg-[#111] text-white border-[#111]"
+  1555→                  : "bg-transparent text-[#111]/30 border-[#111]/8 hover:border-[#111]/20"
+  1556→              }`}
+  1557→            >
+  1558→              All
+  1559→            </button>
+  1560→            {routeLegs.map((leg) => (
+  1561→              <button
+  1562→                key={leg.id}
+  1563→                suppressHydrationWarning
+  1564→                onClick={() => setActiveLeg(activeLeg === leg.id ? null : leg.id)}
+  1565→                className={`px-3 py-2 text-[9px] font-mono font-bold tracking-widest uppercase border rounded-sm transition-colors min-h-[36px] ${
+  1566→                  activeLeg === leg.id
+  1567→                    ? "text-white border-transparent"
+  1568→                    : "bg-transparent text-[#111]/30 border-[#111]/8 hover:border-[#111]/20"
+  1569→                }`}
+  1570→                style={
+  1571→                  activeLeg === leg.id
+  1572→                    ? { backgroundColor: leg.color, borderColor: leg.color }
+  1573→                    : {}
+  1574→                }
+  1575→              >
+  1576→                {leg.legNumber}. {leg.name.split(" ")[0]}
+  1577→              </button>
+  1578→            ))}
+  1579→          </div>
+  1580→
+  1581→          {/* Hub groups */}
+  1582→          <div className="space-y-8 max-h-[500px] overflow-y-auto pr-2">
+  1583→            {visibleHubs.map(({ leg, cities }) => (
+  1584→              <div key={leg.id}>
+  1585→                <div className="flex items-center gap-3 mb-4 pb-2 border-b border-[#111]/5">
+  1586→                  <span
+  1587→                    className="w-2 h-2 rounded-full flex-shrink-0"
+  1588→                    style={{ backgroundColor: leg.color }}
+  1589→                  />
+  1590→                  <h3 className="text-[15px] font-display font-medium tracking-tight">
+  1591→                    Leg {leg.legNumber}: {leg.name}
+  1592→                  </h3>
+  1593→                  <span className="text-[9px] font-mono text-[#111]/20 tracking-widest uppercase ml-auto">
+  1594→                    {leg.hubCount} hubs · {leg.countries.length} countries
+  1595→                  </span>
+  1596→                </div>
+  1597→                <div className="grid sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+  1598→                  {cities.map((city) => (
+  1599→                    <div
+  1600→                      key={city.id}
+  1601→                      className="border border-[#111]/5 rounded-sm p-3 hover:border-[#FF4D00]/20 transition-colors group bg-[#FAFAFA]"
+  1602→                    >
+  1603→                      <div className="flex items-center gap-1.5 mb-0.5">
+  1604→                        <MapPin className="w-2.5 h-2.5 text-[#FF4D00]" />
+  1605→                        <h4 className="text-[12px] font-display font-medium tracking-tight group-hover:text-[#FF4D00] transition-colors">
+  1606→                          {city.name}
+  1607→                        </h4>
+  1608→                      </div>
+  1609→                      <p className="text-[10px] text-[#111]/30 font-medium leading-[1.4]">
+  1610→                        {city.description}
+  1611→                      </p>
+  1612→                    </div>
+  1613→                  ))}
+  1614→                </div>
+  1615→              </div>
+  1616→            ))}
+  1617→          </div>
+  1618→
+  1619→          {/* CTA */}
+  1620→          <div className="mt-14 text-center">
+  1621→            <Link
+  1622→              to="/routes"
+  1623→              className="group inline-flex items-center gap-3 px-8 py-3.5 bg-[#111] text-white text-[10px] font-bold tracking-[0.2em] uppercase rounded-sm hover:bg-[#FF4D00] transition-colors"
+  1624→            >
+  1625→              Explore the Full Route
+  1626→              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+  1627→            </Link>
+  1628→          </div>
+  1629→        </div>
+  1630→      </div>
+  1631→    </section>
+  1632→  );
+  1633→}
+  1634→
+  1635→/* ══════════════════════════════════════════════════════════════════════════
+  1636→   10. CIVILIZATION — Climactic closing argument
+  1637→   ══════════════════════════════════════════════════════════════════════════ */
+  1638→function CivilizationSection() {
+  1639→  const { ref, isInView } = useFade();
+  1640→  return (
+  1641→    <section id="infra-civilization" ref={ref} className="py-3 md:py-4">
+  1642→      <div className="w-full max-w-[1400px] mx-auto bg-white text-[#111] rounded-sm overflow-hidden">
+  1643→        {/* Dramatic header */}
+  1644→        <div className="px-6 md:px-12 lg:px-20 pt-20 md:pt-32 pb-16 md:pb-20">
+  1645→          <motion.div
+  1646→            {...fadeUp}
+  1647→            animate={isInView ? fadeUp.animate : { opacity: 0, y: 40 }}
+  1648→          >
+  1649→            <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-[#FF4D00] mb-6 block">
+  1650→              The Civilization
+  1651→            </span>
+  1652→            <h2 className="text-[40px] md:text-[60px] lg:text-[80px] font-display font-medium tracking-[-0.05em] leading-[0.85] text-[#111]">
+  1653→              The xCelero
+  1654→              <br />
+  1655→              <span className="text-[#111]/12">Scale.</span>
+  1656→            </h2>
+  1657→          </motion.div>
+  1658→        </div>
+  1659→
+  1660→        {/* Central thesis */}
+  1661→        <div className="px-6 md:px-12 lg:px-20 pb-12">
+  1662→          <motion.div
+  1663→            {...stagger(0)}
+  1664→            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+  1665→          >
+  1666→            <h3 className="text-[24px] md:text-[36px] font-display font-medium tracking-tight leading-[1.15] text-[#111] max-w-3xl mb-4">
+  1667→              The xCelero Scale measures civilization not by energy, but by{" "}
+  1668→              <span className="text-[#FF4D00]">working solutions per unit time per outpost.</span>
+  1669→            </h3>
+  1670→            <p className="text-[15px] text-[#111]/35 font-medium leading-[1.7] max-w-2xl">
+  1671→              The Kardashev Scale measures by energy output. One dimension. Myopic. The real bottleneck
+  1672→              isn&apos;t energy — it&apos;s the rate at which ideas become working solutions. 10 years
+  1673→              for a drug, 18 months for a robot, 2 years for a hardware product, and 90% of ventures
+  1674→              die trying.
+  1675→            </p>
+  1676→          </motion.div>
+  1677→        </div>
+  1678→
+  1679→        {/* Problem + Solution side by side */}
+  1680→        <div className="px-6 md:px-12 lg:px-20 pb-8">
+  1681→          <div className="grid md:grid-cols-2 gap-4">
+  1682→            {/* Problem */}
+  1683→            <motion.div
+  1684→              {...stagger(1)}
+  1685→              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+  1686→              className="bg-[#FAFAFA] rounded-sm p-8 md:p-10"
+  1687→            >
+  1688→              <div className="flex items-center gap-2 mb-5">
+  1689→                <div className="w-6 h-6 bg-[#111]/5 rounded-sm flex items-center justify-center">
+  1690→                  <span className="text-[9px] font-mono font-bold text-[#111]/30">P</span>
+  1691→                </div>
+  1692→                <span className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111]/12">Problem</span>
+  1693→              </div>
+  1694→              <p className="text-[15px] text-[#111]/45 font-medium leading-[1.7]">
+  1695→                10 years for a drug. 18 months for a robot. 2 years for a hardware product.
+  1696→                And 90% of ventures die trying. The production method is linear, isolated, and
+  1697→                non-compounding.
+  1698→              </p>
+  1699→            </motion.div>
+  1700→
+  1701→            {/* Solution */}
+  1702→            <motion.div
+  1703→              {...stagger(2)}
+  1704→              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+  1705→              className="border border-[#FF4D00]/10 bg-[#FF4D00]/[0.02] rounded-sm p-8 md:p-10"
+  1706→            >
+  1707→              <div className="flex items-center gap-2 mb-5">
+  1708→                <div className="w-6 h-6 bg-[#FF4D00] rounded-sm flex items-center justify-center">
+  1709→                  <span className="text-[9px] font-mono font-bold text-white">S</span>
+  1710→                </div>
+  1711→                <span className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#FF4D00]/40">Solution</span>
+  1712→              </div>
+  1713→              <p className="text-[15px] text-[#111]/55 font-medium leading-[1.7] mb-6">
+  1714→                xCelero reinvents the production method.
+  1715→              </p>
+  1716→              <div className="grid grid-cols-2 gap-2">
+  1717→                {[
+  1718→                  { label: "Build Line", desc: "Hardware prototypes per unit time no standalone workshop can match." },
+  1719→                  { label: "Discovery Line", desc: "Validated findings per unit time no isolated lab can match." },
+  1720→                  { label: "Ship Line", desc: "Working software per unit time no standalone team can match." },
+  1721→                  { label: "Power Line", desc: "Energy products validated per unit time no single test rig can match." },
+  1722→                ].map((line, i) => (
+  1723→                  <div key={i} className="bg-white rounded-sm p-3 border border-[#FF4D00]/5">
+  1724→                    <div className="text-[11px] font-bold text-[#FF4D00] mb-1">
+  1725→                      {line.label}
+  1726→                    </div>
+  1727→                    <p className="text-[10px] text-[#111]/25 font-medium leading-[1.5]">
+  1728→                      {line.desc}
+  1729→                    </p>
+  1730→                  </div>
+  1731→                ))}
+  1732→              </div>
+  1733→            </motion.div>
+  1734→          </div>
+  1735→        </div>
+  1736→
+  1737→        {/* Type 0 vs Type 1 — dramatic comparison */}
+  1738→        <div className="px-6 md:px-12 lg:px-20 py-16 md:py-20">
+  1739→          <motion.div
+  1740→            {...stagger(3)}
+  1741→            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+  1742→          >
+  1743→            <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+  1744→              {/* Type 0 */}
+  1745→              <div className="bg-[#111] text-white rounded-sm p-8 md:p-10 relative overflow-hidden">
+  1746→                <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.02] rounded-full -translate-y-1/2 translate-x-1/2" />
+  1747→                <div className="relative">
+  1748→                  <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-white/20 mb-6">
+  1749→                    Type 0 Civilization
+  1750→                  </div>
+  1751→                  <p className="text-[16px] text-white/35 font-medium leading-[1.7]">
+  1752→                    Produces solutions sequentially — one lab, one company, one
+  1753→                    country at a time. 90% die.
+  1754→                  </p>
+  1755→                </div>
+  1756→              </div>
+  1757→
+  1758→              {/* Type 1 */}
+  1759→              <div className="bg-[#FF4D00] text-white rounded-sm p-8 md:p-10 relative overflow-hidden">
+  1760→                <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.1] rounded-full -translate-y-1/2 translate-x-1/2" />
+  1761→                <div className="relative">
+  1762→                  <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-white/50 mb-6">
+  1763→                    Type 1 Civilization
+  1764→                  </div>
+  1765→                  <p className="text-[16px] text-white/85 font-medium leading-[1.7]">
+  1766→                    Produces solutions through compound production methods — where
+  1767→                    every venture starts at the accumulated endpoint of every
+  1768→                    venture before it.
+  1769→                  </p>
+  1770→                </div>
+  1771→              </div>
+  1772→            </div>
+  1773→
+  1774→            {/* Closing statement */}
+  1775→            <div className="text-center mt-16 max-w-xl mx-auto">
+  1776→              <p className="text-[18px] md:text-[22px] font-display font-medium leading-[1.6] text-[#111]/35">
+  1777→                The outpost is the unit cell. The method is the moat. Replicated 190
+  1778→                times across 39 countries, this isn&apos;t a venture platform.{" "}
+  1779→                <span className="text-[#FF4D00]">
+  1780→                  It&apos;s a new method of invention itself.
+  1781→                </span>
+  1782→              </p>
+  1783→            </div>
+  1784→          </motion.div>
+  1785→        </div>
+  1786→      </div>
+  1787→    </section>
+  1788→  );
+  1789→}
+  1790→

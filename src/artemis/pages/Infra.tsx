@@ -510,27 +510,38 @@ function CaseSection() {
                 The world&apos;s most successful ventures were built on ground that was already paved — financial systems, legal frameworks, supply chains, and talent pipelines all existed before the first line of code was written or the first product assembled.
               </p>
             </div>
-            <CardGrid
-              items={infrastructureExists}
-              renderItem={(item) => (
-                <div className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex flex-col h-full">
-                  <div className="relative h-[140px] shrink-0">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
-                  </div>
-                  <div className="flex-1 p-4 md:p-5">
-                    <div className="flex flex-wrap items-baseline gap-2 mb-1">
-                      <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
-                      <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
+            <div className="px-6 md:px-12 lg:px-20">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {infrastructureExists.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ delay: i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
+                    className="border border-[#111]/5 rounded-sm overflow-hidden hover:border-[#111]/10 transition-colors bg-white flex h-[220px] md:h-[240px]"
+                  >
+                    {/* Image strip on left */}
+                    <div className="relative w-[140px] md:w-[170px] shrink-0">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/10" />
                     </div>
-                    <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-2">{item.company}</div>
-                    <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-4">{item.advantage}</p>
-                    <div className="border-t border-[#111]/5 pt-2 mt-auto">
-                      <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5]">{item.takeaway}</p>
+                    {/* Content on right */}
+                    <div className="flex-1 p-4 md:p-5 flex flex-col min-w-0">
+                      <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                        <h3 className="text-[16px] md:text-[18px] font-display font-medium tracking-tight">{item.name}</h3>
+                        <span className="text-[8px] font-mono font-bold tracking-[0.12em] uppercase text-[#111]/20">{item.context}</span>
+                      </div>
+                      <div className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase text-[#FF4D00]/50 mb-2">{item.company}</div>
+                      <p className="text-[12px] text-[#111]/40 font-medium leading-[1.6] mb-3 line-clamp-3">{item.advantage}</p>
+                      <div className="border-t border-[#111]/5 pt-2 mt-auto">
+                        <p className="text-[12px] font-bold text-[#FF4D00] leading-[1.5] line-clamp-2">{item.takeaway}</p>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )}
-            />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </motion.div>
 
           {/* Group 2: Market-Creating Innovations */}
